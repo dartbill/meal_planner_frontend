@@ -2,10 +2,11 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 
+import './style.css'
 import Collapsible from 'react-collapsible';
 
 
-const CollapsibleRecipes = ({recipes, triggerNames}) => {
+const CollapsibleRecipes = ({recipes, triggerName}) => {
   const dispatch = useDispatch()
   const navigate = useNavigate();
 
@@ -15,22 +16,19 @@ const CollapsibleRecipes = ({recipes, triggerNames}) => {
     dispatch({ type: "SET RECIPE ID", payload: newRecipeId})
     navigate("/recipe")
   }
-  
+
   return (
     <>
-      {triggerNames.map((triggerName, i) => {
-        return (
-          <Collapsible trigger={triggerName} key={i}>
+          <Collapsible trigger={triggerName}>
             {recipes.map(recipe => {
               return (
                 <div className="recipe" id={recipe.id} key={recipe.id} onClick={viewFullRecipe}>
                   <h3>{recipe.title}</h3>
-                  <img src={recipe.image} alt="" />
+                  {recipe.image && <img src={recipe.image} alt="" />}
                 </div>
               )
             })}
-          </Collapsible>)
-      })}
+          </Collapsible>
     </>
   );
 };
