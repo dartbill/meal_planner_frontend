@@ -7,3 +7,15 @@
 .recipe {
     background-color: aliceblue;
 }
+.unlocked {
+    background-color: aqua;
+    background-image: url('../../images/openLock.png');
+    width: 50px;
+    height: 50px;
+}
+.locked {
+    background-color: rgb(175, 107, 189);
+    background-image: url('../../images/closedLock.png');
+    width: 50px;
+    height: 50px;
+}
