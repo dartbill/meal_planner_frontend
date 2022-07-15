@@ -1,8 +1,16 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { History, Homepage, Login, MealPlan, Recipe, Register, ShoppingList } from './pages';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import {
+  History,
+  Homepage,
+  Login,
+  MealPlan,
+  Recipe,
+  Register,
+  ShoppingList,
+} from "./pages";
 
-import './App.css';
+import "./App.css";
 
 function App() {
   return (
