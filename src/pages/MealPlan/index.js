@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 
+import './style.css'
 import { CollapsibleRecipes } from '../../components';
 
 const MealPlan = () => {
@@ -397,8 +398,11 @@ const MealPlan = () => {
     return (
         <>
         <h1>Meal Plan</h1>
-        <button>Generate meal</button>
-        <p>hi</p>
+        <div className="generateMeal">
+           <button>Generate meal</button> 
+        </div>
+        <div className="recipesMealPlan">
+
         {stateRecipes.breakfast.length > 0 && (
             // will change each of these to stateRecipes.breakfast respectively
             <CollapsibleRecipes recipes={recipes} triggerName="Breakfast"/>
@@ -415,6 +419,7 @@ const MealPlan = () => {
         {stateRecipes.snack.length > 0 && (
             <CollapsibleRecipes recipes={recipes} triggerName="Snacks"/>
         )}
+        </div>
         </>
     )
 };

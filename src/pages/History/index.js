@@ -388,33 +388,33 @@ const History = () => {
         <>
         <h1>History</h1>
         {/* if the users history is same as initial state they are redirected to submit a meal plan */}
-        {usersHistoryRecipes !== inititalUserHistoryState && (
+        {usersHistoryRecipes === inititalUserHistoryState && (
             <p>You have not submitted any meal plans yet, create one <span onClick={() => navigate('/mealplan')}>here</span></p>
         )}
         {/* if user has a meal plan history the code under renders, which returns a collapsible for each week, which each contain collapsibles for each meal type if they contain data */}
-        {usersHistoryRecipes === inititalUserHistoryState && (
+        {usersHistoryRecipes !== inititalUserHistoryState && (
             usersHistoryRecipes.map((week, i) => {
                 return (
                 <div className="week" key={i}>
                     <Collapsible trigger={week.date}>
-                    {/* {week.recipes.breakfast.length > 0 && (
-                    <CollapsibleRecipes recipes={week.recipes.breakfast} triggerName="Breakfast"/>
-                    )} */}
-                    {week.recipes.breakfast.length > 0 && (
-                    <CollapsibleRecipes recipes={recipes} triggerName="Breakfast"/>
-                    )}
-                    {week.recipes.lunch.length > 0 && (
-                    <CollapsibleRecipes recipes={week.recipes.lunch} triggerName="Lunch"/>
-                    )}
-                    {week.recipes.dinner.length > 0 && (
-                    <CollapsibleRecipes recipes={week.recipes.dinner} triggerName="Dinner"/>
-                    )}
-                    {week.recipes.dessert.length > 0 && (
-                    <CollapsibleRecipes recipes={week.recipes.dessert} triggerName="Dessert"/>
-                    )}
-                    {week.recipes.snacks.length > 0 && (
-                    <CollapsibleRecipes recipes={week.recipes.snacks} triggerName="Snacks"/>
-                    )}
+                        {week.recipes.breakfast.length > 0 && (
+                        <CollapsibleRecipes recipes={week.recipes.breakfast} triggerName="Breakfast"/>
+                        )}
+                        {/* {week.recipes.breakfast.length > 0 && (
+                        <CollapsibleRecipes recipes={recipes} triggerName="Breakfast"/>
+                        )} */}
+                        {week.recipes.lunch.length > 0 && (
+                        <CollapsibleRecipes recipes={week.recipes.lunch} triggerName="Lunch"/>
+                        )}
+                        {week.recipes.dinner.length > 0 && (
+                        <CollapsibleRecipes recipes={week.recipes.dinner} triggerName="Dinner"/>
+                        )}
+                        {week.recipes.dessert.length > 0 && (
+                        <CollapsibleRecipes recipes={week.recipes.dessert} triggerName="Dessert"/>
+                        )}
+                        {week.recipes.snacks.length > 0 && (
+                        <CollapsibleRecipes recipes={week.recipes.snacks} triggerName="Snacks"/>
+                        )}
                     </Collapsible>
                 </div>
                 )
