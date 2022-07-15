@@ -22,6 +22,7 @@ console.log(recipes[0].id)
 
 // TODO:add conditional that if user meals is same as initial state, do a calculateNewValue, if not set meal recipes to state recipes
   const [mealRecipes, setMealRecipes] = useState(recipes)
+  // causing an error, shouldn't when added to useEffect
   dispatch({ type: "SET MEAL PLAN RECIPES", payload: mealRecipes})
 
   console.log()
@@ -102,7 +103,7 @@ console.log(recipes[0].id)
                 </div>
               )
             })}
-          </Collapsible>
+        </Collapsible>
     </>
   );
 };
