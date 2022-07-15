@@ -335,7 +335,9 @@ const MealPlan = () => {
 // TODO:useEffect to call users meal plan
 // if no result, render message to generate plan
 // if result, render meal plan
+const getMeals = () => {
 
+}
 // TODO:generate meal plan function
 // if all locks are true, warning about overwriting selections
 //if recipes in state is = initial state or id arrary = 100, make call
@@ -358,25 +360,6 @@ const MealPlan = () => {
 // feed this into functions for generate meal function
 
 const stateMealRecipes = useSelector(state => state.meal_plan_recipes)
-
-//TODO:submit meal plan
-// take in all id's, titles, and faves
-// add to array
-// send to db
-const submitMealPlan = (e) => {
-    e.preventDefault()
-    for(let i = 0; i < stateMealRecipes.length; i++){
-        stateMealRecipes[i].lock = true
-    }
-    dispatch({ type: "SET MEAL PLAN RECIPES", payload: stateMealRecipes})
-    // do post to db meal history route
-    setGenerateText("Generate new meal plan")
-}
-
-    const stateRecipes = useSelector(state => state.recipes)
-    console.log(stateRecipes.dinner.length)
-    
-
 //TODO:generate shopping list
 
 
@@ -397,16 +380,36 @@ const submitMealPlan = (e) => {
         }
         
     }
+
+//TODO:submit meal plan
+// take in all id's, titles, and faves
+// add to array
+// send to db
+const submitMealPlan = (e) => {
+    e.preventDefault()
+    for(let i = 0; i < stateMealRecipes.length; i++){
+        stateMealRecipes[i].lock = true
+    }
+    dispatch({ type: "SET MEAL PLAN RECIPES", payload: stateMealRecipes})
+    generateShoppingList()
+    // do post to db meal history route
+    setGenerateText("Generate new meal plan")
+}
+
+    const stateRecipes = useSelector(state => state.recipes)
+    console.log(stateRecipes.dinner.length)
+    
+
     
     return (
         <>
         <h1>Meal Plan</h1>
         <div className="generateMeal">
-           <button>{generateText}</button> 
+           <button onClick={getMeals}>{generateText}</button> 
         </div>
-        <div className="shoppingListBtn">
+        {/* <div className="shoppingListBtn">
         <button onClick={generateShoppingList}>Shopping list</button> 
-        </div>
+        </div> */}
         <div className="recipesMealPlan">
 
         {stateRecipes.breakfast.length > 0 && (
