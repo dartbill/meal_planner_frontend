@@ -13,12 +13,13 @@ const LoginComponent = () => {
   const dispatch = useDispatch();
 
   const handleSignIn = async (e) => {
+    e.preventDefault();
     const backendUrl = "https://mealplannerserver.herokuapp.com/";
     const route = "";
-    e.preventDefault();
     try {
       if (email === "" || password === "") {
-        setError("Missing email or password!");
+        setErrorVisibility("visible");
+        setError("Fields should not be empty");
       } else {
         await axios.post(
           `${backendUrl}${route}`,
@@ -28,16 +29,14 @@ const LoginComponent = () => {
           }
         );
         dispatch({ type: "SET USER", payload: email });
-        navigate("/home");
+        navigate("/MealPlan");
       }
-      setEmail("");
-      setPassword("");
     } catch (err) {
       if (!err?.response) {
         setError("No server response!");
       } else if (err.response?.status === 401) {
         setError(
-          "Unauthorized! Create an account or check your email and password!"
+          "Unauthorized! Create an account or check your email/password!"
         );
         setErrorVisibility("visible");
         setTimeout(() => {
@@ -63,11 +62,20 @@ const LoginComponent = () => {
 
   return (
     <>
-      <div className="loginError" style={{ visibility: errorVisibility }}>
-        {error && error}
-      </div>
-      <form aria-label="login" className="registerForm" onSubmit={handleSignIn}>
+      <form
+        aria-label="login"
+        data-testid="form"
+        className="loginForm"
+        onSubmit={handleSignIn}
+      >
         <h2 className="LoginHeader">Login</h2>
+        <div
+          data-testid="error"
+          className="loginError"
+          style={{ visibility: errorVisibility }}
+        >
+          {error && error}
+        </div>
         <label htmlFor="email" className="signEmailLabel">
           Email
         </label>
@@ -96,13 +104,13 @@ const LoginComponent = () => {
           data-testid="passwordInput"
           className="signPassword"
         />
-        <button className="signUp">Login</button>
+        <button className="Login">Login</button>
         <button
           className="haveAccount"
           data-testid="button1"
-          onClick={() => navigate("/MealPlan")}
+          onClick={() => navigate("/register")}
         >
-          Already have an account?
+          Don't have an account?
         </button>
       </form>
     </>

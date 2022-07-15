@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const SignUp = () => {
-  const [name, setname] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -26,10 +26,13 @@ const SignUp = () => {
         password === "" ||
         confirmPassword === ""
       ) {
-        setError("Missing name, password or confirm password field!");
+        setErrorVisibility("visible");
+        setError("Fields should not be empty");
       } else if (password.length < 4) {
+        setErrorVisibility("visible");
         setError("Your password should be at least 5 characters long!");
       } else if (password !== confirmPassword) {
+        setErrorVisibility("visible");
         setError("Make sure password and confirm password match!");
       } else {
         await axios.post(
@@ -41,11 +44,11 @@ const SignUp = () => {
         );
         dispatch({ type: "SET USER", payload: name });
         navigate("/MealPlanner");
+        setName("");
+        setPassword("");
+        setEmail("");
+        setConfirmPassword("");
       }
-      setname("");
-      setEmail("");
-      setPassword("");
-      setConfirmPassword("");
     } catch (err) {
       if (!err?.response) {
         setError("No server response!");
@@ -67,7 +70,7 @@ const SignUp = () => {
   };
 
   const onnameChange = (e) => {
-    setname(e.target.value);
+    setName(e.target.value);
   };
 
   const onPasswordChange = (e) => {
@@ -83,11 +86,11 @@ const SignUp = () => {
   };
   return (
     <>
-      <div className="loginError" style={{ visibility: errorVisibility }}>
-        {error && error}
-      </div>
-      <form aria-label="login" className="registerForm" onSubmit={handleSignUp}>
+      <form aria-label="login" className="loginForm" onSubmit={handleSignUp}>
         <h2 className="registerHeader">Create Account</h2>
+        <div className="loginError" style={{ visibility: errorVisibility }}>
+          {error && error}
+        </div>
         <label htmlFor="email" className="signEmailLabel">
           Email
         </label>
@@ -102,7 +105,7 @@ const SignUp = () => {
           data-testid="emailInput"
           className="signEmail"
         />
-        <label htmlFor="name" className="signnameLabel">
+        <label htmlFor="name" className="loginNameLabel">
           Name
         </label>
         <input
@@ -116,7 +119,7 @@ const SignUp = () => {
           data-testid="nameInput"
           className="signname"
         />
-        <label htmlFor="password" className="signPasswordLabel">
+        <label htmlFor="password" className="loginPasswordLabel">
           Password
         </label>
         <input
