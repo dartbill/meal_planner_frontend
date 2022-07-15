@@ -1,5 +1,5 @@
 const initialState = {
-    recipes: { breakfast:[], lunch: ["hi"], dinner: [], dessert: [], snack: [] },
+    recipes: { breakfast:[], lunch: [], dinner: [], dessert: [], snack: [] },
     recipe_id: "12",
     users_recipe_history: [
         {date: "date", recipes: {
@@ -10,7 +10,8 @@ const initialState = {
         snacks: [{id:"", title: "fgdfgfd", fave:""}]}}
     ],
     loading: false,
-    meal_plan_recipes: []
+    meal_plan_recipes: { breakfast:[], lunch: [], dinner: [], dessert: [], snack: [] },
+    fillerVar: 0
 }
 
 const reducer = (state = initialState, action) => {
@@ -25,6 +26,8 @@ const reducer = (state = initialState, action) => {
             return { ...state, users_recipe_history: action.payload }
         case "SET MEAL PLAN RECIPES":
             return { ...state, meal_plan_recipes: action.payload }
+        case "SET FILLERVAR":
+            return { ...state, fillerVar: action.payload }
         default:
             return state;
     }

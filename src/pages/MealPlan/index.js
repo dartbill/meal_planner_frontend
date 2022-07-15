@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 import './style.css'
 import { CollapsibleRecipes } from '../../components';
@@ -10,6 +11,8 @@ const MealPlan = () => {
     const navigate = useNavigate();
 
     const [generateText, setGenerateText] = useState("Generate meal plan")
+    const stateFillerVar = useSelector(state => state.fillerVar)
+    const [fillerVar, setFillerVar] = useState(stateFillerVar)
 
     const [recipes, setRecipes] = useState([
         {
@@ -326,18 +329,94 @@ const MealPlan = () => {
     // const [triggerNames, setTriggerNames] = useState(["Breakfast", "Lunch", "Dinner", "Dessert", "Snacks"])
 
     // add lock and fave to end of each recipe
-// have in call to api when getting random meals
+    
     const addLockAndFaves = () => {
 
     }
-
-    
+    // console.log("navigate location", navigate(+1))
+    // console.log("state filler", stateFillerVar)
+    // console.log("recipes before axios", recipes)
 // TODO:useEffect to call users meal plan
 // if no result, render message to generate plan
 // if result, render meal plan
-const getMeals = () => {
+const stateMealRecipes = useSelector(state => state.meal_plan_recipes)
+console.log("state meal recipes", stateMealRecipes)
+   
+let breakfast = []
+    let lunch = []
+    let dinner = []
+    let dessert = []
+    let snack = []
 
+const getBreakfast = async () => {
+    const { data } = await axios.get(`https://api.spoonacular.com/recipes/random/?apiKey=a321e3e0f535440fa1fa1c5d16a7b0a0&number=7&tags=breakfast&includeNutrition=true`)
+    console.log("data", data.recipes)
+    const breakfastRecipes = data.recipes
+    
+    for(let i = 0; i < breakfastRecipes.length; i++){
+        breakfast.push({...breakfastRecipes[i], lock: true, fave: false}) 
+    }
 }
+const getLunch = async () => {
+    const { data } = await axios.get(`https://api.spoonacular.com/recipes/random/?apiKey=a321e3e0f535440fa1fa1c5d16a7b0a0&number=7&tags=lunch&includeNutrition=true`)
+    console.log("data", data.recipes)
+    const lunchRecipes = data.recipes
+    
+    for(let i = 0; i < lunchRecipes.length; i++){
+        lunch.push({...lunchRecipes[i], lock: true, fave: false}) 
+    }
+}
+    const getDinner = async () => {
+        const { data } = await axios.get(`https://api.spoonacular.com/recipes/random/?apiKey=a321e3e0f535440fa1fa1c5d16a7b0a0&number=7&tags=dinner&includeNutrition=true`)
+    console.log("data", data.recipes)
+    const dinnerRecipes = data.recipes
+   
+    for(let i = 0; i < dinnerRecipes.length; i++){
+        dinner.push({...dinnerRecipes[i], lock: true, fave: false}) 
+    }
+    }
+    
+    const getDessert = async () => {
+        const { data } = await axios.get(`https://api.spoonacular.com/recipes/random/?apiKey=a321e3e0f535440fa1fa1c5d16a7b0a0&number=7&tags=dessert&includeNutrition=true`)
+    console.log("data", data.recipes)
+    const dessertRecipes = data.recipes
+    
+    for(let i = 0; i < dessertRecipes.length; i++){
+        dessert.push({...dessertRecipes[i], lock: true, fave: false}) 
+    }
+    }
+    const getSnack = async () => {
+        const { data } = await axios.get(`https://api.spoonacular.com/recipes/random/?apiKey=a321e3e0f535440fa1fa1c5d16a7b0a0&number=7&tags=snacks&includeNutrition=true`)
+    console.log("data", data.recipes)
+    const snackRecipes = data.recipes
+    
+    for(let i = 0; i < snackRecipes.length; i++){
+        snack.push({...snackRecipes[i], lock: true, fave: false}) 
+    }
+    }
+    
+
+
+const getMeals = async (e) => {
+
+    // change to for loop that takes in user preferences, including meals and diets
+    
+    await getBreakfast()
+    await getLunch()
+    await getDinner()
+    await getDessert()
+    await getSnack()
+
+    const newMealPlan = { breakfast: breakfast, lunch: lunch, dinner: dinner, dessert: dessert, snack: snack}
+    console.log(newMealPlan)
+    // addLockAndFaves
+    setRecipes(newMealPlan)
+    
+    dispatch({ type: "SET MEAL PLAN RECIPES", payload: newMealPlan})
+    // console.log("newMealPlans", newMealPlan)
+} 
+
+// console.log("recipes breakfast", stateMealRecipes.breakfast.length)
 // TODO:generate meal plan function
 // if all locks are true, warning about overwriting selections
 //if recipes in state is = initial state or id arrary = 100, make call
@@ -359,12 +438,11 @@ const getMeals = () => {
 // when open a Collapsible, change the meal state to that meal
 // feed this into functions for generate meal function
 
-const stateMealRecipes = useSelector(state => state.meal_plan_recipes)
 //TODO:generate shopping list
 
 
-    const generateShoppingList = (e) => {
-        e.preventDefault()
+    // const generateShoppingList = (e) => {
+    //     e.preventDefault()
         // take in all items from recipes
         // send to api with structure of 
         // {
@@ -375,11 +453,11 @@ const stateMealRecipes = useSelector(state => state.meal_plan_recipes)
         //         "6 tbsp Olive Oil"
         //     ]
         // }
-        for (let i = 0; i < Object.keys(stateRecipes).length; i++){
-            console.log(Object.values(stateRecipes)[i])
-        }
+    //     for (let i = 0; i < Object.keys(stateRecipes).length; i++){
+    //         console.log(Object.values(stateRecipes)[i])
+    //     }
         
-    }
+    // }
 
 //TODO:submit meal plan
 // take in all id's, titles, and faves
@@ -391,16 +469,23 @@ const submitMealPlan = (e) => {
         stateMealRecipes[i].lock = true
     }
     dispatch({ type: "SET MEAL PLAN RECIPES", payload: stateMealRecipes})
-    generateShoppingList()
+    // generateShoppingList()
     // do post to db meal history route
     setGenerateText("Generate new meal plan")
 }
 
-    const stateRecipes = useSelector(state => state.recipes)
-    console.log(stateRecipes.dinner.length)
+    // const stateRecipes = useSelector(state => state.recipes)
+    // console.log(stateRecipes.dinner.length)
     
+    
+    // const changeMeals = (e) => {
+    //     e.preventDefault()
+    //     setFillerVar(prev => prev + 1)
+    //     dispatch({ type: "SET FILLERVAR", payload: fillerVar + 1})
+    //     console.log("changing meal")
+    // }
 
-    
+    // console.log(fillerVar)
     return (
         <>
         <h1>Meal Plan</h1>
@@ -412,21 +497,22 @@ const submitMealPlan = (e) => {
         </div> */}
         <div className="recipesMealPlan">
 
-        {stateRecipes.breakfast.length > 0 && (
+        {stateMealRecipes.breakfast.length > 0 && (
             // TODO:will change each of these to stateRecipes.breakfast respectively
-            <CollapsibleRecipes recipes={recipes} setRecipes={setRecipes} triggerName="Breakfast"/>
+            <CollapsibleRecipes meal={"breakfast"} fullRecipes={stateMealRecipes} setRecipes={setRecipes} triggerName="Breakfast"/>
         )}
-        {stateRecipes.lunch.length > 0 && (
-            <CollapsibleRecipes recipes={recipes} setRecipes={setRecipes} triggerName="Lunch"/>
+        {/* <CollapsibleRecipes recipes={recipes} setRecipes={setRecipes} triggerName="Breakfast"/> */}
+        {stateMealRecipes.lunch.length > 0 && (
+            <CollapsibleRecipes meal={"lunch"} fullRecipes={stateMealRecipes} setRecipes={setRecipes} triggerName="Lunch"/>
         )}
-        {stateRecipes.dinner.length > 0 && (
-            <CollapsibleRecipes recipes={recipes} setRecipes={setRecipes} triggerName="Dinner"/>
+        {stateMealRecipes.dinner.length > 0 && (
+            <CollapsibleRecipes meal={"dinner"} fullRecipes={stateMealRecipes} setRecipes={setRecipes} triggerName="Dinner"/>
         )}
-        {stateRecipes.dessert.length > 0 && (
-            <CollapsibleRecipes recipes={recipes} setRecipes={setRecipes} triggerName="Dessert"/>
+        {stateMealRecipes.dessert.length > 0 && (
+            <CollapsibleRecipes meal={"dessert"} fullRecipes={stateMealRecipes} setRecipes={setRecipes} triggerName="Dessert"/>
         )}
-        {stateRecipes.snack.length > 0 && (
-            <CollapsibleRecipes recipes={recipes} setRecipes={setRecipes} triggerName="Snacks"/>
+        {stateMealRecipes.snack.length > 0 && (
+            <CollapsibleRecipes meal={"snack"} fullRecipes={stateMealRecipes} setRecipes={setRecipes} triggerName="Snacks"/>
         )}
         </div>
         <div className="submitMealPlan" onClick={submitMealPlan}>Submit meal plan</div>
