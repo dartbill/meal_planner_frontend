@@ -43,7 +43,7 @@ const SignUp = () => {
             headers: { "Content-Type": "application/json" },
           }
         );
-        dispatch({ type: "SET USER", payload: email });
+        dispatch({ type: "SET EMAIL", payload: email });
         navigate("/MealPlan");
         setName("");
         setPassword("");
@@ -87,9 +87,18 @@ const SignUp = () => {
   };
   return (
     <>
-      <form aria-label="login" className="loginForm" onSubmit={handleSignUp}>
+      <form
+        aria-label="login"
+        data-testid="form"
+        className="loginForm"
+        onSubmit={handleSignUp}
+      >
         <h2 className="registerHeader">Create Account</h2>
-        <div className="loginError" style={{ visibility: errorVisibility }}>
+        <div
+          className="loginError"
+          data-testid="error"
+          style={{ visibility: errorVisibility }}
+        >
           {error && error}
         </div>
         <label htmlFor="email" className="signEmailLabel">
