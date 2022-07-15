@@ -2,53 +2,34 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 
+import './style.css'
 import { CollapsibleRecipes } from '../../components';
 
 const MealPlan = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate();
 
+    const [generateText, setGenerateText] = useState("Generate meal plan")
+
     const [recipes, setRecipes] = useState([
         {
             "id": 716429,
             "title": "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",
             "image": "https://spoonacular.com/recipeImages/716429-556x370.jpg",
-            "imageType": "jpg",
             "servings": 2,
             "readyInMinutes": 45,
-            "license": "CC BY-SA 3.0",
-            "sourceName": "Full Belly Sisters",
             "sourceUrl": "http://fullbellysisters.blogspot.com/2012/06/pasta-with-garlic-scallions-cauliflower.html",
             "spoonacularSourceUrl": "https://spoonacular.com/pasta-with-garlic-scallions-cauliflower-breadcrumbs-716429",
-            "aggregateLikes": 209,
-            "healthScore": 19.0,
-            "spoonacularScore": 83.0,
             "pricePerServing": 163.15,
-            "analyzedInstructions": [],
             "cheap": false,
-            "creditsText": "Full Belly Sisters",
-            "cuisines": [],
             "dairyFree": false,
             "diets": [],
-            "gaps": "no",
             "glutenFree": false,
             "instructions": "",
             "ketogenic": false,
-            "lowFodmap": false,
-            "occasions": [],
-            "sustainable": false,
             "vegan": false,
             "vegetarian": false,
-            "veryHealthy": false,
             "veryPopular": false,
-            "whole30": false,
-            "weightWatcherSmartPoints": 17,
-            "dishTypes": [
-                "lunch",
-                "main course",
-                "main dish",
-                "dinner"
-            ],
             "extendedIngredients": [
                 {
                     "aisle": "Milk, Eggs, Other Dairy",
@@ -339,51 +320,116 @@ const MealPlan = () => {
                 }
             ],
             "summary": "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs might be a good recipe to expand your main course repertoire. One portion of this dish contains approximately <b>19g of protein </b>,  <b>20g of fat </b>, and a total of  <b>584 calories </b>. For  <b>$1.63 per serving </b>, this recipe  <b>covers 23% </b> of your daily requirements of vitamins and minerals. This recipe serves 2. It is brought to you by fullbellysisters.blogspot.com. 209 people were glad they tried this recipe. A mixture of scallions, salt and pepper, white wine, and a handful of other ingredients are all it takes to make this recipe so scrumptious. From preparation to the plate, this recipe takes approximately  <b>45 minutes </b>. All things considered, we decided this recipe  <b>deserves a spoonacular score of 83% </b>. This score is awesome. If you like this recipe, take a look at these similar recipes: <a href=\"https://spoonacular.com/recipes/cauliflower-gratin-with-garlic-breadcrumbs-318375\">Cauliflower Gratin with Garlic Breadcrumbs</a>, < href=\"https://spoonacular.com/recipes/pasta-with-cauliflower-sausage-breadcrumbs-30437\">Pasta With Cauliflower, Sausage, & Breadcrumbs</a>, and <a href=\"https://spoonacular.com/recipes/pasta-with-roasted-cauliflower-parsley-and-breadcrumbs-30738\">Pasta With Roasted Cauliflower, Parsley, And Breadcrumbs</a>.",
-            "winePairing": {
-                "pairedWines": [
-                    "chardonnay",
-                    "gruener veltliner",
-                    "sauvignon blanc"
-                ],
-                "pairingText": "Chardonnay, Gruener Veltliner, and Sauvignon Blanc are great choices for Pasta. Sauvignon Blanc and Gruner Veltliner both have herby notes that complement salads with enough acid to match tart vinaigrettes, while a Chardonnay can be a good pick for creamy salad dressings. The Buddha Kat Winery Chardonnay with a 4 out of 5 star rating seems like a good match. It costs about 25 dollars per bottle.",
-                "productMatches": [
-                    {
-                        "id": 469199,
-                        "title": "Buddha Kat Winery Chardonnay",
-                        "description": "We barrel ferment our Chardonnay and age it in a mix of Oak and Stainless. Giving this light bodied wine modest oak character, a delicate floral aroma, and a warming finish.",
-                        "price": "$25.0",
-                        "imageUrl": "https://spoonacular.com/productImages/469199-312x231.jpg",
-                        "averageRating": 0.8,
-                        "ratingCount": 1.0,
-                        "score": 0.55,
-                        "link": "https://www.amazon.com/2015-Buddha-Kat-Winery-Chardonnay/dp/B00OSAVVM4?tag=spoonacular-20"
-                    }
-                ]
-            }
+            "lock": true
         }
     ])
     // const [triggerNames, setTriggerNames] = useState(["Breakfast", "Lunch", "Dinner", "Dessert", "Snacks"])
 
+    // add lock and fave to end of each recipe
+// have in call to api when getting random meals
+    const addLockAndFaves = () => {
+
+    }
+
+    
+// TODO:useEffect to call users meal plan
+// if no result, render message to generate plan
+// if result, render meal plan
+const getMeals = () => {
+
+}
+// TODO:generate meal plan function
+// if all locks are true, warning about overwriting selections
+//if recipes in state is = initial state or id arrary = 100, make call
+    // reset recipe state
+    // reset id state
+    // reset meal_planner_recipes state
+    // reset shopping_list state
+    // take in users preferences
+    // make call to random recipe api for each meal in preferences
+    // returns 50
+    // extract needed data and add in an Array
+    // to each recipe add lock = true attribute 
+    // add meal arrays to recipes object with meal key
+    // take 7 for each meal and add to meal_plan_recipes array and add id to meal_id array
+    // feed into the conditional 
+//else cycle through recipes array checking to make sure it hasn't been sent already
+//replace unlocked with new recipe
+
+// when open a Collapsible, change the meal state to that meal
+// feed this into functions for generate meal function
+
+const stateMealRecipes = useSelector(state => state.meal_plan_recipes)
+//TODO:generate shopping list
+
+
+    const generateShoppingList = (e) => {
+        e.preventDefault()
+        // take in all items from recipes
+        // send to api with structure of 
+        // {
+        //     "items": [
+        //         "4 lbs tomatoes",
+        //         "10 tomatoes",
+        //         "20 Tablespoons Olive Oil",
+        //         "6 tbsp Olive Oil"
+        //     ]
+        // }
+        for (let i = 0; i < Object.keys(stateRecipes).length; i++){
+            console.log(Object.values(stateRecipes)[i])
+        }
+        
+    }
+
+//TODO:submit meal plan
+// take in all id's, titles, and faves
+// add to array
+// send to db
+const submitMealPlan = (e) => {
+    e.preventDefault()
+    for(let i = 0; i < stateMealRecipes.length; i++){
+        stateMealRecipes[i].lock = true
+    }
+    dispatch({ type: "SET MEAL PLAN RECIPES", payload: stateMealRecipes})
+    generateShoppingList()
+    // do post to db meal history route
+    setGenerateText("Generate new meal plan")
+}
+
     const stateRecipes = useSelector(state => state.recipes)
     console.log(stateRecipes.dinner.length)
+    
+
+    
     return (
         <>
         <h1>Meal Plan</h1>
+        <div className="generateMeal">
+           <button onClick={getMeals}>{generateText}</button> 
+        </div>
+        {/* <div className="shoppingListBtn">
+        <button onClick={generateShoppingList}>Shopping list</button> 
+        </div> */}
+        <div className="recipesMealPlan">
+
         {stateRecipes.breakfast.length > 0 && (
-            <CollapsibleRecipes recipes={recipes} triggerName="Breakfast"/>
+            // TODO:will change each of these to stateRecipes.breakfast respectively
+            <CollapsibleRecipes recipes={recipes} setRecipes={setRecipes} triggerName="Breakfast"/>
         )}
         {stateRecipes.lunch.length > 0 && (
-            <CollapsibleRecipes recipes={recipes} triggerName="Lunch"/>
+            <CollapsibleRecipes recipes={recipes} setRecipes={setRecipes} triggerName="Lunch"/>
         )}
         {stateRecipes.dinner.length > 0 && (
-            <CollapsibleRecipes recipes={recipes} triggerName="Dinner"/>
+            <CollapsibleRecipes recipes={recipes} setRecipes={setRecipes} triggerName="Dinner"/>
         )}
         {stateRecipes.dessert.length > 0 && (
-            <CollapsibleRecipes recipes={recipes} triggerName="Dessert"/>
+            <CollapsibleRecipes recipes={recipes} setRecipes={setRecipes} triggerName="Dessert"/>
         )}
         {stateRecipes.snack.length > 0 && (
-            <CollapsibleRecipes recipes={recipes} triggerName="Snacks"/>
+            <CollapsibleRecipes recipes={recipes} setRecipes={setRecipes} triggerName="Snacks"/>
         )}
+        </div>
+        <div className="submitMealPlan" onClick={submitMealPlan}>Submit meal plan</div>
         </>
     )
 };
