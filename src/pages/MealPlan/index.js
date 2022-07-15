@@ -363,13 +363,44 @@ const MealPlan = () => {
         }
     ])
     // const [triggerNames, setTriggerNames] = useState(["Breakfast", "Lunch", "Dinner", "Dessert", "Snacks"])
+// useEffect to call users meal plan
+// if no result, render message to generate plan
+// if result, render meal plan
 
+// generate meal plan function
+// if all locks are true, warning about overwriting selections
+//if recipes in state is = initial state or id arrary = 100, make call
+    // reset recipe state
+    // reset id state
+    // reset meal_planner_recipes state
+    // reset shopping_list state
+    // take in users preferences
+    // make call to random recipe api for each meal in preferences
+    // returns 100
+    // extract needed data and add in an Array
+    // to each recipe add lock = true attribute 
+    // add meal arrays to recipes object with meal key
+    // take 7 for each meal and add to meal_plan_recipes array and add id to meal_id array
+    // feed into the conditional 
+//else cycle through recipes array checking to make sure it hasn't been sent already
+//replace unlocked with new recipe
+
+// when open a Collapsible, change the meal state to that meal
+// feed this into functions for generate meal function
+
+
+
+//submit meal plan
+// changes all locks to true
     const stateRecipes = useSelector(state => state.recipes)
     console.log(stateRecipes.dinner.length)
     return (
         <>
         <h1>Meal Plan</h1>
+        <button>Generate meal</button>
+        <p>hi</p>
         {stateRecipes.breakfast.length > 0 && (
+            // will change each of these to stateRecipes.breakfast respectively
             <CollapsibleRecipes recipes={recipes} triggerName="Breakfast"/>
         )}
         {stateRecipes.lunch.length > 0 && (

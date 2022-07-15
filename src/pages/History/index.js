@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 
@@ -8,7 +8,13 @@ import { CollapsibleRecipes } from '../../components';
 const History = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate();
+
+    const recipeId = useSelector(state => state.recipe_id)
+    console.log("state recipe id history",recipeId)
+
     const inititalUserHistoryState = useSelector(state => state.users_recipe_history)
+    console.log("state user history", inititalUserHistoryState)
+
     // do useEffect to our API and return user's history
     // save this to the state
     //should be in format of [
@@ -19,6 +25,7 @@ const History = () => {
         //     dessert: [{id:"", title: "", fave:""}], 
         //     snacks: [{id:"", title: "", fave:""}]}}
         // ]
+    const usersHistoryRecipes = useSelector(state => state.users_recipe_history)
     //map array to return a collapsable with date as trigger and set recipes as dates recipes
     const [recipes, setRecipes] = useState([
         {
@@ -375,26 +382,26 @@ const History = () => {
         }
     ])
     // const [triggerNames, setTriggerNames] = useState(["Breakfast", "Lunch", "Dinner", "Dessert", "Snacks"])
-    const usersHistoryRecipes = useSelector(state => state.users_recipe_history)
-    console.log(usersHistoryRecipes)
 
-    const stateRecipes = useSelector(state => state.recipes)
-    console.log(stateRecipes.dinner.length)
+    
     return (
         <>
         <h1>History</h1>
         {/* if the users history is same as initial state they are redirected to submit a meal plan */}
-        {usersHistoryRecipes === inititalUserHistoryState && (
+        {usersHistoryRecipes !== inititalUserHistoryState && (
             <p>You have not submitted any meal plans yet, create one <span onClick={() => navigate('/mealplan')}>here</span></p>
         )}
         {/* if user has a meal plan history the code under renders, which returns a collapsible for each week, which each contain collapsibles for each meal type if they contain data */}
-        {usersHistoryRecipes !== inititalUserHistoryState && (
+        {usersHistoryRecipes === inititalUserHistoryState && (
             usersHistoryRecipes.map((week, i) => {
                 return (
                 <div className="week" key={i}>
                     <Collapsible trigger={week.date}>
-                    {week.recipes.breakfast.length > 0 && (
+                    {/* {week.recipes.breakfast.length > 0 && (
                     <CollapsibleRecipes recipes={week.recipes.breakfast} triggerName="Breakfast"/>
+                    )} */}
+                    {week.recipes.breakfast.length > 0 && (
+                    <CollapsibleRecipes recipes={recipes} triggerName="Breakfast"/>
                     )}
                     {week.recipes.lunch.length > 0 && (
                     <CollapsibleRecipes recipes={week.recipes.lunch} triggerName="Lunch"/>
