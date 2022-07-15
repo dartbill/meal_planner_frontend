@@ -15,7 +15,7 @@ const LoginComponent = () => {
   const handleSignIn = async (e) => {
     e.preventDefault();
     const backendUrl = "https://mealplannerserver.herokuapp.com/";
-    const route = "";
+    const route = "login/";
     try {
       if (email === "" || password === "") {
         setErrorVisibility("visible");

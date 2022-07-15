@@ -13,7 +13,7 @@ const SignUp = () => {
   const [errorVisibility, setErrorVisibility] = useState("hidden");
 
   const backendUrl = "https://mealplannerserver.herokuapp.com/";
-  const route = "";
+  const route = "createuser/";
 
   let navigate = useNavigate();
   const dispatch = useDispatch();
@@ -35,6 +35,7 @@ const SignUp = () => {
         setErrorVisibility("visible");
         setError("Make sure password and confirm password match!");
       } else {
+        // console.log({ name, email, password });
         await axios.post(
           `${backendUrl}${route}`,
           JSON.stringify({ name, email, password }),
@@ -42,8 +43,8 @@ const SignUp = () => {
             headers: { "Content-Type": "application/json" },
           }
         );
-        dispatch({ type: "SET USER", payload: name });
-        navigate("/MealPlanner");
+        dispatch({ type: "SET USER", payload: email });
+        navigate("/MealPlan");
         setName("");
         setPassword("");
         setEmail("");
@@ -69,7 +70,7 @@ const SignUp = () => {
     }
   };
 
-  const onnameChange = (e) => {
+  const onNameChange = (e) => {
     setName(e.target.value);
   };
 
@@ -115,11 +116,11 @@ const SignUp = () => {
           autoFocus
           placeholder="name"
           value={name}
-          onChange={onnameChange}
+          onChange={onNameChange}
           data-testid="nameInput"
           className="signname"
         />
-        <label htmlFor="password" className="loginPasswordLabel">
+        <label htmlFor="password" className="signUpPasswordLabel">
           Password
         </label>
         <input
