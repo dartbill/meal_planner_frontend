@@ -1,18 +1,10 @@
 import { default as LoginComponent } from ".";
-import {
-  screen,
-  render,
-  fireEvent,
-  waitFor,
-  cleanup,
-  getByTestId,
-} from "@testing-library/react";
+import { screen, render, fireEvent } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import * as router from "react-router";
 import { Provider } from "react-redux";
 import store from "../../store";
 import "@testing-library/jest-dom";
-import userEvent from "@testing-library/user-event";
 
 describe("LoginComponent", () => {
   const navigate = jest.fn();
@@ -74,5 +66,23 @@ describe("LoginComponent", () => {
       name: /Login/i,
     });
     expect(button).toBeTruthy();
+  });
+
+  test("post in axios", () => {
+    render(correct);
+    const password = screen.getByTestId("passwordInput");
+    const email = screen.getByTestId("emailInput");
+    const errorM = screen.getByTestId("error");
+    fireEvent.change(email, { target: { value: "testing@test.com" } });
+    fireEvent.change(password, { target: { value: "tesaaa" } });
+    const button = screen.getByRole("button", {
+      name: /Login/i,
+    });
+    fireEvent.click(button);
+    expect.objectContaining({
+      email: "testing@test.com",
+      password: "tesaaa",
+    });
+    expect(errorM).toHaveStyle("visibility: hidden;");
   });
 });
