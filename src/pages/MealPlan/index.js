@@ -9,6 +9,8 @@ const MealPlan = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate();
 
+    const [generateText, setGenerateText] = useState("Generate meal plan")
+
     const [recipes, setRecipes] = useState([
         {
             "id": 716429,
@@ -322,11 +324,19 @@ const MealPlan = () => {
         }
     ])
     // const [triggerNames, setTriggerNames] = useState(["Breakfast", "Lunch", "Dinner", "Dessert", "Snacks"])
-// useEffect to call users meal plan
+
+    // add lock and fave to end of each recipe
+// have in call to api when getting random meals
+    const addLockAndFaves = () => {
+
+    }
+
+    
+// TODO:useEffect to call users meal plan
 // if no result, render message to generate plan
 // if result, render meal plan
 
-// generate meal plan function
+// TODO:generate meal plan function
 // if all locks are true, warning about overwriting selections
 //if recipes in state is = initial state or id arrary = 100, make call
     // reset recipe state
@@ -335,7 +345,7 @@ const MealPlan = () => {
     // reset shopping_list state
     // take in users preferences
     // make call to random recipe api for each meal in preferences
-    // returns 100
+    // returns 50
     // extract needed data and add in an Array
     // to each recipe add lock = true attribute 
     // add meal arrays to recipes object with meal key
@@ -347,22 +357,60 @@ const MealPlan = () => {
 // when open a Collapsible, change the meal state to that meal
 // feed this into functions for generate meal function
 
+const stateMealRecipes = useSelector(state => state.meal_plan_recipes)
 
+//TODO:submit meal plan
+// take in all id's, titles, and faves
+// add to array
+// send to db
+const submitMealPlan = (e) => {
+    e.preventDefault()
+    for(let i = 0; i < stateMealRecipes.length; i++){
+        stateMealRecipes[i].lock = true
+    }
+    dispatch({ type: "SET MEAL PLAN RECIPES", payload: stateMealRecipes})
+    // do post to db meal history route
+    setGenerateText("Generate new meal plan")
+}
 
-//submit meal plan
-// changes all locks to true
     const stateRecipes = useSelector(state => state.recipes)
     console.log(stateRecipes.dinner.length)
+    
+
+//TODO:generate shopping list
+
+
+    const generateShoppingList = (e) => {
+        e.preventDefault()
+        // take in all items from recipes
+        // send to api with structure of 
+        // {
+        //     "items": [
+        //         "4 lbs tomatoes",
+        //         "10 tomatoes",
+        //         "20 Tablespoons Olive Oil",
+        //         "6 tbsp Olive Oil"
+        //     ]
+        // }
+        for (let i = 0; i < Object.keys(stateRecipes).length; i++){
+            console.log(Object.values(stateRecipes)[i])
+        }
+        
+    }
+    
     return (
         <>
         <h1>Meal Plan</h1>
         <div className="generateMeal">
-           <button>Generate meal</button> 
+           <button>{generateText}</button> 
+        </div>
+        <div className="shoppingListBtn">
+        <button onClick={generateShoppingList}>Shopping list</button> 
         </div>
         <div className="recipesMealPlan">
 
         {stateRecipes.breakfast.length > 0 && (
-            // will change each of these to stateRecipes.breakfast respectively
+            // TODO:will change each of these to stateRecipes.breakfast respectively
             <CollapsibleRecipes recipes={recipes} setRecipes={setRecipes} triggerName="Breakfast"/>
         )}
         {stateRecipes.lunch.length > 0 && (
@@ -378,6 +426,7 @@ const MealPlan = () => {
             <CollapsibleRecipes recipes={recipes} setRecipes={setRecipes} triggerName="Snacks"/>
         )}
         </div>
+        <div className="submitMealPlan" onClick={submitMealPlan}>Submit meal plan</div>
         </>
     )
 };

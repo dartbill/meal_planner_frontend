@@ -2,12 +2,9 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 
-import closedLock from '../../images/closedLock.png'
-import openLock from '../../images/openLock.png'
-import filledHeart from '../../images/filledHeart.png'
-import emptyHeart from '../../images/emptyHeart.png'
 import './style.css'
 import Collapsible from 'react-collapsible';
+
 
 
 const CollapsibleRecipes = ({recipes, triggerName, setRecipes}) => {
@@ -22,24 +19,12 @@ const CollapsibleRecipes = ({recipes, triggerName, setRecipes}) => {
   }
 console.log(recipes[0].id)
 
+
+// TODO:add conditional that if user meals is same as initial state, do a calculateNewValue, if not set meal recipes to state recipes
   const [mealRecipes, setMealRecipes] = useState(recipes)
-  // console.log(mealRecipes[0].lock)
-  const unlockRecipe = (e) => {
-    const parentClassName = e.target.parentElement.className
-    const splitString = parentClassName.split(' ')
-    const lockRecipeIdStr = splitString[1]
-    const lockRecipeIdInt = parseInt(lockRecipeIdStr)
-    // const result = words.filter(word => word.length > 6);
-    for (let i = 0; i < recipes.length; i ++){
-      if (mealRecipes[i].id === lockRecipeIdInt){
-      console.log("found yah")
-      console.log(mealRecipes[i].lock)
-      mealRecipes[i].lock = false
-      console.log(mealRecipes[i].lock)
-      setMealRecipes(mealRecipes)
-    }
-    }
-  }
+  dispatch({ type: "SET MEAL PLAN RECIPES", payload: mealRecipes})
+
+  console.log()
   const changeLockRecipe = (e) => {
     const parentClassName = e.target.parentElement.className
     const lockClassName = e.target.className
@@ -47,8 +32,7 @@ console.log(recipes[0].id)
     const splitString = parentClassName.split(' ')
     const lockRecipeIdStr = splitString[1]
     const lockRecipeIdInt = parseInt(lockRecipeIdStr)
-    // const result = words.filter(word => word.length > 6);
-
+// add in meal state, and feed into function below and 
     for (let i = 0; i < mealRecipes.length; i ++){
       if (mealRecipes[i].id === lockRecipeIdInt){
         if(lockClassName === "locked"){
@@ -67,8 +51,10 @@ console.log(recipes[0].id)
         }
     }
     }
-    
+    dispatch({ type: "SET MEAL PLAN RECIPES", payload: mealRecipes})
   }
+
+  // move to recipe page
   const changefaveRecipe = (e) => {
     const parentClassName = e.target.parentElement.className
     const faveClassName = e.target.className
@@ -76,7 +62,6 @@ console.log(recipes[0].id)
     const splitString = parentClassName.split(' ')
     const faveRecipeIdStr = splitString[1]
     const faveRecipeIdInt = parseInt(faveRecipeIdStr)
-    // const result = words.filter(word => word.length > 6);
 
     for (let i = 0; i < mealRecipes.length; i ++){
       if (mealRecipes[i].id === faveRecipeIdInt){
@@ -98,7 +83,6 @@ console.log(recipes[0].id)
     }
   }
  
-
   return (
     <>
           <Collapsible trigger={triggerName}>
@@ -107,11 +91,13 @@ console.log(recipes[0].id)
                 <div key={recipe.id} className="recipe">
                   <div className={recipe.id} onClick={viewFullRecipe}>
                     <h3>{recipe.title}</h3>
-                    {recipe.image && <img src={recipe.image} alt="" />}
+                    {recipe.image && <img className="recipeCardImg" src={recipe.image} alt="" />}
                   </div>
                   <div className={"recipeIcon " + recipe.id}>
-                    {recipe.lock && <div onClick={changeLockRecipe} className="locked"/>}
-                    {recipe.fave && <div onClick={changefaveRecipe} className="unfaved"/>}
+                    {recipe.lock === true && <div onClick={changeLockRecipe} className="locked"/>}
+                    {recipe.lock === false && <div onClick={changeLockRecipe} className="unlocked"/>}
+                    {recipe.fave === true && <div onClick={changefaveRecipe} className="faved"/>}
+                    {recipe.fave === false && <div onClick={changefaveRecipe} className="unfaved"/>}
                   </div>
                 </div>
               )
