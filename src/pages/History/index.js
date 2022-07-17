@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 
@@ -8,7 +8,13 @@ import { CollapsibleRecipes } from '../../components';
 const History = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate();
+
+    const recipeId = useSelector(state => state.recipe_id)
+    console.log("state recipe id history",recipeId)
+
     const inititalUserHistoryState = useSelector(state => state.users_recipe_history)
+    console.log("state user history", inititalUserHistoryState)
+
     // do useEffect to our API and return user's history
     // save this to the state
     //should be in format of [
@@ -19,6 +25,7 @@ const History = () => {
         //     dessert: [{id:"", title: "", fave:""}], 
         //     snacks: [{id:"", title: "", fave:""}]}}
         // ]
+    const usersHistoryRecipes = useSelector(state => state.users_recipe_history)
     //map array to return a collapsable with date as trigger and set recipes as dates recipes
     const [recipes, setRecipes] = useState([
         {
@@ -375,11 +382,8 @@ const History = () => {
         }
     ])
     // const [triggerNames, setTriggerNames] = useState(["Breakfast", "Lunch", "Dinner", "Dessert", "Snacks"])
-    const usersHistoryRecipes = useSelector(state => state.users_recipe_history)
-    console.log(usersHistoryRecipes)
 
-    const stateRecipes = useSelector(state => state.recipes)
-    console.log(stateRecipes.dinner.length)
+    
     return (
         <>
         <h1>History</h1>
@@ -393,21 +397,24 @@ const History = () => {
                 return (
                 <div className="week" key={i}>
                     <Collapsible trigger={week.date}>
-                    {week.recipes.breakfast.length > 0 && (
-                    <CollapsibleRecipes recipes={week.recipes.breakfast} triggerName="Breakfast"/>
-                    )}
-                    {week.recipes.lunch.length > 0 && (
-                    <CollapsibleRecipes recipes={week.recipes.lunch} triggerName="Lunch"/>
-                    )}
-                    {week.recipes.dinner.length > 0 && (
-                    <CollapsibleRecipes recipes={week.recipes.dinner} triggerName="Dinner"/>
-                    )}
-                    {week.recipes.dessert.length > 0 && (
-                    <CollapsibleRecipes recipes={week.recipes.dessert} triggerName="Dessert"/>
-                    )}
-                    {week.recipes.snacks.length > 0 && (
-                    <CollapsibleRecipes recipes={week.recipes.snacks} triggerName="Snacks"/>
-                    )}
+                        {week.recipes.breakfast.length > 0 && (
+                        <CollapsibleRecipes recipes={week.recipes.breakfast} triggerName="Breakfast"/>
+                        )}
+                        {/* {week.recipes.breakfast.length > 0 && (
+                        <CollapsibleRecipes recipes={recipes} triggerName="Breakfast"/>
+                        )} */}
+                        {week.recipes.lunch.length > 0 && (
+                        <CollapsibleRecipes recipes={week.recipes.lunch} triggerName="Lunch"/>
+                        )}
+                        {week.recipes.dinner.length > 0 && (
+                        <CollapsibleRecipes recipes={week.recipes.dinner} triggerName="Dinner"/>
+                        )}
+                        {week.recipes.dessert.length > 0 && (
+                        <CollapsibleRecipes recipes={week.recipes.dessert} triggerName="Dessert"/>
+                        )}
+                        {week.recipes.snacks.length > 0 && (
+                        <CollapsibleRecipes recipes={week.recipes.snacks} triggerName="Snacks"/>
+                        )}
                     </Collapsible>
                 </div>
                 )
