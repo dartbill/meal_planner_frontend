@@ -9,7 +9,7 @@ import Collapsible from "react-collapsible";
 
 const MealPlan = () => {
     //TODO: You need to add your API key here (you can create one here https://spoonacular.com/food-api/console#Dashboard)
-    const apiKey = ""
+    const apiKey = "a59cc791056a438ab4b73975ca70e20f"
 
     const dispatch = useDispatch()
     const navigate = useNavigate();
@@ -31,19 +31,40 @@ const MealPlan = () => {
     let newRecipes = { breakfast: [], lunch: [], dinner: [], dessert: [], snacks: []}
     
     let newMealPlan = { breakfast: [], lunch: [], dinner: [], dessert: [], snacks: []}
-//update to take in user preferences
-    let meals = {breakfast: false, lunch: false, dinner: false, dessert: true, snacks: true}
+
+    //TODO:get from state
+    let meals = {breakfast: true, lunch: false, dinner: false, dessert: false, snacks: false}
+
+    //TODO:get from state
+    let intoleranes = ["eggs", "milk"]
+    let intolerancesParamsOld = ""
+    for(let i = 0; i< intoleranes.length; i++){
+        intolerancesParamsOld += `,${intoleranes[i]}`
+    }
+    let intolerancesParams = intolerancesParamsOld.substring(1)
+    
+    //TODO:get from state
+    let diet = {vegan: false, vegetarian: false, glutenFree: false, ketogenic: false, pescetarian: false, paleo: false}
+    
+    let dietParamsOld = ""
+    for(let i = 0; i< Object.keys(diet).length; i++){
+        if(Object.values(diet)[i] === true){
+            dietParamsOld += `,${Object.keys(diet)[i]}`
+            console.log(dietParamsOld)
+        }
+    }
+    let dietParams = dietParamsOld.substring(1)
 
     const getInitialMeal = async (meal) => {
-        const { data } = await axios.get(`https://api.spoonacular.com/recipes/random/?apiKey=${apiKey}&number=25&tags=${meal}&includeNutrition=true`)
+        const { data } = await axios.get(`https://api.spoonacular.com/recipes/random/?apiKey=${apiKey}&number=25&tags=${meal}&diet=${dietParams}&intolerances=${intolerancesParams}&excludeIngredients${intolerancesParams}&includeNutrition=true&instructionsRequired=true`)
         console.log("data", data.recipes)
         const retrievedRecipes = data.recipes
         let shortRetrievedRecipes = []
         let formattedRetrievedRecipes = []
         let thisMealsRecipesInMealPlan = []
         for(let i = 0; i < retrievedRecipes.length; i++){
-            shortRetrievedRecipes = {cheap: retrievedRecipes[i].cheap, dairyFree: retrievedRecipes[i].dairyFree, extendedIngredients: retrievedRecipes[i].extendedIngredients, glutenFree: retrievedRecipes[i].glutenFree, id: retrievedRecipes[i].id, image: retrievedRecipes[i].image, instructions: retrievedRecipes[i].instructions, pricePerServing: retrievedRecipes[i].pricePerServing, readyInMinutes: retrievedRecipes[i].readyInMinutes, servings: retrievedRecipes[i].servings, sourceUrl: retrievedRecipes[i].sourceUrl, summary: retrievedRecipes[i].summary, title: retrievedRecipes[i].title, vegan: retrievedRecipes[i].vegan, vegetarian: retrievedRecipes[i].vegetarian}
-            formattedRetrievedRecipes.push({...shortRetrievedRecipes, lock: true, fave: false})
+            shortRetrievedRecipes = { analyzedInstructions: retrievedRecipes[i].analyzedInstructions, cheap: retrievedRecipes[i].cheap, dairyFree: retrievedRecipes[i].dairyFree, extendedIngredients: retrievedRecipes[i].extendedIngredients, glutenFree: retrievedRecipes[i].glutenFree, id: retrievedRecipes[i].id, image: retrievedRecipes[i].image, pricePerServing: retrievedRecipes[i].pricePerServing, readyInMinutes: retrievedRecipes[i].readyInMinutes, servings: retrievedRecipes[i].servings, sourceUrl: retrievedRecipes[i].sourceUrl, summary: retrievedRecipes[i].summary, title: retrievedRecipes[i].title, vegan: retrievedRecipes[i].vegan, vegetarian: retrievedRecipes[i].vegetarian}
+            formattedRetrievedRecipes.push({...shortRetrievedRecipes, lock: true, fave: false })
         }
         for(let i = 0; i < 7; i++){
             thisMealsRecipesInMealPlan.push(formattedRetrievedRecipes[i])
@@ -73,14 +94,14 @@ const MealPlan = () => {
         console.log("meal's recipes in meal plan after call", thisMealsRecipesInMealPlan)
     }
     const getAdditionalMeal = async (meal) => {
-        const { data } = await axios.get(`https://api.spoonacular.com/recipes/random/?apiKey=${apiKey}&number=25&tags=${meal}&includeNutrition=true`)
+        const { data } = await axios.get(`https://api.spoonacular.com/recipes/random/?apiKey=${apiKey}&number=25&tags=${meal}&diet=${dietParams}&intolerances=${intolerancesParams}&excludeIngredients${intolerancesParams}&includeNutrition=true&instructionsRequired=true`)
         console.log("data", data.recipes)
         const retrievedRecipes = data.recipes
         let shortRetrievedRecipes = []
         let formattedRetrievedRecipes = []
         for(let i = 0; i < retrievedRecipes.length; i++){
-            shortRetrievedRecipes = {cheap: retrievedRecipes[i].cheap, dairyFree: retrievedRecipes[i].dairyFree, extendedIngredients: retrievedRecipes[i].extendedIngredients, glutenFree: retrievedRecipes[i].glutenFree, id: retrievedRecipes[i].id, image: retrievedRecipes[i].image, instructions: retrievedRecipes[i].instructions, pricePerServing: retrievedRecipes[i].pricePerServing, readyInMinutes: retrievedRecipes[i].readyInMinutes, servings: retrievedRecipes[i].servings, sourceUrl: retrievedRecipes[i].sourceUrl, summary: retrievedRecipes[i].summary, title: retrievedRecipes[i].title, vegan: retrievedRecipes[i].vegan, vegetarian: retrievedRecipes[i].vegetarian}
-            formattedRetrievedRecipes.push({...shortRetrievedRecipes, lock: true, fave: false})
+            shortRetrievedRecipes = { analyzedInstructions: retrievedRecipes[i].analyzedInstructions, cheap: retrievedRecipes[i].cheap, dairyFree: retrievedRecipes[i].dairyFree, extendedIngredients: retrievedRecipes[i].extendedIngredients, glutenFree: retrievedRecipes[i].glutenFree, id: retrievedRecipes[i].id, image: retrievedRecipes[i].image, pricePerServing: retrievedRecipes[i].pricePerServing, readyInMinutes: retrievedRecipes[i].readyInMinutes, servings: retrievedRecipes[i].servings, sourceUrl: retrievedRecipes[i].sourceUrl, summary: retrievedRecipes[i].summary, title: retrievedRecipes[i].title, vegan: retrievedRecipes[i].vegan, vegetarian: retrievedRecipes[i].vegetarian}
+            formattedRetrievedRecipes.push({...shortRetrievedRecipes, lock: true, fave: false })
         }
         if(meal === "breakfast"){
             newRecipes = { ...newRecipes, breakfast: formattedRetrievedRecipes}
