@@ -15,7 +15,7 @@ const Homepage = () => {
 
           <a href="Login" className='btn btn-primary'>Login </a>
               or
-            <a href="#contact" className='btn btn-primary'> Register</a>
+            <a href="Register" className='btn btn-primary'> Register</a>
     
           <div className="container about__container">
             <div className="recipe_of_the_day">
