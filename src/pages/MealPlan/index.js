@@ -8,7 +8,7 @@ import { CollapsibleRecipes } from '../../components';
 import Collapsible from "react-collapsible";
 
 const MealPlan = () => {
-    const apiKey = "a321e3e0f535440fa1fa1c5d16a7b0a0"
+    const apiKey = ""
 
     const dispatch = useDispatch()
     const navigate = useNavigate();
