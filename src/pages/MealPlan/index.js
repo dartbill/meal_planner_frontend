@@ -32,7 +32,7 @@ const MealPlan = () => {
     
     let newMealPlan = { breakfast: [], lunch: [], dinner: [], dessert: [], snacks: []}
 //update to take in user preferences
-    let meals = {breakfast: false, lunch: false, dinner: false, dessert: false, snacks: true}
+    let meals = {breakfast: false, lunch: false, dinner: false, dessert: true, snacks: true}
 
     const getInitialMeal = async (meal) => {
         const { data } = await axios.get(`https://api.spoonacular.com/recipes/random/?apiKey=${apiKey}&number=25&tags=${meal}&includeNutrition=true`)
@@ -123,8 +123,41 @@ const getMeals = async (e) => {
 
     for(let i = 0; i < Object.keys(meals).length; i++){
         if(numberOfUnlocked === 0 && Object.values(meals)[i] === true) {
+            if(Object.keys(meals)[i] === "breakfast"){
+                await getInitialMeal("breakfast")
+            }
+            if(Object.keys(meals)[i] === "lunch"){
+                await getInitialMeal("lunch")
+            }
+            if(Object.keys(meals)[i] === "dinner"){
+                await getInitialMeal("dinner")
+            }
+            if(Object.keys(meals)[i] === "dessert"){
+                await getInitialMeal("dessert")
+            }
             if(Object.keys(meals)[i] === "snacks"){
                 await getInitialMeal("snacks")
+            }
+        } else if (unlockedMeals[i].length === 0 && Object.values(meals)[i] === true) {
+            if(Object.keys(meals)[i] === "breakfast"){
+                newMealPlan = { ...newMealPlan, breakfast: Object.values(stateMealRecipes)[i]}
+                newRecipes = {...newRecipes, breakfast: Object.values(stateRecipes)[i]}
+            }
+            if(Object.keys(meals)[i] === "lunch"){
+                newMealPlan = { ...newMealPlan, lunch: Object.values(stateMealRecipes)[i]}
+                newRecipes = {...newRecipes, lunch: Object.values(stateRecipes)[i]}
+            }
+            if(Object.keys(meals)[i] === "dinner"){
+                newMealPlan = { ...newMealPlan, dinner: Object.values(stateMealRecipes)[i]}
+                newRecipes = {...newRecipes, dinner: Object.values(stateRecipes)[i]}
+            }
+            if(Object.keys(meals)[i] === "dessert"){
+                newMealPlan = { ...newMealPlan, dessert: Object.values(stateMealRecipes)[i]}
+                newRecipes = {...newRecipes, dessert: Object.values(stateRecipes)[i]}
+            }
+            if(Object.keys(meals)[i] === "snacks"){
+                newMealPlan = { ...newMealPlan, snacks: Object.values(stateMealRecipes)[i]}
+                newRecipes = {...newRecipes, snacks: Object.values(stateRecipes)[i]}
             }
         } else if (unlockedMeals[i].length > 0 && Object.values(meals)[i] === true && unlockedMeals[i].length <= Object.values(stateRecipes)[i].length) {
             for(let j = 0; j < Object.values(stateMealRecipes)[i].length; j++){
@@ -132,23 +165,64 @@ const getMeals = async (e) => {
                     Object.values(stateMealRecipes)[i][j] = Object.values(stateRecipes)[i][0]
                     Object.values(stateRecipes)[i].splice(0, 1)
                     console.log("state recipes after unlocked replaced", stateRecipes)
+                    if(Object.keys(meals)[i] === "breakfast"){
+                        newMealPlan = { ...newMealPlan, breakfast: Object.values(stateMealRecipes)[i]}
+                        newRecipes = {...newRecipes, breakfast: Object.values(stateRecipes)[i]}
+                    }
+                    if(Object.keys(meals)[i] === "lunch"){
+                        newMealPlan = { ...newMealPlan, lunch: Object.values(stateMealRecipes)[i]}
+                        newRecipes = {...newRecipes, lunch: Object.values(stateRecipes)[i]}
+                    }
+                    if(Object.keys(meals)[i] === "dinner"){
+                        newMealPlan = { ...newMealPlan, dinner: Object.values(stateMealRecipes)[i]}
+                        newRecipes = {...newRecipes, dinner: Object.values(stateRecipes)[i]}
+                    }
+                    if(Object.keys(meals)[i] === "dessert"){
+                        newMealPlan = { ...newMealPlan, dessert: Object.values(stateMealRecipes)[i]}
+                        newRecipes = {...newRecipes, dessert: Object.values(stateRecipes)[i]}
+                    }
                     if(Object.keys(meals)[i] === "snacks"){
                         newMealPlan = { ...newMealPlan, snacks: Object.values(stateMealRecipes)[i]}
                         newRecipes = {...newRecipes, snacks: Object.values(stateRecipes)[i]}
                     }
+                    console.log(newRecipes)
                 }
             }
         } else if (unlockedMeals[i].length > 0 && Object.values(meals)[i] === true && unlockedMeals[i].length > Object.values(stateRecipes)[i].length){
+            if(Object.keys(meals)[i] === "breakfast"){
+                await getAdditionalMeal("breakfast")
+            }
+            if(Object.keys(meals)[i] === "lunch"){
+                await getAdditionalMeal("lunch")
+            }
+            if(Object.keys(meals)[i] === "dinner"){
+                await getAdditionalMeal("dinner")
+            }
+            if(Object.keys(meals)[i] === "dessert"){
+                await getAdditionalMeal("dessert")
+            }
             if(Object.keys(meals)[i] === "snacks"){
                 await getAdditionalMeal("snacks")
             }
             for(let j = 0; j < Object.values(stateMealRecipes)[i].length; j++){
                 if(Object.values(stateMealRecipes)[i][j].lock === false){
-                    console.log(Object.values(newRecipes)[4])
-                    Object.values(stateMealRecipes)[i][j] = Object.values(newRecipes)[4][0]
+                    console.log(Object.values(newRecipes)[i])
+                    Object.values(stateMealRecipes)[i][j] = Object.values(newRecipes)[i][0]
                     Object.values(newRecipes)[i].splice(0, 1)
                     console.log(Object.values(newRecipes)[i])
                     console.log("state recipes after unlocked replaced", stateRecipes)
+                    if(Object.keys(meals)[i] === "breakfast"){
+                        newMealPlan = { ...newMealPlan, breakfast: Object.values(stateMealRecipes)[i]}
+                    }
+                    if(Object.keys(meals)[i] === "lunch"){
+                        newMealPlan = { ...newMealPlan, lunch: Object.values(stateMealRecipes)[i]}
+                    }
+                    if(Object.keys(meals)[i] === "dinner"){
+                        newMealPlan = { ...newMealPlan, dinner: Object.values(stateMealRecipes)[i]}
+                    }
+                    if(Object.keys(meals)[i] === "dessert"){
+                        newMealPlan = { ...newMealPlan, dessert: Object.values(stateMealRecipes)[i]}
+                    }
                     if(Object.keys(meals)[i] === "snacks"){
                         newMealPlan = { ...newMealPlan, snacks: Object.values(stateMealRecipes)[i]}
                     }
