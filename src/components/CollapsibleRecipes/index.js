@@ -1,58 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
+
 
 import './style.css'
 import Collapsible from 'react-collapsible';
 
 
 
-const CollapsibleRecipes = ({recipes, triggerName, setRecipes}) => {
+const CollapsibleRecipes = ({fullRecipes, triggerName, meal}) => {
   const dispatch = useDispatch()
   const navigate = useNavigate();
   
   const viewFullRecipe = (e) => {
     const newRecipeId = e.target.parentElement.className
-    console.log(newRecipeId)
+    // console.log(newRecipeId)
     dispatch({ type: "SET RECIPE ID", payload: newRecipeId})
     navigate("/recipe")
   }
-console.log(recipes[0].id)
-
+// console.log("meal recipes", mealRecipes)
+console.log("recipes in collapsible", fullRecipes)
 
 // TODO:add conditional that if user meals is same as initial state, do a calculateNewValue, if not set meal recipes to state recipes
-  const [mealRecipes, setMealRecipes] = useState(recipes)
+  // const [mealRecipes, setMealRecipes] = useState(recipes)
   // causing an error, shouldn't when added to useEffect
-  dispatch({ type: "SET MEAL PLAN RECIPES", payload: mealRecipes})
+  // dispatch({ type: "SET MEAL PLAN RECIPES", payload: recipes})
 
-  console.log()
+// console.log(fullRecipes[meal])
   const changeLockRecipe = (e) => {
     const parentClassName = e.target.parentElement.className
     const lockClassName = e.target.className
-    console.log("lock class name", lockClassName)
+    // console.log("lock class name", lockClassName)
     const splitString = parentClassName.split(' ')
     const lockRecipeIdStr = splitString[1]
     const lockRecipeIdInt = parseInt(lockRecipeIdStr)
-// add in meal state, and feed into function below and 
-    for (let i = 0; i < mealRecipes.length; i ++){
-      if (mealRecipes[i].id === lockRecipeIdInt){
+
+    for (let i = 0; i < fullRecipes[meal].length; i ++){
+      if (fullRecipes[meal][i].id === lockRecipeIdInt){
         if(lockClassName === "locked"){
           console.log("unlock me please")
-          console.log(mealRecipes[i].lock)
-          mealRecipes[i].lock = false
-          console.log(mealRecipes[i].lock)
+          console.log(fullRecipes[meal][i].lock)
+          fullRecipes[meal][i].lock = false
+          console.log(fullRecipes[meal][i].lock)
           e.target.className = "unlocked"
         }
         if(lockClassName ===  "unlocked"){
           console.log("lock me please")
-          console.log(mealRecipes[i].lock)
-          mealRecipes[i].lock = true
-          console.log(mealRecipes[i].lock)
+          console.log(fullRecipes[meal][i].lock)
+          fullRecipes[meal][i].lock = true
+          console.log(fullRecipes[meal][i].lock)
           e.target.className = "locked"
         }
     }
     }
-    dispatch({ type: "SET MEAL PLAN RECIPES", payload: mealRecipes})
+    dispatch({ type: "SET MEAL PLAN RECIPES", payload: fullRecipes})
   }
 
   // move to recipe page
@@ -64,30 +65,30 @@ console.log(recipes[0].id)
     const faveRecipeIdStr = splitString[1]
     const faveRecipeIdInt = parseInt(faveRecipeIdStr)
 
-    for (let i = 0; i < mealRecipes.length; i ++){
-      if (mealRecipes[i].id === faveRecipeIdInt){
+    for (let i = 0; i < fullRecipes[meal].length; i ++){
+      if (fullRecipes[meal][i].id === faveRecipeIdInt){
         if(faveClassName === "locked"){
           console.log("unfave me please")
-          console.log(mealRecipes[i].fave)
-          mealRecipes[i].fave = false
-          console.log(mealRecipes[i].fave)
+          console.log(fullRecipes[meal][i].fave)
+          fullRecipes[meal][i].fave = false
+          console.log(fullRecipes[meal][i].fave)
           e.target.className = "unfaved"
         }
         if(faveClassName ===  "unfaved"){
           console.log("fave me please")
-          console.log(mealRecipes[i].fave)
-          mealRecipes[i].fave = true
-          console.log(mealRecipes[i].fave)
+          console.log(fullRecipes[meal][i].fave)
+          fullRecipes[meal][i].fave = true
+          console.log(fullRecipes[meal][i].fave)
           e.target.className = "faved"
         }
     }
     }
   }
- 
+
   return (
     <>
           <Collapsible trigger={triggerName}>
-            {mealRecipes.map(recipe => {
+            {fullRecipes[meal].map(recipe => {
               return (
                 <div key={recipe.id} className="recipe">
                   <div className={recipe.id} onClick={viewFullRecipe}>
