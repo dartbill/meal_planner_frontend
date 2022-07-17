@@ -4,6 +4,8 @@ import axios from 'axios';
   function RandomRecipe() {
     const [randomRecipe, setRandomRecipe] = useState([]);
     const [randomRecipeInstructions, setRandomRecipeInstructions] = useState([]);
+    const [randomRecipeReadyInMinutes, setRandomRecipeReadyInMinutes] = useState([]);
+
   
     useEffect(() => {
   
@@ -15,6 +17,7 @@ import axios from 'axios';
           console.log(data.recipes[0])
           setRandomRecipe(data.recipes[0].title)
           setRandomRecipeInstructions(data.recipes[0].instructions)
+          setRandomRecipeReadyInMinutes(data.recipes[0].readyInMinutes)
         } catch (err) {
           console.log(err)
         }
@@ -27,8 +30,9 @@ import axios from 'axios';
     return (
       <div className="randomRecipe">
         {/* <header className="App-header"> */}
-          <p> {randomRecipe} </p>
+          <h1> {randomRecipe} </h1>
           <p> {randomRecipeInstructions} </p>
+          <p> This cool recipe will only take {randomRecipeReadyInMinutes} minutes to be ready! </p>
         {/* </header> */}
       </div>
     );

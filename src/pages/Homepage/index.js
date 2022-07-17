@@ -6,10 +6,9 @@ import { RandomRecipe } from '../../components';
 
 
 const Homepage = () => {
-  <h1>gfg</h1>
 
     return (
-        <section id='about'>
+        <section id='homepage'>
           <h5>Name</h5>
           <h2>logo</h2>
 
@@ -19,31 +18,21 @@ const Homepage = () => {
     
           <div className="container about__container">
             <div className="recipe_of_the_day">
-              <div className="recipe_of_the_day-image">
-                {/* <img src={recipe} alt="recipe_of_the_day Image" /> */}
                 < RandomRecipe />
-              </div>
             </div>
     
-            <div className="about__content">
-              <div className="about__cards">
-              <article className="about__card">
-                  <h5>Sign Up or Login</h5>
-              </article>
-                
+            <div className="hompage__content">
+              <div className="homepage__cards">
+
                 <article className="about__card">
-                  {/* <GiOilPump className='about__icon'/> */}
-                  <h5>Joke of the Day API</h5>
+                  <h5>Joke of the Day</h5>
                   {/* < Joke /> */}
                   <h5>Fact of the Day</h5>
                   {/* < Fact /> */}
-                </article>
-                
+                </article> 
               </div>
-       
-    
-      
             </div>
+
           </div>
         </section>
       )
