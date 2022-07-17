@@ -8,29 +8,29 @@ import Collapsible from 'react-collapsible';
 
 
 
-const CollapsibleRecipes = ({fullRecipes, triggerName, setRecipes, meal}) => {
+const CollapsibleRecipes = ({fullRecipes, triggerName, meal}) => {
   const dispatch = useDispatch()
   const navigate = useNavigate();
   
   const viewFullRecipe = (e) => {
     const newRecipeId = e.target.parentElement.className
-    console.log(newRecipeId)
+    // console.log(newRecipeId)
     dispatch({ type: "SET RECIPE ID", payload: newRecipeId})
     navigate("/recipe")
   }
 // console.log("meal recipes", mealRecipes)
-console.log("full recipes", fullRecipes)
+console.log("recipes in collapsible", fullRecipes)
 
 // TODO:add conditional that if user meals is same as initial state, do a calculateNewValue, if not set meal recipes to state recipes
   // const [mealRecipes, setMealRecipes] = useState(recipes)
   // causing an error, shouldn't when added to useEffect
   // dispatch({ type: "SET MEAL PLAN RECIPES", payload: recipes})
 
-console.log(fullRecipes[meal])
+// console.log(fullRecipes[meal])
   const changeLockRecipe = (e) => {
     const parentClassName = e.target.parentElement.className
     const lockClassName = e.target.className
-    console.log("lock class name", lockClassName)
+    // console.log("lock class name", lockClassName)
     const splitString = parentClassName.split(' ')
     const lockRecipeIdStr = splitString[1]
     const lockRecipeIdInt = parseInt(lockRecipeIdStr)
