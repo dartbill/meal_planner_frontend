@@ -26,9 +26,9 @@ const Homepage = () => {
 
                 <article className="about__card">
                   <h5>Joke of the Day</h5>
-                  {/* < Joke /> */}
+                  < Joke />
                   <h5>Fact of the Day</h5>
-                  {/* < Fact /> */}
+                  < Fact />
                 </article> 
               </div>
             </div>
