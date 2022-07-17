@@ -8,7 +8,7 @@ import axios from 'axios';
   
       const fetchFact = async () => {
         try {
-          const url = `https://api.spoonacular.com/food/trivia/random/?apiKey=04620651d46d430daf947c06e19ebe95`
+          const url = `https://api.spoonacular.com/food/trivia/random/?apiKey=4a85ed324bd749eba71cf53e82e1c84d`
   
           const { data } = await axios.get(url)
           console.log(data.text)

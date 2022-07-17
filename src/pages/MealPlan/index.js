@@ -9,7 +9,7 @@ import Collapsible from "react-collapsible";
 
 const MealPlan = () => {
     //TODO: You need to add your API key here (you can create one here https://spoonacular.com/food-api/console#Dashboard)
-    const apiKey = ""
+    const apiKey = "04620651d46d430daf947c06e19ebe95"
 
     const dispatch = useDispatch()
     const navigate = useNavigate();
