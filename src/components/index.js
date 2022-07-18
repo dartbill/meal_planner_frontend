@@ -5,3 +5,4 @@ export { default as RandomRecipe } from './RandomRecipe';
 export { default as SignUp } from "./SignUp";
 export { default as LoginComponent } from "./LoginComponent";
 export { default as NavBar } from "./NavBar";
+export { default as ShoppingComponent } from "./ShoppingComponent";
