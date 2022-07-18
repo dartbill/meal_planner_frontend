@@ -3,6 +3,7 @@ import React from "react";
 import { Joke } from '../../components';
 import { Fact } from '../../components';
 import { RandomRecipe } from '../../components';
+import { useSelector, useDispatch } from 'react-redux';
 
 
 
@@ -10,7 +11,8 @@ import { RandomRecipe } from '../../components';
 
 
 const Homepage = () => {
-
+  const state = useSelector((state) => state.user_state);
+  console.log('state on homepage is' + state)
   return (
     <section id='homepage'>
       <h5>Name</h5>
