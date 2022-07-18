@@ -2,11 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 
-
 import './style.css'
 import Collapsible from 'react-collapsible';
-
-
 
 const CollapsibleRecipes = ({fullRecipes, triggerName, meal}) => {
   const dispatch = useDispatch()
@@ -14,7 +11,6 @@ const CollapsibleRecipes = ({fullRecipes, triggerName, meal}) => {
   
   const viewFullRecipe = (e) => {
     const newRecipeId = e.target.parentElement.className
-    // console.log(newRecipeId)
     dispatch({ type: "SET RECIPE ID", payload: newRecipeId})
     navigate("/recipe")
   }
@@ -30,7 +26,6 @@ console.log("recipes in collapsible", fullRecipes)
   const changeLockRecipe = (e) => {
     const parentClassName = e.target.parentElement.className
     const lockClassName = e.target.className
-    // console.log("lock class name", lockClassName)
     const splitString = parentClassName.split(' ')
     const lockRecipeIdStr = splitString[1]
     const lockRecipeIdInt = parseInt(lockRecipeIdStr)
@@ -38,17 +33,11 @@ console.log("recipes in collapsible", fullRecipes)
     for (let i = 0; i < fullRecipes[meal].length; i ++){
       if (fullRecipes[meal][i].id === lockRecipeIdInt){
         if(lockClassName === "locked"){
-          console.log("unlock me please")
-          console.log(fullRecipes[meal][i].lock)
           fullRecipes[meal][i].lock = false
-          console.log(fullRecipes[meal][i].lock)
           e.target.className = "unlocked"
         }
         if(lockClassName ===  "unlocked"){
-          console.log("lock me please")
-          console.log(fullRecipes[meal][i].lock)
           fullRecipes[meal][i].lock = true
-          console.log(fullRecipes[meal][i].lock)
           e.target.className = "locked"
         }
     }
@@ -60,25 +49,18 @@ console.log("recipes in collapsible", fullRecipes)
   const changefaveRecipe = (e) => {
     const parentClassName = e.target.parentElement.className
     const faveClassName = e.target.className
-    console.log("fave class name", faveClassName)
     const splitString = parentClassName.split(' ')
     const faveRecipeIdStr = splitString[1]
     const faveRecipeIdInt = parseInt(faveRecipeIdStr)
 
     for (let i = 0; i < fullRecipes[meal].length; i ++){
       if (fullRecipes[meal][i].id === faveRecipeIdInt){
-        if(faveClassName === "locked"){
-          console.log("unfave me please")
-          console.log(fullRecipes[meal][i].fave)
+        if(faveClassName === "fave"){
           fullRecipes[meal][i].fave = false
-          console.log(fullRecipes[meal][i].fave)
           e.target.className = "unfaved"
         }
         if(faveClassName ===  "unfaved"){
-          console.log("fave me please")
-          console.log(fullRecipes[meal][i].fave)
           fullRecipes[meal][i].fave = true
-          console.log(fullRecipes[meal][i].fave)
           e.target.className = "faved"
         }
     }
@@ -91,15 +73,15 @@ console.log("recipes in collapsible", fullRecipes)
             {fullRecipes[meal].map(recipe => {
               return (
                 <div key={recipe.id} className="recipe">
-                  <div className={recipe.id} onClick={viewFullRecipe}>
+                  <div className={recipe.id} data-testid="recipe" onClick={viewFullRecipe}>
                     <h3>{recipe.title}</h3>
                     {recipe.image && <img className="recipeCardImg" src={recipe.image} alt="" />}
                   </div>
                   <div className={"recipeIcon " + recipe.id}>
-                    {recipe.lock === true && <div onClick={changeLockRecipe} className="locked"/>}
-                    {recipe.lock === false && <div onClick={changeLockRecipe} className="unlocked"/>}
-                    {recipe.fave === true && <div onClick={changefaveRecipe} className="faved"/>}
-                    {recipe.fave === false && <div onClick={changefaveRecipe} className="unfaved"/>}
+                    {recipe.lock === true && <div data-testid="lock" onClick={changeLockRecipe} className="locked"/>}
+                    {recipe.lock === false && <div onClick={changeLockRecipe} data-testid="unlock" className="unlocked"/>}
+                    {recipe.fave === true && <div onClick={changefaveRecipe} data-testid="faved" className="faved"/>}
+                    {recipe.fave === false && <div onClick={changefaveRecipe} data-testid="unfaved" className="unfaved"/>}
                   </div>
                 </div>
               )
