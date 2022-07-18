@@ -32,7 +32,9 @@ const MealPlan = () => {
     let newMealPlan = { breakfast: [], lunch: [], dinner: [], dessert: [], snacks: [] }
 
     //TODO:get from state
-    let meals = { breakfast: true, lunch: false, dinner: false, dessert: false, snacks: false }
+    let meals = useSelector(state => state.user_meals)
+    console.log(meals)
+    // let meals = { breakfast: true, lunch: false, dinner: false, dessert: false, snacks: false }
 
     //TODO:get from state
     let intoleranes = ["eggs", "milk"]
