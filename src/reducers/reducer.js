@@ -1969,7 +1969,7 @@ const initialState = {
         }
     ] },
     viewed_recipes: [],
-    shopping_list: []
+    shopping_list: [],
     random_recipe: {}
     
 
