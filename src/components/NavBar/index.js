@@ -65,13 +65,16 @@ const NavBar = () => {
       </div>
       <div className="sideModal" style={{ display: display }}>
         <ul className="sideNavBar" >
-          <li><Link activeClass="active" onClick={(e) => { onBtnClick(e) }} offset={-200}><span className="number">01.</span> logout</Link></li>
           <li><Link activeClass="active" onClick={(e) => {
             e.preventDefault()
             navigate("/login")
-          }} offset={-230}><span className="number">02.</span> login</Link></li>
-          <li><Link activeClass="active" offset={-320}><span className="number">03.</span> Preferences</Link></li>
-          <li><Link activeClass="active" offset={-420}><span className="number">04.</span> Contact <span className="me">Me</span></Link></li>
+          }} offset={-230}>login</Link></li>
+          <li><Link activeClass="active" onClick={(e) => {
+            e.preventDefault()
+            navigate("/")
+          }} offset={-230}>Home</Link></li>
+          <li><Link activeClass="active" onClick={(e) => { onBtnClick(e) }} offset={-200}>Logout</Link></li>
+          <li><Link activeClass="active" offset={-320}>Preferences</Link></li>
         </ul>
       </div>
     </>
