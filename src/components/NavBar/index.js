@@ -65,14 +65,17 @@ const NavBar = () => {
       </div>
       <div className="sideModal" style={{ display: display }}>
         <ul className="sideNavBar" >
+
           <li><Link activeClass="active" onClick={(e) => {
             e.preventDefault()
             navigate("/login")
-          }} offset={-230}>login</Link></li>
+          }} offset={-230}>Login</Link></li>
+
           <li><Link activeClass="active" onClick={(e) => {
             e.preventDefault()
             navigate("/")
           }} offset={-230}>Home</Link></li>
+
           <li><Link activeClass="active" onClick={(e) => { onBtnClick(e) }} offset={-200}>Logout</Link></li>
           <li><Link activeClass="active" offset={-320}>Preferences</Link></li>
         </ul>

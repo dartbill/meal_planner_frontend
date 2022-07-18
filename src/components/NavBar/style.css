@@ -13,47 +13,6 @@ header {
     font-weight: bold;
 }
 
-.logo {
-    margin-right: auto;
-    margin-left: 15px;
-    margin-top: 25px;
-    width: 80px;
-    height: 80px;
-    position: relative;
-}
-
-.square1 {
-    border: 3px solid #FF0A78;
-    width: 60px;
-    height: 60px;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.square2 {
-    border: 3px solid #FF0A78;
-    width: 50px;
-    height: 50px;
-    position: absolute;
-    top: 10px;
-    left: 10px;
-}
-
-.square3 {
-    border: 3px solid #FF0A78;
-    width: 40px;
-    height: 40px;
-    position: absolute;
-    top: 20px;
-    left: 20px;
-}
-
-.logoText {
-    font-size: 24px;
-    text-align: center;
-    line-height: 80px;
-}
 
 .topnav {
     display: none;
@@ -98,9 +57,6 @@ header {
     font-size: 1.5em;
 }
 
-.me {
-    margin-left: 50px;
-}
 
 .navIcon {
     z-index: 9999;
@@ -121,46 +77,11 @@ header {
     color: #FF0A78;
 }
 
-#sideBarResume {
-    color: #FF0A78;
-    background-color: #081e48;
-    outline: none;
-    padding: 7.5px 10px;
-    font-size: 18px;
-    border: 3px solid #FF0A78;
-    text-decoration: none;
-}
+
 
 @media (min-width: 320px) {
     header {
         font-size: 20px;
-    }
-
-    .logo {
-        margin-left: 25px;
-        margin-top: 25px;
-        width: 100px;
-        height: 100px;
-    }
-
-    .square1 {
-        width: 80px;
-        height: 80px;
-    }
-
-    .square2 {
-        width: 70px;
-        height: 70px;
-    }
-
-    .square3 {
-        width: 60px;
-        height: 60px;
-    }
-
-    .logoText {
-        font-size: 38px;
-        line-height: 100px;
     }
 
     .sideNavBar {
@@ -174,11 +95,6 @@ header {
 
     .navIcon>i {
         font-size: 50px;
-    }
-
-    #sideBarResume {
-        padding: 12.5px 15px;
-        font-size: 24px;
     }
 
     .sideNavBar>li:last-child {
@@ -202,10 +118,6 @@ header {
         font-size: 1.5em;
     }
 
-    #sideBarResume {
-        padding: 15px 20px;
-        font-size: 28px;
-    }
 
     .sideNavBar {
         padding-top: 22vh;
@@ -272,50 +184,4 @@ header {
         list-style-type: none;
     }
 
-    #topNavResume {
-        color: #FF0A78;
-        background-color: #041129;
-        outline: none;
-        padding: 10px 20px;
-        font-size: 0.9em;
-        border: 3px solid #FF0A78;
-        text-decoration: none;
-    }
-
-    #topNavResumeLi {
-        margin-top: 45px;
-        margin-right: 25px;
-    }
-
-    #logo {
-        margin-left: 35px;
-        margin-top: 35px;
-        max-width: 120px;
-        max-height: 120px;
-    }
-
-    .logo {
-        width: 120px;
-        height: 120px;
-    }
-
-    .square1 {
-        width: 100px;
-        height: 100px;
-    }
-
-    .square2 {
-        width: 90px;
-        height: 90px;
-    }
-
-    .square3 {
-        width: 80px;
-        height: 80px;
-    }
-
-    .logoText {
-        font-size: 48px;
-        line-height: 110px;
-    }
 }
