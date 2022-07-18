@@ -21,9 +21,28 @@ const NavBar = () => {
     console.log('you have logged out ')
     navigate("/");
   }
+  ////////////////////////////////////////// un comment when we can check user state
+  // const [user, setUser] = useState(false)
 
-
-
+  // const renderLinks = () => {
+  //   if (user) {
+  //     return (
+  //       <>
+  //         <li><Link activeClass="active" onClick={(e) => { onBtnClick(e) }} offset={-200}>Logout</Link></li>
+  //         <li><Link activeClass="active" offset={-320}>Preferences</Link></li>)
+  //       </>
+  //     )
+  //   } else
+  //     return (
+  //       <>
+  //         <li><Link activeClass="active" onClick={(e) => {
+  //           e.preventDefault()
+  //           navigate("/login")
+  //         }} offset={-230}>Login</Link></li>
+  //       </>
+  //     )
+  // }
+  ////////////////////////////////////////
 
   const [display, setDisplay] = useState("none")
   const [iconImg, setIconImg] = useState("fa fa-bars")
@@ -66,10 +85,7 @@ const NavBar = () => {
       <div className="sideModal" style={{ display: display }}>
         <ul className="sideNavBar" >
 
-          <li><Link activeClass="active" onClick={(e) => {
-            e.preventDefault()
-            navigate("/login")
-          }} offset={-230}>Login</Link></li>
+
 
           <li><Link activeClass="active" onClick={(e) => {
             e.preventDefault()
@@ -96,7 +112,17 @@ const NavBar = () => {
             navigate("/preferences")
           }} offset={-230}>Preferences</Link></li>
 
+          {/* to remove when we can set user */}
           <li><Link activeClass="active" onClick={(e) => { onBtnClick(e) }} offset={-200}>Logout</Link></li>
+          <li><Link activeClass="active" onClick={(e) => {
+            e.preventDefault()
+            navigate("/login")
+          }} offset={-230}>Login</Link></li>
+          {/* end of remove block */}
+
+          {/* add back in when we can check user state */}
+          {/* {renderLinks()} */}
+
         </ul>
       </div>
     </>
