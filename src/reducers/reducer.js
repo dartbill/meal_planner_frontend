@@ -8,7 +8,7 @@ const initialState = {
                 lunch: [{ id: "", title: "", fave: "" }],
                 dinner: [{ id: "", title: "", fave: "" }],
                 dessert: [{ id: "", title: "", fave: "" }],
-                snacks: [{ id: "", title: "fgdfgfd", fave: "" }]
+                snacks: [{ id: "", title: "fgdfgfd", fave: false }]
             }
         }
     ],
