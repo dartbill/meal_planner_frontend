@@ -426,7 +426,7 @@ const History = () => {
                                         <CollapsibleRecipes fave={favourited} recipes={week.recipes.dessert} triggerName="Dessert" />
                                     )} */}
                                     {week.recipes.snacks.length > 0 && (
-                                        <CollapsibleRecipes fave={favourited} fullRecipes={week.recipes} triggerName="Snacks" meal="snacks" />
+                                        <CollapsibleRecipes favourited={favourited} fullRecipes={week.recipes} triggerName="Snacks" meal="snacks" />
                                     )}
                                 </Collapsible>
                             </div>

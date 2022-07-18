@@ -15,14 +15,27 @@ const CollapsibleRecipes = ({ favourited, fullRecipes, triggerName, meal }) => {
     navigate("/recipe")
   }
   // console.log("meal recipes", mealRecipes)
-  console.log("recipes in collapsible", fullRecipes)
+  // console.log("recipes in collapsible", fullRecipes)
+
+
+  const faveFilter = (recipe) => {
+    let fave_recipe = document.getElementById('target')
+    if (favourited && recipe == false) {
+      fave_recipe.firstChild.style.display = "none"
+    } else if (!favourited) {
+      fave_recipe.firstChild.style.display = "block"
+    }
+  }
+
+
+
 
   // TODO:add conditional that if user meals is same as initial state, do a calculateNewValue, if not set meal recipes to state recipes
   // const [mealRecipes, setMealRecipes] = useState(recipes)
   // causing an error, shouldn't when added to useEffect
   // dispatch({ type: "SET MEAL PLAN RECIPES", payload: recipes})
 
-  console.log(fullRecipes[meal])
+  // console.log(fullRecipes[meal])
   const changeLockRecipe = (e) => {
     const parentClassName = e.target.parentElement.className
     const lockClassName = e.target.className
@@ -58,7 +71,6 @@ const CollapsibleRecipes = ({ favourited, fullRecipes, triggerName, meal }) => {
         if (faveClassName === "fave") {
           fullRecipes[meal][i].fave = false
           e.target.className = "unfaved"
-
         }
         if (faveClassName === "unfaved") {
           fullRecipes[meal][i].fave = true
@@ -68,14 +80,17 @@ const CollapsibleRecipes = ({ favourited, fullRecipes, triggerName, meal }) => {
     }
   }
 
+
   return (
     <>
       <Collapsible trigger={triggerName}>
         {fullRecipes[meal].map(recipe => {
           return (
+
             <div key={recipe.id} className="recipe">
-              <div className={recipe.id} data-testid="recipe" onClick={viewFullRecipe}>
-                <h3>{recipe.title}</h3>
+              {faveFilter(recipe.fave)}
+              <div id="target" className={recipe.id} data-testid="recipe" onClick={viewFullRecipe}>
+                <h3 >{recipe.title}</h3>
                 {recipe.image && <img className="recipeCardImg" src={recipe.image} alt="" />}
               </div>
               <div className={"recipeIcon " + recipe.id}>
