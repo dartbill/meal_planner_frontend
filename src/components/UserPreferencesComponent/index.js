@@ -55,7 +55,7 @@ import React, { useEffect, useState } from "react";
                 onChange={(e) => handleServiceChange(e, index)}
                 required
               />
-              {intoleranceList.length - 1 === index && intoleranceList.length < 4 && (
+              {intoleranceList.length - 1 === index && (
                 <button
                   type="button"
                   onClick={handleServiceAdd}
@@ -91,11 +91,11 @@ import React, { useEffect, useState } from "react";
 
       <div className="meals-section">
         <h3>Meals</h3>
-        <input type="radio" value="Breakfast" name="Breakfast" /> Breakfast
-        <input type="radio" value="Lunch" name="Lunch" /> Lunch
-        <input type="radio" value="Dinner" name="Dinner" /> Dinner 
-        <input type="radio" value="Snacks" name="Snacks" /> Snacks 
-        <input type="radio" value="Dessert" name="Dessert" /> Dessert 
+        <input type="checkbox" value="Breakfast" name="Breakfast" /> Breakfast
+        <input type="checkbox" value="Lunch" name="Lunch" /> Lunch
+        <input type="checkbox" value="Dinner" name="Dinner" /> Dinner 
+        <input type="checkbox" value="Snacks" name="Snacks" /> Snacks 
+        <input type="checkbox" value="Dessert" name="Dessert" /> Dessert 
       </div>
 
     </div>
