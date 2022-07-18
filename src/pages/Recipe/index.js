@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 
 
 
-
 function Recipe() {
     // const [recipe, setRecipe] = useState([]);
     const [recipeInstructions, setRecipeInstructions] = useState([]);
@@ -64,6 +63,7 @@ function Recipe() {
 
 
   
+
     return (
         <>
         <div onClick={()=> navigate(-1)}>Back</div>
@@ -89,6 +89,9 @@ function Recipe() {
     );
   }
 
+
+
+};
 
 
 export default Recipe;
