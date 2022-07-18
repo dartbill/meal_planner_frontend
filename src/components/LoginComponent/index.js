@@ -11,16 +11,73 @@ const LoginComponent = () => {
 
   let navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const backendUrl = "https://mealplannerserver.herokuapp.com/";
+  
+  const getUserMealHistory = async () => {
+    const { data } = await axios.get(
+      `${backendUrl}mealhistory/`);
+      console.log(data)
+      // dispatch({ type: "SET USER STATE", payload: true });
+  }
+  // const dbJSON = [{'calories_limit': 3, 'intolorences': ['1', '2'], 'budget': 2},{'calories_limit': "{'breakfast': 2, 'lunch': 2, 'dinner': 2, 'snack': 2, 'dessert': 2}", 'intolorences': ['dairy', 'egg'], 'budget': "{'breakfast': 2, 'lunch': 2, 'dinner': 2, 'snack': 2, 'dessert': 2}"}]
+    // console.log(dbJSON[1].calories_limit)
+    // const string = dbJSON[1].calories_limit
+    // console.log(JSON.stringify(string))
+    // const formattedString = string.replaceAll(`'`, `"`)
+    // console.log(formattedString)
+    // console.log(JSON.parse(formattedString))
+    // const object = JSON.parse(formattedString)
+    // console.log(object.breakfast)
+  const getUserPreferences = async () => {
+    const { data } = await axios.get(
+      `${backendUrl}prefs/`);
+      console.log(data)
+      const calorieLimits = data[0].calories_limit
+      const budgets = data[0].budget
+      const intolerences = data[0].intolorences
+      const userMeals = data[1]
+      console.log("user meals", userMeals)
+      console.log("calories limit", calorieLimits)
+      console.log("budget", budgets)
+      console.log("intolerances", intolerences[0])
+      const formattedCaloriesString = calorieLimits.replaceAll(`'`, `"`)
+      console.log("formatted calories", formattedCaloriesString)
+      const formattedbudgetsString = budgets.replaceAll(`'`, `"`)
+      console.log("formatted budgets", formattedbudgetsString)
+      const caloriesObj = JSON.parse(formattedCaloriesString)
+      const budgetObj = JSON.parse(formattedbudgetsString)
+      console.log("caloriesObj", caloriesObj)
+      console.log("budgetObj", budgetObj)
+      dispatch({ type: "SET USER CALORIES", payload: caloriesObj });
+      dispatch({ type: "SET USER BUDGETS", payload: budgetObj });
+      dispatch({ type: "SET USER MEALS", payload: userMeals });
+  }
+//   [
+//     {
+//         "calories_limit": "{'breakfast': 500, 'lunch': 600, 'dinner': 700, 'snack': 200, 'dessert': 0}",
+//         "intolorences": [
+//             "dairy"
+//         ],
+//         "budget": "{'breakfast': 2, 'lunch': 2, 'dinner': 3, 'snack': 2, 'dessert': 0}"
+//     },
+//     {
+//         "breakfast": true,
+//         "lunch": true,
+//         "dinner": true,
+//         "dessert": false,
+//         "snack": true
+//     }
+// ]
   const handleSignIn = async (e) => {
     e.preventDefault();
-    const backendUrl = "https://mealplannerserver.herokuapp.com/";
+    
     const route = "login/";
     try {
       if (email === "" || password === "") {
         setErrorVisibility("visible");
         setError("Fields should not be empty");
       } else {
+        //login
         await axios.post(
           `${backendUrl}${route}`,
           JSON.stringify({ email, password }),
@@ -28,6 +85,14 @@ const LoginComponent = () => {
             headers: { "Content-Type": "application/json" },
           }
         );
+        //get meal history
+        await getUserMealHistory()
+        //TODO: set to history state
+        //TODO: set first in array to meal plane
+          await getUserPreferences()
+        //get preferences
+        
+
         dispatch({ type: "SET USER STATE", payload: true });
         navigate("/MealPlan");
       }
