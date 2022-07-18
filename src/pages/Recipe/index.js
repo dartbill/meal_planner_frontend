@@ -30,7 +30,8 @@ function Recipe() {
         }
     }
 
-
+console.log(stateMealPlanRecipes)
+console.log(recipe)
 
   
     // useEffect(() => {

@@ -6,10 +6,6 @@ import { RandomRecipe } from '../../components';
 import { useSelector, useDispatch } from 'react-redux';
 
 
-
-
-
-
 const Homepage = () => {
   const state = useSelector((state) => state.user_state);
   console.log('state on homepage is' + state)
@@ -22,21 +18,19 @@ const Homepage = () => {
 
       <div className="container about__container">
         <div className="recipe_of_the_day">
-          < RandomRecipe />
+          <RandomRecipe />
         </div>
 
         <div className="hompage__content">
           <div className="homepage__cards">
-
             <article className="about__card">
               <h5>Joke of the Day</h5>
-              < Joke />
+              {/* <Joke /> */}
               <h5>Fact of the Day</h5>
-              < Fact />
+              <Fact />
             </article>
           </div>
         </div>
-
       </div>
     </section>
   )
