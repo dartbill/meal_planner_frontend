@@ -1970,6 +1970,9 @@ const initialState = {
     ] },
     viewed_recipes: [],
     shopping_list: []
+    random_recipe: {}
+    
+
 }
 
 const reducer = (state = initialState, action) => {
@@ -1988,6 +1991,8 @@ const reducer = (state = initialState, action) => {
             return { ...state, viewed_recipes: action.payload }
         case "SET SHOPPING LIST":
             return { ...state, shopping_list: action.payload }
+        case "SET RANDOM RECIPE":
+            return { ...state, random_recipe: action.payload }
         default:
             return state;
     }
