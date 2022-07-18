@@ -28,7 +28,7 @@ const LoginComponent = () => {
             headers: { "Content-Type": "application/json" },
           }
         );
-        dispatch({ type: "SET USER", payload: email });
+        dispatch({ type: "SET USER STATE", payload: true });
         navigate("/MealPlan");
       }
     } catch (err) {

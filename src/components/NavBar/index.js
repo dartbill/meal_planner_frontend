@@ -1,11 +1,12 @@
 import axios from "axios";
 import React, { useState } from 'react'
+import { useDispatch } from "react-redux";
 import { Link } from "react-scroll";
 import { useNavigate } from "react-router-dom";
 
 
 const NavBar = () => {
-
+  const dispatch = useDispatch();
   const backendUrl = "https://mealplannerserver.herokuapp.com/";
   const route = "logout/";
 
@@ -18,7 +19,8 @@ const NavBar = () => {
         headers: { "Content-Type": "application/json" },
       }
     );
-    console.log('you have logged out ')
+
+    dispatch({ type: "SET USER STATE", payload: false });
     navigate("/");
   }
   ////////////////////////////////////////// un comment when we can check user state
