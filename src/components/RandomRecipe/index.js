@@ -1,18 +1,31 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
+import { useSelector, useDispatch } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
 
   function RandomRecipe() {
     const [randomRecipe, setRandomRecipe] = useState([]);
-    const [randomRecipeInstructions, setRandomRecipeInstructions] = useState([]);
     const [randomRecipeReadyInMinutes, setRandomRecipeReadyInMinutes] = useState([]);
     const [randomRecipeImage, setRandomRecipeImage] = useState([]);
+    const [randomRecipeId, setRandomRecipeId] = useState("");
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate();
+    const viewRecipe = (e) => {
+      const parentId = e.target.parentElement.id
+
+
+      dispatch({ type: "SET RECIPE ID", payload: parentId })
+      navigate("/recipe")
+    }
+  
 
   
     useEffect(() => {
   
       const fetchRandomRecipe = async () => {
         try {
-          const url = `https://api.spoonacular.com/recipes/random/?apiKey=4a85ed324bd749eba71cf53e82e1c84d`
+          const url = `https://api.spoonacular.com/recipes/random/?apiKey=a321e3e0f535440fa1fa1c5d16a7b0a0`
   
           const { data } = await axios.get(url)
 
@@ -26,9 +39,10 @@ import axios from 'axios';
 
           console.log(data.recipes[0])
           setRandomRecipe(formattedRetrievedRecipes[0].title)
-          setRandomRecipeInstructions(formattedRetrievedRecipes[0].instructions)
           setRandomRecipeReadyInMinutes(formattedRetrievedRecipes[0].readyInMinutes)
           setRandomRecipeImage(formattedRetrievedRecipes[0].image)
+          setRandomRecipeId(formattedRetrievedRecipes[0].id)
+          dispatch({ type: "SET RANDOM RECIPE", payload: shortRetrievedRecipes})
         } catch (err) {
           console.log(err)
         }
@@ -39,10 +53,9 @@ import axios from 'axios';
 
   
     return (
-      <div className="randomRecipe">
+      <div className="randomRecipe" onClick={viewRecipe} id={randomRecipeId}>
         {/* <header className="App-header"> */}
           <h1> {randomRecipe} </h1>
-          <p> {randomRecipeInstructions} </p>
           <p> This cool recipe will only take {randomRecipeReadyInMinutes} minutes to be ready! </p>
           <img src={randomRecipeImage} alt="" />
         {/* </header> */}
