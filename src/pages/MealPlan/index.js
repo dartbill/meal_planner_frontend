@@ -318,13 +318,54 @@ const MealPlan = () => {
     // take in all id's, titles, and faves
     // add to array
     // send to db
-    const submitMealPlan = (e) => {
+
+    const sendMealPlan = async (recipesToBeSent) => {
+        // const options = {
+        //     recipesToBeSent
+        // }
+        const { data } = await axios.post(`https://mealplannerserver.herokuapp.com/mealhistory/`, JSON.stringify(recipesToBeSent))
+        console.log(data)
+    }
+    const submitMealPlan = async (e) => {
         e.preventDefault()
-        for (let i = 0; i < stateMealRecipes.length; i++) {
-            stateMealRecipes[i].lock = true
+
+        let recipesToSendToDb = { today_date: "", recipes: { breakfast: [], lunch: [], dinner: [], dessert: [], snacks: []}}
+        for (let i = 0; i < Object.keys(stateMealRecipes).length; i++) {
+            for (let j = 0; j < Object.values(stateMealRecipes)[i].length; j++) {
+                let currentRecipe = Object.values(stateMealRecipes)[i][j]
+                currentRecipe.lock = true
+                let mealEntry = {id: `${currentRecipe.id}`, title: currentRecipe.title, image: currentRecipe.image, fave: currentRecipe.fave}
+                if(Object.keys(stateMealRecipes)[i] === "breakfast"){
+                    recipesToSendToDb.recipes.breakfast.push(mealEntry)
+                }
+                if(Object.keys(stateMealRecipes)[i] === "lunch"){
+                    recipesToSendToDb.recipes.lunch.push(mealEntry)
+                }
+                if(Object.keys(stateMealRecipes)[i] === "dinner"){
+                    recipesToSendToDb.recipes.dinner.push(mealEntry)
+                }
+                if(Object.keys(stateMealRecipes)[i] === "dessert"){
+                    recipesToSendToDb.recipes.dessert.push(mealEntry)
+                }
+                if(Object.keys(stateMealRecipes)[i] === "snacks"){
+                    recipesToSendToDb.recipes.snacks.push(mealEntry)
+                }
+            }
+            console.log(recipesToSendToDb)
         }
         dispatch({ type: "SET MEAL PLAN RECIPES", payload: stateMealRecipes })
-        // generateShoppingList()
+        let today = new Date();
+        const dd = String(today.getDate()).padStart(2, '0');
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const yyyy = today.getFullYear();
+        today = dd + '/' + mm + '/' +  yyyy;
+        console.log(today)
+        recipesToSendToDb.today_date = today
+        console.log(recipesToSendToDb)
+        // await sendMealPlan(recipesToSendToDb)
+        const { data } = await axios.post(`https://mealplannerserver.herokuapp.com/mealhistory/`, JSON.stringify(recipesToSendToDb))
+        console.log(data)
+        //confirmation message saying can now view shopping list
         // do post to db meal history route
         setGenerateText("Generate new meal plan")
     }
