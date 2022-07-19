@@ -27,10 +27,10 @@ const CollapsibleRecipes = ({ favourited, fullRecipes, triggerName, meal, page, 
   const faveFilter = () => {
     const faveRecipe = document.querySelectorAll('#target')
     faveRecipe.forEach((e) => {
-      const something = e.getElementsByClassName("unfaved")
-      const news = something[0]
-      if (news) {
-        if (favourited && news.className === "unfaved") {
+      const unFaved = e.getElementsByClassName("unfaved")
+      const unFavedDiv = unFaved[0]
+      if (unFavedDiv) {
+        if (favourited && unFavedDiv.className === "unfaved") {
           e.style.display = "none"
         }
         else if (!favourited) {
