@@ -20,10 +20,12 @@ const CollapsibleRecipes = ({ favourited, fullRecipes, triggerName, meal }) => {
 
   const faveFilter = (recipe) => {
     let fave_recipe = document.getElementById('target')
-    if (favourited && recipe == false) {
-      fave_recipe.firstChild.style.display = "none"
-    } else if (!favourited) {
-      fave_recipe.firstChild.style.display = "block"
+    if (fave_recipe) {
+      if (favourited && recipe == false) {
+        fave_recipe.firstChild.style.display = "none"
+      } else if (!favourited) {
+        fave_recipe.firstChild.style.display = "block"
+      }
     }
   }
 
