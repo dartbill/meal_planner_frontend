@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import './style.css'
 
   function UserPreferenceComponent() {
 
@@ -81,21 +81,67 @@ import React, { useEffect, useState } from "react";
       </div>
    
     </form>
-        {/* <div>
-        <input type="text"  />
-        <button type="button" >
-          Add
-        </button>
-      </div> */}
+    
       </div>
 
       <div className="meals-section">
         <h3>Meals</h3>
-        <input type="checkbox" value="Breakfast" name="Breakfast" /> Breakfast
+        <input type="checkbox" value="Breakfast" name="Breakfast" id="expand-toggle"/> Breakfast
+        {/* <p className="expandable" id="p">Hi</p> */}
+        <div className="toggle-section">
+          <label>
+          Budget:
+          <input type="text" id="breakfast-budget" name="name" />
+          </label>
+          <label>
+          Calories:
+          <input type="text" id="breakfast-calories" name="name" />
+          </label>
+        </div>
         <input type="checkbox" value="Lunch" name="Lunch" /> Lunch
+        <div className="toggle-section">
+          <label>
+          Budget:
+          <input type="text" id="lunch-budget" name="name" />
+          </label>
+          <label>
+          Calories:
+          <input type="text" id="lunch-calories" name="name" />
+          </label>
+        </div>
         <input type="checkbox" value="Dinner" name="Dinner" /> Dinner 
+        <div className="toggle-section">
+          <label>
+          Budget:
+          <input type="text" id="dinner-budget" name="name" />
+          </label>
+          <label>
+          Calories:
+          <input type="text" id="dinner-calories" name="name" />
+          </label>
+        </div>
         <input type="checkbox" value="Snacks" name="Snacks" /> Snacks 
+        <div className="toggle-section">
+          <label>
+          Budget:
+          <input type="text" id="snacks-budget" name="name" />
+          </label>
+          <label>
+          Calories:
+          <input type="text" id="snacks-calories" name="name" />
+          </label>
+        </div>
         <input type="checkbox" value="Dessert" name="Dessert" /> Dessert 
+        <div className="toggle-section">
+          <label>
+          Budget:
+          <input type="text" id="dessert-budget" name="name" />
+          </label>
+          <label>
+          Calories:
+          <input type="text" id="dessert-calories" name="name" />
+          </label>
+        </div>
       </div>
 
     </div>
