@@ -13,7 +13,7 @@ const ShoppingList = () => {
         <>
         <h1>ShoppingList</h1>
         {stateShoppingList.length === 0 && (
-            <p>You have not shopping list, generate a meal plan <span onClick={() => navigate('/mealplan')}>here</span> first</p>
+            <p>You have not got a shopping list, generate a meal plan <span onClick={() => navigate('/mealplan')}>here</span> first</p>
         )}
         {stateShoppingList.length !== 0 && (
             <ShoppingComponent shoppingList={stateShoppingList}/>
