@@ -10,7 +10,10 @@ const CollapsibleRecipes = ({ favourited, fullRecipes, triggerName, meal }) => {
   const navigate = useNavigate();
 
   const viewFullRecipe = (e) => {
-    const newRecipeId = e.target.parentElement.className
+    const parentClassName = e.target.parentElement.className
+    const splitString = parentClassName.split(' ')
+    const recipeIdStr = splitString[1]
+    const newRecipeId = parseInt(recipeIdStr)
     dispatch({ type: "SET RECIPE ID", payload: newRecipeId })
     navigate("/recipe")
   }
@@ -89,9 +92,9 @@ const CollapsibleRecipes = ({ favourited, fullRecipes, triggerName, meal }) => {
         {fullRecipes[meal].map(recipe => {
           return (
 
-            <div key={recipe.id} className="recipe">
+            <div key={recipe.id} className={"recipe " + recipe.id}>
               {faveFilter(recipe.fave)}
-              <div id="target" className={recipe.id} data-testid="recipe" onClick={viewFullRecipe}>
+              <div id="target" className={"recipeInfoCard " + recipe.id} data-testid="recipe" onClick={viewFullRecipe}>
                 <h3 >{recipe.title}</h3>
                 {recipe.image && <img className="recipeCardImg" src={recipe.image} alt="" />}
               </div>
