@@ -9,6 +9,7 @@ import {
   Recipe,
   Register,
   ShoppingList,
+  UserPreferences
 } from "./pages";
 
 import "./App.css";
@@ -28,6 +29,7 @@ function App() {
         <Route path="recipe" element={<Recipe />} />
         <Route path="register" element={<Register />} />
         <Route path="shoppinglist" element={<ShoppingList />} />
+        <Route path="preferences" element={<UserPreferences />} />
       </Routes>
     </>
   );
