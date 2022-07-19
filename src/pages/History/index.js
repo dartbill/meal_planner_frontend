@@ -417,34 +417,35 @@ const History = () => {
             {/* if user has a meal plan history the code under renders, which returns a collapsible for each week, which each contain collapsibles for each meal type if they contain data */}
             {initialUsersHistoryRecipes !== userHistoryState && (
                 <button onClick={(e) => {
-                                onBtnClick(e)
-                            }}>{btnText}</button>
+                    onBtnClick(e)
+                    console.log("this is from history " + favourited)
+                }}>{btnText}</button>
             )}
             {initialUsersHistoryRecipes !== userHistoryState && (
-                
+
                 userHistoryState.map((week, i) => {
                     return (
                         <>
-                            
+
                             <div className="week" key={i}>
                                 <Collapsible trigger={week.today_date}>
                                     {week.recipes.breakfast.length > 0 && (
-                                        <CollapsibleRecipes fave={favourited} fullRecipes={week.recipes} triggerName="Breakfast" meal="breakfast" page="history" date={week.today_date}/>
-                                    )} 
+                                        <CollapsibleRecipes favourited={favourited} fullRecipes={week.recipes} triggerName="Breakfast" meal="breakfast" page="history" date={week.today_date} />
+                                    )}
                                     {/* {week.recipes.breakfast.length > 0 && (
                         <CollapsibleRecipes recipes={recipes} triggerName="Breakfast"/>
                         )} */}
                                     {week.recipes.lunch.length > 0 && (
-                                        <CollapsibleRecipes fave={favourited} fullRecipes={week.recipes} triggerName="Lunch" meal="lunch" page="history" date={week.today_date}/>
+                                        <CollapsibleRecipes favourited={favourited} fullRecipes={week.recipes} triggerName="Lunch" meal="lunch" page="history" date={week.today_date} />
                                     )}
                                     {week.recipes.dinner.length > 0 && (
-                                        <CollapsibleRecipes fave={favourited} fullRecipes={week.recipes} triggerName="Dinner" meal="dinner" page="history" date={week.today_date}/>
+                                        <CollapsibleRecipes favourited={favourited} fullRecipes={week.recipes} triggerName="Dinner" meal="dinner" page="history" date={week.today_date} />
                                     )}
                                     {week.recipes.dessert.length > 0 && (
-                                        <CollapsibleRecipes fave={favourited} fullRecipes={week.recipes} triggerName="Dessert" meal="dessert" page="history" date={week.today_date}/>
+                                        <CollapsibleRecipes favourited={favourited} fullRecipes={week.recipes} triggerName="Dessert" meal="dessert" page="history" date={week.today_date} />
                                     )}
                                     {week.recipes.snacks.length > 0 && (
-                                        <CollapsibleRecipes favourited={favourited} fullRecipes={week.recipes} triggerName="Snacks" meal="snacks" page="history" date={week.today_date}/>
+                                        <CollapsibleRecipes favourited={favourited} fullRecipes={week.recipes} triggerName="Snacks" meal="snacks" page="history" date={week.today_date} />
                                     )}
                                 </Collapsible>
                             </div>
