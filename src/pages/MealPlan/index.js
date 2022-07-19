@@ -5,13 +5,13 @@ import axios from 'axios';
 
 import './style.css'
 import { CollapsibleRecipes } from '../../components';
-import Collapsible from "react-collapsible";
+
+import apiKey from '../../'
 
 const MealPlan = () => {
-    //TODO: You need to add your API key here (you can create one here https://spoonacular.com/food-api/console#Dashboard)
+
     const state = useSelector((state) => state.user_state);
     console.log(state)
-    const apiKey = "6b1f02c091b4429baee72031207aa9a8"
     const dispatch = useDispatch()
     const navigate = useNavigate();
 
@@ -20,6 +20,10 @@ const MealPlan = () => {
     // if no result, render message to generate plan
     // if result, render meal plan
     const stateMealRecipes = useSelector(state => state.meal_plan_recipes)
+    const stateUsersRecipesHistory = useSelector(state => state.users_recipe_history)
+    const stateBudgets = useSelector(state => state.user_budget)
+    const stateCalories = useSelector(state => state.user_calorie_limits)
+    console.log("state budgets", stateBudgets)
     console.log("state meal plan recipes at render", stateMealRecipes)
 
     const stateRecipes = useSelector(state => state.recipes)
@@ -57,15 +61,17 @@ const MealPlan = () => {
     let dietParams = dietParamsOld.substring(1)
 
     const getInitialMeal = async (meal) => {
-        const { data } = await axios.get(`https://api.spoonacular.com/recipes/random/?apiKey=${apiKey}&number=25&tags=${meal}&diet=${dietParams}&intolerances=${intolerancesParams}&excludeIngredients${intolerancesParams}&includeNutrition=true&instructionsRequired=true`)
+        const { data } = await axios.get(`https://api.spoonacular.com/recipes/random/?apiKey=${apiKey}&number=100&tags=${meal},${dietParams}&intolerances=${intolerancesParams}&excludeIngredients${intolerancesParams}&includeNutrition=true&instructionsRequired=true`)
         console.log("data", data.recipes)
         const retrievedRecipes = data.recipes
         let shortRetrievedRecipes = []
         let formattedRetrievedRecipes = []
         let thisMealsRecipesInMealPlan = []
         for (let i = 0; i < retrievedRecipes.length; i++) {
-            shortRetrievedRecipes = { analyzedInstructions: retrievedRecipes[i].analyzedInstructions, cheap: retrievedRecipes[i].cheap, dairyFree: retrievedRecipes[i].dairyFree, extendedIngredients: retrievedRecipes[i].extendedIngredients, glutenFree: retrievedRecipes[i].glutenFree, id: retrievedRecipes[i].id, image: retrievedRecipes[i].image, pricePerServing: retrievedRecipes[i].pricePerServing, readyInMinutes: retrievedRecipes[i].readyInMinutes, servings: retrievedRecipes[i].servings, sourceUrl: retrievedRecipes[i].sourceUrl, summary: retrievedRecipes[i].summary, title: retrievedRecipes[i].title, vegan: retrievedRecipes[i].vegan, vegetarian: retrievedRecipes[i].vegetarian }
-            formattedRetrievedRecipes.push({ ...shortRetrievedRecipes, lock: true, fave: false })
+            if(retrievedRecipes[i].pricePerServing < stateBudgets[meal]*100){
+                shortRetrievedRecipes = { analyzedInstructions: retrievedRecipes[i].analyzedInstructions, cheap: retrievedRecipes[i].cheap, dairyFree: retrievedRecipes[i].dairyFree, extendedIngredients: retrievedRecipes[i].extendedIngredients, glutenFree: retrievedRecipes[i].glutenFree, id: retrievedRecipes[i].id, image: retrievedRecipes[i].image, pricePerServing: retrievedRecipes[i].pricePerServing, readyInMinutes: retrievedRecipes[i].readyInMinutes, servings: retrievedRecipes[i].servings, sourceUrl: retrievedRecipes[i].sourceUrl, summary: retrievedRecipes[i].summary, title: retrievedRecipes[i].title, vegan: retrievedRecipes[i].vegan, vegetarian: retrievedRecipes[i].vegetarian }
+                formattedRetrievedRecipes.push({ ...shortRetrievedRecipes, lock: true, fave: false })
+            }
         }
         for (let i = 0; i < 7; i++) {
             thisMealsRecipesInMealPlan.push(formattedRetrievedRecipes[i])
@@ -95,7 +101,7 @@ const MealPlan = () => {
         console.log("meal's recipes in meal plan after call", thisMealsRecipesInMealPlan)
     }
     const getAdditionalMeal = async (meal) => {
-        const { data } = await axios.get(`https://api.spoonacular.com/recipes/random/?apiKey=${apiKey}&number=25&tags=${meal}&diet=${dietParams}&intolerances=${intolerancesParams}&excludeIngredients${intolerancesParams}&includeNutrition=true&instructionsRequired=true`)
+        const { data } = await axios.get(`https://api.spoonacular.com/recipes/random/?apiKey=${apiKey}&number=25&tags=${meal},${dietParams}&intolerances=${intolerancesParams}&excludeIngredients${intolerancesParams}&includeNutrition=true&instructionsRequired=true`)
         console.log("data", data.recipes)
         const retrievedRecipes = data.recipes
         let shortRetrievedRecipes = []
@@ -135,7 +141,6 @@ const MealPlan = () => {
                 if (Object.values(stateMealRecipes)[i][j].lock === false) {
                     unlockedMeals[i].push(Object.values(stateMealRecipes)[i][j].id)
                     numberOfUnlocked += 1
-
                 }
             }
         }
@@ -318,14 +323,48 @@ const MealPlan = () => {
     // take in all id's, titles, and faves
     // add to array
     // send to db
-    const submitMealPlan = (e) => {
+
+    const submitMealPlan = async (e) => {
         e.preventDefault()
-        for (let i = 0; i < stateMealRecipes.length; i++) {
-            stateMealRecipes[i].lock = true
+
+        let recipesToSendToDb = { today_date: "", recipes: { breakfast: [], lunch: [], dinner: [], dessert: [], snacks: []}}
+        for (let i = 0; i < Object.keys(stateMealRecipes).length; i++) {
+            for (let j = 0; j < Object.values(stateMealRecipes)[i].length; j++) {
+                let currentRecipe = Object.values(stateMealRecipes)[i][j]
+                currentRecipe.lock = true
+                let mealEntry = {id: `${currentRecipe.id}`, title: currentRecipe.title, image: currentRecipe.image, fave: currentRecipe.fave}
+                if(Object.keys(stateMealRecipes)[i] === "breakfast"){
+                    recipesToSendToDb.recipes.breakfast.push(mealEntry)
+                }
+                if(Object.keys(stateMealRecipes)[i] === "lunch"){
+                    recipesToSendToDb.recipes.lunch.push(mealEntry)
+                }
+                if(Object.keys(stateMealRecipes)[i] === "dinner"){
+                    recipesToSendToDb.recipes.dinner.push(mealEntry)
+                }
+                if(Object.keys(stateMealRecipes)[i] === "dessert"){
+                    recipesToSendToDb.recipes.dessert.push(mealEntry)
+                }
+                if(Object.keys(stateMealRecipes)[i] === "snacks"){
+                    recipesToSendToDb.recipes.snacks.push(mealEntry)
+                }
+            }
+            console.log(recipesToSendToDb)
         }
         dispatch({ type: "SET MEAL PLAN RECIPES", payload: stateMealRecipes })
-        // generateShoppingList()
-        // do post to db meal history route
+        let today = new Date();
+        const dd = String(today.getDate()).padStart(2, '0');
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const yyyy = today.getFullYear();
+        today = dd + '/' + mm + '/' +  yyyy;
+        console.log(today)
+        recipesToSendToDb.today_date = today
+        console.log(recipesToSendToDb)
+        const { data } = await axios.post(`https://mealplannerserver.herokuapp.com/mealhistory/`, JSON.stringify(recipesToSendToDb))
+        console.log(data)
+        stateUsersRecipesHistory.unshift(recipesToSendToDb)
+        //confirmation message saying can now view shopping list
+        
         setGenerateText("Generate new meal plan")
     }
 
@@ -343,19 +382,19 @@ const MealPlan = () => {
             <div className="recipesMealPlan">
 
                 {stateMealRecipes.breakfast.length > 0 && (
-                    <CollapsibleRecipes meal={"breakfast"} fullRecipes={stateMealRecipes} triggerName="Breakfast" />
+                    <CollapsibleRecipes meal={"breakfast"} fullRecipes={stateMealRecipes} triggerName="Breakfast" page="mealplan"/>
                 )}
                 {stateMealRecipes.lunch.length > 0 && (
-                    <CollapsibleRecipes meal={"lunch"} fullRecipes={stateMealRecipes} triggerName="Lunch" />
+                    <CollapsibleRecipes meal={"lunch"} fullRecipes={stateMealRecipes} triggerName="Lunch" page="mealplan"/>
                 )}
                 {stateMealRecipes.dinner.length > 0 && (
-                    <CollapsibleRecipes meal={"dinner"} fullRecipes={stateMealRecipes} triggerName="Dinner" />
+                    <CollapsibleRecipes meal={"dinner"} fullRecipes={stateMealRecipes} triggerName="Dinner" page="mealplan"/>
                 )}
                 {stateMealRecipes.dessert.length > 0 && (
-                    <CollapsibleRecipes meal={"dessert"} fullRecipes={stateMealRecipes} triggerName="Dessert" />
+                    <CollapsibleRecipes meal={"dessert"} fullRecipes={stateMealRecipes} triggerName="Dessert" page="mealplan"/>
                 )}
                 {stateMealRecipes.snacks.length > 0 && (
-                    <CollapsibleRecipes meal={"snacks"} fullRecipes={stateMealRecipes} triggerName="Snacks" />
+                    <CollapsibleRecipes meal={"snacks"} fullRecipes={stateMealRecipes} triggerName="Snacks" page="mealplan"/>
                 )}
             </div>
             <div className="submitMealPlan" onClick={submitMealPlan}>Submit meal plan</div>

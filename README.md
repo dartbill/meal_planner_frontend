@@ -11,4 +11,4 @@
 
 ## How to use
 
-- Add your API key to the MealPlan index.js on line 12
+- Add your API key to the src/index.js on line 12
