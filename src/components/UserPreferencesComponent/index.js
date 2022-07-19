@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import './style.css'
 
 function UserPreferenceComponent() {
 
   const [intoleranceList, setIntoleranceList] = useState([{ intolerance: "" }]);
   const [meals, setMeals] = useState({ breakfast: false, lunch: false, dinner: false, snack: false, dessert: false })
+
+  const [calories, setCalories] = useState({ breakfast: 0, lunch: 0, dinner: 0, snack: 0, dessert: 0 })
+  const [budget, setBudget] = useState({ breakfast: 0, lunch: 0, dinner: 0, snack: 0, dessert: 0 })
 
   const handleServiceChange = (e, index) => {
     const { name, value } = e.target;
@@ -27,18 +30,39 @@ function UserPreferenceComponent() {
   const dispatch = useDispatch();
 
 
-  const handleChange = (checkbox) => {
+  const handleCheckboxChange = (checkbox) => {
     const mealType = checkbox.target.name
     if (checkbox.target.checked == true) {
       setMeals({ ...meals, [mealType]: true });
       // dispatch({ type: "SET USER MEALS", payload: meals });
-      console.log(meals)
     } else {
       setMeals({ ...meals, [mealType]: false });
-      console.log(meals)
     }
   }
 
+  const handleCalorieChange = (e) => {
+    const mealType = e.target.name
+    setCalories({ ...calories, [mealType]: parseInt(e.target.value) });
+  }
+  const handleBudgetChange = (e) => {
+    const mealType = e.target.name
+    setBudget({ ...budget, [mealType]: parseInt(e.target.value) });
+  }
+
+  const stateBudget = useSelector(state => state.user_budget);
+  const stateCalories = useSelector(state => state.user_calorie_limits);
+  const stateMeals = useSelector(state => state.user_meals);
+  const onSubmit = (e) => {
+    e.preventDefault()
+    dispatch({ type: "SET USER MEALS", payload: meals });
+    dispatch({ type: "SET USER CALORIES", payload: calories });
+    dispatch({ type: "SET USER BUDGETS", payload: budget });
+
+    console.log(stateBudget)
+    console.log(stateCalories)
+    console.log(stateMeals)
+
+  }
 
 
 
@@ -58,11 +82,10 @@ function UserPreferenceComponent() {
           <input type="radio" value="Keto" name="Diet" /> Keto
           <input type="radio" value="All" name="Diet" /> Send All
         </div>
-        {/*                     Intolarance */}
         <div className="intolorences-section">
           <h3>Intolerances</h3>
-          <form className="App" autoComplete="off">
-            <div className="form-field">
+          <form autoComplete="off">
+            <div>
               <label htmlFor="service">Intolerances</label>
               {intoleranceList.map((singleService, index) => (
                 <div key={index} className="services">
@@ -106,62 +129,65 @@ function UserPreferenceComponent() {
 
         <div className="meals-section">
           <h3>Meals</h3>
-          <input type="checkbox" onChange={(e) => { handleChange(e) }} value="Breakfast" name="breakfast" id="expand-toggle" /> Breakfast
-          {/* <p className="expandable" id="p">Hi</p> */}
-          <div className="toggle-section">
-            <label>
-              Budget:
-              <input type="text" id="breakfast-budget" name="name" />
-            </label>
-            <label>
-              Calories:
-              <input type="text" id="breakfast-calories" name="name" />
-            </label>
-          </div>
-          <input type="checkbox" onChange={(e) => { handleChange(e) }} value="Lunch" name="lunch" /> Lunch
-          <div className="toggle-section">
-            <label>
-              Budget:
-              <input type="text" id="lunch-budget" name="name" />
-            </label>
-            <label>
-              Calories:
-              <input type="text" id="lunch-calories" name="name" />
-            </label>
-          </div>
-          <input type="checkbox" onChange={(e) => { handleChange(e) }} value="Dinner" name="dinner" /> Dinner
-          <div className="toggle-section">
-            <label>
-              Budget:
-              <input type="text" id="dinner-budget" name="name" />
-            </label>
-            <label>
-              Calories:
-              <input type="text" id="dinner-calories" name="name" />
-            </label>
-          </div>
-          <input type="checkbox" onChange={(e) => { handleChange(e) }} value="Snacks" name="snacks" /> Snacks
-          <div className="toggle-section">
-            <label>
-              Budget:
-              <input type="text" id="snacks-budget" name="name" />
-            </label>
-            <label>
-              Calories:
-              <input type="text" id="snacks-calories" name="name" />
-            </label>
-          </div>
-          <input type="checkbox" onChange={(e) => { handleChange(e) }} value="Dessert" name="dessert" /> Dessert
-          <div className="toggle-section">
-            <label>
-              Budget:
-              <input type="text" id="dessert-budget" name="name" />
-            </label>
-            <label>
-              Calories:
-              <input type="text" id="dessert-calories" name="name" />
-            </label>
-          </div>
+          <form onSubmit={(e) => { onSubmit(e) }}>
+            <input type="checkbox" onChange={(e) => { handleCheckboxChange(e) }} value="Breakfast" name="breakfast" id="expand-toggle" /> Breakfast
+            {/* <p className="expandable" id="p">Hi</p> */}
+            <div className="toggle-section">
+              <label>
+                Budget:
+                <input onChange={(e) => { handleBudgetChange(e) }} type="number" id="breakfast-budget" name="breakfast" />
+              </label>
+              <label>
+                Calories:
+                <input onChange={(e) => { handleCalorieChange(e) }} type="number" id="breakfast-calories" name="breakfast" />
+              </label>
+            </div>
+            <input type="checkbox" onChange={(e) => { handleCheckboxChange(e) }} value="Lunch" name="lunch" /> Lunch
+            <div className="toggle-section">
+              <label>
+                Budget:
+                <input onChange={(e) => { handleBudgetChange(e) }} type="number" id="lunch-budget" name="lunch" />
+              </label>
+              <label>
+                Calories:
+                <input onChange={(e) => { handleCalorieChange(e) }} type="number" id="lunch-calories" name="lunch" />
+              </label>
+            </div>
+            <input type="checkbox" onChange={(e) => { handleCheckboxChange(e) }} value="Dinner" name="dinner" /> Dinner
+            <div className="toggle-section">
+              <label>
+                Budget:
+                <input onChange={(e) => { handleBudgetChange(e) }} type="number" id="dinner-budget" name="dinner" />
+              </label>
+              <label>
+                Calories:
+                <input onChange={(e) => { handleCalorieChange(e) }} type="number" id="dinner-calories" name="dinner" />
+              </label>
+            </div>
+            <input type="checkbox" onChange={(e) => { handleCheckboxChange(e) }} value="Snacks" name="snacks" /> Snacks
+            <div className="toggle-section">
+              <label>
+                Budget:
+                <input onChange={(e) => { handleBudgetChange(e) }} type="number" id="snacks-budget" name="snacks" />
+              </label>
+              <label>
+                Calories:
+                <input onChange={(e) => { handleCalorieChange(e) }} type="number" id="snacks-calories" name="snacks" />
+              </label>
+            </div>
+            <input type="checkbox" onChange={(e) => { handleCheckboxChange(e) }} value="Dessert" name="dessert" /> Dessert
+            <div className="toggle-section">
+              <label>
+                Budget:
+                <input onChange={(e) => { handleBudgetChange(e) }} type="number" id="dessert-budget" name="dessert" />
+              </label>
+              <label>
+                Calories:
+                <input onChange={(e) => { handleCalorieChange(e) }} type="number" id="dessert-calories" name="dessert" />
+              </label>
+            </div>
+            <button type="submit">submit prefs</button>
+          </form>
         </div>
 
       </div>
