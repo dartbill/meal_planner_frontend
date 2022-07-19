@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useSelector, useDispatch } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 
+import apiKey from '../../'
+
  const RandomRecipe = () => {
 
   const dispatch = useDispatch()
@@ -21,7 +23,7 @@ import { Navigate, useNavigate } from "react-router-dom";
   
       const fetchRandomRecipe = async () => {
         try {
-          const url = `https://api.spoonacular.com/recipes/random/?apiKey=cb59f9724b144f68be17e281e9df495a`
+          const url = `https://api.spoonacular.com/recipes/random/?apiKey=${apiKey}`
   
           const { data } = await axios.get(url)
 
