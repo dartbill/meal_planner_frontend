@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { ShoppingComponent } from "../../components";
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from "react-router-dom";
+
 const ShoppingList = () => {
     // const dbJSON = [{'calories_limit': 3, 'intolorences': ['1', '2'], 'budget': 2},{'calories_limit': "{'breakfast': 2, 'lunch': 2, 'dinner': 2, 'snack': 2, 'dessert': 2}", 'intolorences': ['dairy', 'egg'], 'budget': "{'breakfast': 2, 'lunch': 2, 'dinner': 2, 'snack': 2, 'dessert': 2}"}]
     // console.log(dbJSON[1].calories_limit)
@@ -13,13 +15,19 @@ const ShoppingList = () => {
     // console.log(object.breakfast)
     const stateShoppingList = useSelector(state => state.shopping_list)
     console.log(stateShoppingList)
-
+    const navigate = useNavigate();
     
 
     return (
         <>
         <h1>ShoppingList</h1>
-        <ShoppingComponent shoppingList={stateShoppingList}/>
+        {stateShoppingList.length === 0 && (
+            <p>You have not shopping list, generate a meal plan <span onClick={() => navigate('/mealplan')}>here</span> first</p>
+        )}
+        {stateShoppingList.length !== 0 && (
+            <ShoppingComponent shoppingList={stateShoppingList}/>
+        )}
+        
         </>
     )
 
