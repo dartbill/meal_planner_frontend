@@ -18,13 +18,14 @@ const initialState = {
     },
     viewed_recipes: [],
     shopping_list: [],
-    random_recipe: {title: "no recipe"},
+    random_recipe: { title: "no recipe" },
     random_fact: "no fact",
     user_state: false,
-    user_calorie_limits: {breakfast: 0, lunch: 0, dinner: 0, snack: 0, dessert: 0},
-    user_budget: {breakfast: 0, lunch: 0, dinner: 0, snack: 0, dessert: 0},
-    user_meals: {breakfast: false, lunch: false, dinner: false, snack: false, dessert: false}
-
+    user_calorie_limits: { breakfast: 0, lunch: 0, dinner: 0, snack: 0, dessert: 0 },
+    user_budget: { breakfast: 0, lunch: 0, dinner: 0, snack: 0, dessert: 0 },
+    user_meals: { breakfast: false, lunch: false, dinner: false, snack: false, dessert: false },
+    diet: "",
+    intolerances: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -43,6 +44,10 @@ const reducer = (state = initialState, action) => {
             return { ...state, user_budget: action.payload }
         case "SET USER MEALS":
             return { ...state, user_meals: action.payload }
+        case "SET USER DIET":
+            return { ...state, diet: action.payload }
+        case "SET USER INTOLERANCES":
+            return { ...state, intolerances: action.payload }
         case "SET MEAL PLAN RECIPES":
             return { ...state, meal_plan_recipes: action.payload }
         case "SET VIEWED RECIPES":

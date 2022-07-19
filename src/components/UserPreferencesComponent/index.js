@@ -9,6 +9,8 @@ function UserPreferenceComponent() {
 
   const [calories, setCalories] = useState({ breakfast: 0, lunch: 0, dinner: 0, snack: 0, dessert: 0 })
   const [budget, setBudget] = useState({ breakfast: 0, lunch: 0, dinner: 0, snack: 0, dessert: 0 })
+  const [diet, setDiet] = useState('')
+  const [intolerance, setIntolerance] = useState([])
 
   const handleServiceChange = (e, index) => {
     const { name, value } = e.target;
@@ -49,19 +51,29 @@ function UserPreferenceComponent() {
     setBudget({ ...budget, [mealType]: parseInt(e.target.value) });
   }
 
-  const stateBudget = useSelector(state => state.user_budget);
-  const stateCalories = useSelector(state => state.user_calorie_limits);
-  const stateMeals = useSelector(state => state.user_meals);
+  const handleRadioBtns = () => {
+    const radioBtns = document.querySelectorAll('input[type = "radio"]')
+    radioBtns.forEach((e) => {
+      if (e.checked) {
+        setDiet(e.value)
+      }
+    }
+    )
+  }
   const onSubmit = (e) => {
     e.preventDefault()
+    handleRadioBtns()
+    const arr = []
+    for (const e of intoleranceList) {
+      arr.push(e.service)
+      console.log(e.service)
+    }
+    setIntolerance(arr)
+    dispatch({ type: "SET USER INTOLERANCES", payload: intolerance });
+    dispatch({ type: "SET USER DIET", payload: diet });
     dispatch({ type: "SET USER MEALS", payload: meals });
     dispatch({ type: "SET USER CALORIES", payload: calories });
     dispatch({ type: "SET USER BUDGETS", payload: budget });
-
-    console.log(stateBudget)
-    console.log(stateCalories)
-    console.log(stateMeals)
-
   }
 
 
@@ -71,32 +83,34 @@ function UserPreferenceComponent() {
     <>
       <h1>Set Preferences</h1>
       <div className="preferences-box">
-        <div className="diets-section">
-          <h3>Diets</h3>
-          <p>I only want to recieve recipes that are:</p>
-          <input type="radio" value="Gluten-free" name="Diet" /> Gluten-free
-          <input type="radio" value="Vegetarian" name="Diet" /> Vegetarian
-          <input type="radio" value="Pescatarian" name="Diet" /> Pescatarian
-          <input type="radio" value="Vegan" name="Diet" /> Vegan
-          <input type="radio" value="Paleo" name="Diet" /> Paleo
-          <input type="radio" value="Keto" name="Diet" /> Keto
-          <input type="radio" value="All" name="Diet" /> Send All
-        </div>
-        <div className="intolorences-section">
-          <h3>Intolerances</h3>
-          <form autoComplete="off">
+        <form onSubmit={(e) => { onSubmit(e) }}>
+          <div className="diets-section">
+
+            <h3>Diets</h3>
+            <p>I only want to recieve recipes that are:</p>
+            <input type="radio" value="Gluten-free" name="Diet" /> Gluten-free
+            <input type="radio" value="Vegetarian" name="Diet" /> Vegetarian
+            <input type="radio" value="Pescatarian" name="Diet" /> Pescatarian
+            <input type="radio" value="Vegan" name="Diet" /> Vegan
+            <input type="radio" value="Paleo" name="Diet" /> Paleo
+            <input type="radio" value="Keto" name="Diet" /> Keto
+            <input type="radio" value="All" name="Diet" /> Send All
+          </div>
+
+          <div className="intolorences-section">
+            <h3>Intolerances</h3>
             <div>
               <label htmlFor="service">Intolerances</label>
               {intoleranceList.map((singleService, index) => (
                 <div key={index} className="services">
                   <div className="first-division">
                     <input
+                      spellCheck="true"
                       name="service"
                       type="text"
                       id="service"
                       value={singleService.service}
                       onChange={(e) => handleServiceChange(e, index)}
-                      required
                     />
                     {intoleranceList.length - 1 === index && (
                       <button
@@ -122,14 +136,11 @@ function UserPreferenceComponent() {
                 </div>
               ))}
             </div>
+          </div>
 
-          </form>
+          <div className="meals-section">
+            <h3>Meals</h3>
 
-        </div>
-
-        <div className="meals-section">
-          <h3>Meals</h3>
-          <form onSubmit={(e) => { onSubmit(e) }}>
             <input type="checkbox" onChange={(e) => { handleCheckboxChange(e) }} value="Breakfast" name="breakfast" id="expand-toggle" /> Breakfast
             {/* <p className="expandable" id="p">Hi</p> */}
             <div className="toggle-section">
@@ -187,8 +198,8 @@ function UserPreferenceComponent() {
               </label>
             </div>
             <button type="submit">submit prefs</button>
-          </form>
-        </div>
+          </div>
+        </form>
 
       </div>
     </>
