@@ -9,6 +9,8 @@ const CollapsibleRecipes = ({ favourited, fullRecipes, triggerName, meal, page, 
   const dispatch = useDispatch()
   const navigate = useNavigate();
 
+  // console.log("this is favourited " + favourited)
+
   const viewFullRecipe = (e) => {
     const parentClassName = e.target.parentElement.className
     const splitString = parentClassName.split(' ')
@@ -20,16 +22,23 @@ const CollapsibleRecipes = ({ favourited, fullRecipes, triggerName, meal, page, 
   // console.log("meal recipes", mealRecipes)
   // console.log("recipes in collapsible", fullRecipes)
 
+  // console.log(fullRecipes[meal])
 
-  const faveFilter = (recipe) => {
-    let fave_recipe = document.getElementById('target')
-    if (fave_recipe) {
-      if (favourited && recipe == false) {
-        fave_recipe.firstChild.style.display = "none"
-      } else if (!favourited) {
-        fave_recipe.firstChild.style.display = "block"
+  const faveFilter = () => {
+    const faveRecipe = document.querySelectorAll('#target')
+    faveRecipe.forEach((e) => {
+      const unFaved = e.getElementsByClassName("unfaved")
+      const unFavedDiv = unFaved[0]
+      if (unFavedDiv) {
+        if (favourited && unFavedDiv.className === "unfaved") {
+          e.style.display = "none"
+        }
+        else if (!favourited) {
+          e.style.display = "block"
+        }
       }
     }
+    )
   }
 
 
@@ -69,7 +78,7 @@ const CollapsibleRecipes = ({ favourited, fullRecipes, triggerName, meal, page, 
     const faveClassName = e.target.className
     const splitString = parentClassName.split(' ')
     const faveRecipeIdStr = splitString[1]
-    if(page === "mealplan"){
+    if (page === "mealplan") {
       const faveRecipeIdInt = parseInt(faveRecipeIdStr)
       for (let i = 0; i < fullRecipes[meal].length; i++) {
         if (fullRecipes[meal][i].id === faveRecipeIdInt) {
@@ -86,7 +95,7 @@ const CollapsibleRecipes = ({ favourited, fullRecipes, triggerName, meal, page, 
         }
       }
     }
-    if(page === "history"){
+    if (page === "history") {
       for (let i = 0; i < fullRecipes[meal].length; i++) {
         if (fullRecipes[meal][i].id === faveRecipeIdStr) {
           if (faveClassName === "faved") {
@@ -113,9 +122,9 @@ const CollapsibleRecipes = ({ favourited, fullRecipes, triggerName, meal, page, 
         {fullRecipes[meal].map(recipe => {
           return (
 
-            <div key={recipe.id} className={"recipe " + recipe.id}>
-              {faveFilter(recipe.fave)}
-              <div id="target" className={"recipeInfoCard " + recipe.id} data-testid="recipe" onClick={viewFullRecipe}>
+            <div id="target" key={recipe.id} className={"recipe " + recipe.id}>
+              {faveFilter()}
+              <div className={"recipeInfoCard " + recipe.id} data-testid="recipe" onClick={viewFullRecipe}>
                 <h3 >{recipe.title}</h3>
                 {recipe.image && <img className="recipeCardImg" src={recipe.image} alt="" />}
               </div>
