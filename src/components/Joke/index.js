@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 
-  function Joke() {
+const Joke = () => {
     const [joke, setJoke] = useState([]);
   
     useEffect(() => {

@@ -9,15 +9,13 @@ import Collapsible from "react-collapsible";
 
 const MealPlan = () => {
     //TODO: You need to add your API key here (you can create one here https://spoonacular.com/food-api/console#Dashboard)
-    // Billie API Key -> 5bb11a2ffd3d457aa4125f473d17779d 
-    const apiKey = ""
-
-
+    const state = useSelector((state) => state.user_state);
+    console.log(state)
+    const apiKey = "6b1f02c091b4429baee72031207aa9a8"
     const dispatch = useDispatch()
     const navigate = useNavigate();
 
     const [generateText, setGenerateText] = useState("Generate meal plan")
-
 
     // if no result, render message to generate plan
     // if result, render meal plan
@@ -27,7 +25,6 @@ const MealPlan = () => {
     const stateRecipes = useSelector(state => state.recipes)
     console.log("state recipes at render", stateRecipes)
 
-
     let viewedRecipes = []
 
     let newRecipes = { breakfast: [], lunch: [], dinner: [], dessert: [], snacks: [] }
@@ -35,7 +32,9 @@ const MealPlan = () => {
     let newMealPlan = { breakfast: [], lunch: [], dinner: [], dessert: [], snacks: [] }
 
     //TODO:get from state
-    let meals = { breakfast: true, lunch: false, dinner: false, dessert: false, snacks: false }
+    let meals = useSelector(state => state.user_meals)
+    console.log(meals)
+    // let meals = { breakfast: true, lunch: false, dinner: false, dessert: false, snacks: false }
 
     //TODO:get from state
     let intoleranes = ["eggs", "milk"]
@@ -142,7 +141,6 @@ const MealPlan = () => {
         }
         console.log(numberOfUnlocked)
         console.log("unlocked meals", unlockedMeals)
-
 
         for (let i = 0; i < Object.keys(meals).length; i++) {
             if (numberOfUnlocked === 0 && Object.values(meals)[i] === true) {
@@ -269,25 +267,52 @@ const MealPlan = () => {
 
 
     //TODO:generate shopping list
+    let shoppingList
+    const sendShoppingItems = async (shoppingItems) => {
+        const options = {
+            "items": shoppingItems
+        }
+        const { data } = await axios.post(`https://api.spoonacular.com/mealplanner/shopping-list/compute?apiKey=${apiKey}`, JSON.stringify(options), { headers: { 'Content-Type': 'application/json' } })
+        console.log(data)
+        shoppingList = data
+    }
+    const generateShoppingList = async (e) => {
+        e.preventDefault()
+        // take in all items from recipes
+        // send to api with structure of 
+        // {
+        //     "items": [
+        //         "4 lbs tomatoes",
+        //         "10 tomatoes",
+        //         "20 Tablespoons Olive Oil",
+        //         "6 tbsp Olive Oil"
+        //     ]
+        // }
+        let items = []
+        //extracts all ingredients from all the recipes in the meal plan
+        for (let i = 0; i < Object.keys(stateMealRecipes).length; i++) {
+            if (Object.values(stateMealRecipes)[i].length) {
+                for (let j = 0; j < Object.values(stateMealRecipes)[i].length; j++) {
+                    for (let k = 0; k < Object.values(stateMealRecipes)[i][j].extendedIngredients.length; k++) {
+                        let ingredientName = Object.values(stateMealRecipes)[i][j].extendedIngredients[k].name
+                        let ingredientMeasureAmount = Object.values(stateMealRecipes)[i][j].extendedIngredients[k].measures.us.amount
+                        let ingredientMeasureUnit = Object.values(stateMealRecipes)[i][j].extendedIngredients[k].measures.us.unitShort
+                        let itemString = `${ingredientMeasureAmount} ${ingredientMeasureUnit} ${ingredientName}`
+                        items.push(itemString)
+                        console.log(itemString)
+                        console.log(items)
+                    }
+                }
+            }
+        }
+        await sendShoppingItems(items)
+
+        dispatch({ type: "SET SHOPPING LIST", payload: shoppingList })
+
+        navigate('/shoppinglist')
+    }
 
 
-    // const generateShoppingList = (e) => {
-    //     e.preventDefault()
-    // take in all items from recipes
-    // send to api with structure of 
-    // {
-    //     "items": [
-    //         "4 lbs tomatoes",
-    //         "10 tomatoes",
-    //         "20 Tablespoons Olive Oil",
-    //         "6 tbsp Olive Oil"
-    //     ]
-    // }
-    //     for (let i = 0; i < Object.keys(stateRecipes).length; i++){
-    //         console.log(Object.values(stateRecipes)[i])
-    //     }
-
-    // }
 
     //TODO:submit meal plan
     // take in all id's, titles, and faves
@@ -312,9 +337,9 @@ const MealPlan = () => {
             <div className="generateMeal">
                 <button onClick={getMeals}>{generateText}</button>
             </div>
-            {/* <div className="shoppingListBtn">
-        <button onClick={generateShoppingList}>Shopping list</button> 
-        </div> */}
+            <div className="shoppingListBtn">
+                <button onClick={generateShoppingList}>Shopping list</button>
+            </div>
             <div className="recipesMealPlan">
 
                 {stateMealRecipes.breakfast.length > 0 && (

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
+import { NavBar } from "./components";
 import {
   History,
   Homepage,
@@ -14,8 +15,12 @@ import {
 import "./App.css";
 
 function App() {
+
   return (
     <>
+      <header >
+        <NavBar />
+      </header>
       <Routes>
         <Route index element={<Homepage />} />
         <Route path="history" element={<History />} />
