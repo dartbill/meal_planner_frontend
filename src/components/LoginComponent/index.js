@@ -17,7 +17,7 @@ const LoginComponent = () => {
     const { data } = await axios.get(
       `${backendUrl}mealhistory/`);
       console.log(data)
-      // dispatch({ type: "SET USER STATE", payload: true });
+      dispatch({ type: "SET USER RECIPE HISTORY", payload: data });
   }
 
   const getUserPreferences = async () => {
@@ -81,7 +81,7 @@ const LoginComponent = () => {
         await getUserMealHistory()
         //TODO: set to history state
         //TODO: set first in array to meal plane
-          await getUserPreferences()
+        await getUserPreferences()
         //get preferences
         
 
