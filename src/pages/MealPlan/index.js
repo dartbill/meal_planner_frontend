@@ -38,10 +38,10 @@ const MealPlan = () => {
     //TODO:get from state
     let meals = useSelector(state => state.user_meals)
     console.log(meals)
-    // let meals = { breakfast: true, lunch: false, dinner: false, dessert: false, snacks: false }
+
 
     //TODO:get from state
-    let intoleranes = ["eggs", "milk"]
+    let intoleranes = useSelector(state => state.intolerances)
     let intolerancesParamsOld = ""
     for (let i = 0; i < intoleranes.length; i++) {
         intolerancesParamsOld += `,${intoleranes[i]}`
@@ -49,7 +49,8 @@ const MealPlan = () => {
     let intolerancesParams = intolerancesParamsOld.substring(1)
 
     //TODO:get from state
-    let diet = { vegan: false, vegetarian: false, glutenFree: false, ketogenic: false, pescetarian: false, paleo: false }
+    // let diet = { vegan: false, vegetarian: false, glutenFree: false, ketogenic: false, pescetarian: false, paleo: false }
+    let diet = useSelector(state => state.diet)
 
     let dietParamsOld = ""
     for (let i = 0; i < Object.keys(diet).length; i++) {
@@ -61,6 +62,7 @@ const MealPlan = () => {
     let dietParams = dietParamsOld.substring(1)
 
     const getInitialMeal = async (meal) => {
+        console.log("hi")
         const { data } = await axios.get(`https://api.spoonacular.com/recipes/random/?apiKey=${apiKey}&number=100&tags=${meal},${dietParams}&intolerances=${intolerancesParams}&excludeIngredients${intolerancesParams}&includeNutrition=true&instructionsRequired=true`)
         console.log("data", data.recipes)
         const retrievedRecipes = data.recipes
@@ -101,6 +103,7 @@ const MealPlan = () => {
         console.log("meal's recipes in meal plan after call", thisMealsRecipesInMealPlan)
     }
     const getAdditionalMeal = async (meal) => {
+        console.log("hi")
         const { data } = await axios.get(`https://api.spoonacular.com/recipes/random/?apiKey=${apiKey}&number=25&tags=${meal},${dietParams}&intolerances=${intolerancesParams}&excludeIngredients${intolerancesParams}&includeNutrition=true&instructionsRequired=true`)
         console.log("data", data.recipes)
         const retrievedRecipes = data.recipes

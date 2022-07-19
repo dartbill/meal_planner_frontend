@@ -2,124 +2,121 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useSelector, useDispatch } from "react-redux";
+import parse from 'html-react-parser'
+import apiKey from '../../'
 
+import backArrow from '../../images/backArrow.png'
+import './style.css'
 
 
 function Recipe() {
-    // const [recipe, setRecipe] = useState([]);
-    const [recipeInstructions, setRecipeInstructions] = useState([]);
-    const [recipeReadyInMinutes, setRecipeReadyInMinutes] = useState([]);
-    const [recipeImage, setRecipeImage] = useState([]);
+    const dispatch = useDispatch()
     const navigate = useNavigate();
+    
     const stateRecipeId = useSelector(state => state.recipe_id);
     const stateMealPlanRecipes = useSelector(state => state.meal_plan_recipes);
     const stateRandomRecipe = useSelector(state => state.random_recipe);
     console.log(stateRandomRecipe)
     console.log(stateRecipeId)
-
-    let nutWidget
-
-    useEffect(() => {
+    const stateNutritionWidget = useSelector(state => state.nutrition_widget);
+    let nutritionWidget
+    let stateWidget
         const fetchRecipeNutrition = async () => {
             try {
-              const url = `https://api.spoonacular.com/recipes/${stateRecipeId}/nutritionLabel/?apiKey=4a85ed324bd749eba71cf53e82e1c84d`
-              
-    
-              const { data } = await axios.get(url)
-              console.log(data)
-             nutWidget = data
-            //   dispatch({ type: "SET RANDOM RECIPE", payload: randomRecipe})
+                const url = `https://api.spoonacular.com/recipes/${stateRecipeId}/nutritionLabel/?apiKey=${apiKey}&defaultCss=false`
+                const { data } = await axios.get(url)
+                nutritionWidget = data
+                console.log(nutritionWidget)
+                stateWidget = {recipeId: stateRecipeId, nutrition_widget: nutritionWidget}
+                dispatch({ type: "SET NUTRITION WIDGET", payload: stateWidget})
             } catch (err) {
-              console.log(err)
+                console.log(err)
             }
           }
-          
+console.log(stateWidget)
+
+    if(stateNutritionWidget === "no widget"){
         fetchRecipeNutrition()
-
-
-    }, [])
-
-
-
+    }
+    if(stateNutritionWidget.recipeId !== stateRecipeId){
+        fetchRecipeNutrition()
+    }
+console.log(stateNutritionWidget.recipeId)
+console.log(stateRecipeId)
     let recipe
     if(stateRandomRecipe.id === parseInt(stateRecipeId)) {
-        console.log(stateRandomRecipe.summary)
-        let oldSummary = stateRandomRecipe.summary
-        let newSummary = oldSummary.replace( /(<([^>]+)>)/ig, '')
-        stateRandomRecipe.summary = newSummary
-        console.log(stateRandomRecipe.summary)
         recipe = stateRandomRecipe   
     }
 
     for(let i = 0 ; i < Object.keys(stateMealPlanRecipes).length; i++) {
         for(let j = 0; j < Object.values(stateMealPlanRecipes)[i].length; j++) {
             if(Object.values(stateMealPlanRecipes)[i][j].id === parseInt(stateRecipeId)) {
-                console.log(Object.values(stateMealPlanRecipes)[i][j])
-                let oldSummary = Object.values(stateMealPlanRecipes)[i][j].summary
-                let newSummary = oldSummary.replace( /(<([^>]+)>)/ig, '')
-                Object.values(stateMealPlanRecipes)[i][j].summary = newSummary
-                console.log(Object.values(stateMealPlanRecipes)[i][j].summary)
                 recipe = Object.values(stateMealPlanRecipes)[i][j]
             }
         }
     }
-    const formatRecipe = (oldSummary) => {
-        console.log(oldSummary)
-        const newSummary = oldSummary.replace( /(<([^>]+)>)/ig, '')
-        console.log(newSummary)
-    }
 
-    const summary = "The recipe Basil Marinated Grilled Chicken can be made <b>in roughly roughly 45 minutes</b>. One portion of this dish contains around <b>48g of protein</b>, <b>9g of fat</b>, and a total of <b>285 calories</b>. This recipe serves 8 and costs $2.59 per serving. <b>The Fourth Of July</b> will be even more special with this recipe. Head to the store and pick up salt, lightly basil leaves, cup extra virgin olive oil, and a few other things to make it today. 10 people have made this recipe and would make it again. It is brought to you by Foodista. It is a good option if you're following a <b>gluten free, dairy free, and whole 30</b> diet. With a spoonacular <b>score of 80%</b>, this dish is solid. Similar recipes are <a href='https://spoonacular.com/recipes/all-purpose-lemon-basil-marinated-chicken-667189'>All Purpose Lemon Basil Marinated Chicken</a>, <a href='https://spoonacular.com/recipes/balsamic-garlic-and-basil-marinated-chicken-breasts-497124'>Balsamic, Garlic, and Basil Marinated Chicken Breasts</a>, and <a href='https://spoonacular.com/recipes/yogurt-marinated-grilled-chicken-kebabs-with-grilled-zucchini-salad-1017843'>Yogurt-Marinated Grilled Chicken Kebabs with Grilled Zucchini Salad</a>."
-
-    formatRecipe(summary)
-// console.log(stateMealPlanRecipes)
-// console.log(recipe)
-
-console.log(recipe.analyzedInstructions[0].steps)
-    
+    console.log(recipe.fave)
 
     return (
-        <>
-        <div onClick={()=> navigate(-1)}>Back</div>
-        <h1> {recipe.title} </h1>
-        <h1>Ingredient List</h1>
-        <ul>
-            {recipe.extendedIngredients.map(ingredient => {
-                return (
-                    <li>
-                        {ingredient.original}
-                    </li>
-                )
-            })}
-        </ul>
-        <div className="nutWidget">
-            <h1>Nutrition</h1>
-            {nutWidget}
-        </div>
-
-        <img src={recipe.image} alt="" />
-
-
-        <div className="recipe__summary">
-            <h1>Recipe Summary</h1>
-            {recipe.summary}
-        </div>
-
-
-    
-        <h1>Instructions</h1>
-        <ol>
-            {recipe.analyzedInstructions[0].steps.map(instruction => {
-                return (
-                    <li>
-                        {instruction.step}
-                    </li>
-                )
-            })}
-        </ol>
-
-       
-        <a href={recipe.sourceUrl} target="_blank">Take me to the Original Recipe </a>
+        <>{recipe.title.length && (
+            <>
+            <div className="backButton" onClick={()=> navigate(-1)}><img src={backArrow} alt="back button"/><p>Back</p></div>
+            <div className="recipeTitleDiv">
+                <h1>{recipe.title}</h1>
+                {recipe.fave === true && <div className="favedRecipePage"/>}
+                {recipe.fave === false && <div className="unfavedRecipePage"/>}
+            </div>
+            <div className="servingsInfo">
+                <ul className="recipePriceTimeServ">
+                    <li>Cost per serving <br/> £{(recipe.pricePerServing/100).toFixed(2)}</li>
+                    <li>Ready in <br/> {recipe.readyInMinutes} minutes</li>
+                    <li>{recipe.servings} <br/> servings</li>
+                </ul>
+                <div className="conversion">Toggle</div>
+                <div className="servingCalc">Serving calc</div>
+            </div>
+            <div className="recipeIngredients">
+                <h2>Ingredient list</h2>
+                <div className="ingredientsAndNutrition">
+                    <ul className="ingredientsList">
+                        {recipe.extendedIngredients.map(ingredient => {
+                            return (
+                                <li>
+                                    {ingredient.original}
+                                </li>
+                            )
+                        })}
+                    </ul>
+                    <div className="nutrition">
+                        {stateNutritionWidget !== "no widget" &&(
+                            <div>{parse(stateNutritionWidget.nutrition_widget)}</div>
+                        )}
+                    </div>
+                </div>
+            </div>
+            <h2>Recipe Summary</h2>
+            <div className="recipeSummary">
+                <div>{parse(recipe.summary)}</div>
+                <div className="recipeImgDiv">
+                    <img src={recipe.image} alt="recipe image"/>
+                </div>
+            </div>
+            <h2>Instructions</h2>
+            <ol className="instructions">
+                {recipe.analyzedInstructions[0].steps.map(instruction => {
+                    return (
+                        <li>
+                            {instruction.step}
+                        </li>
+                    )
+                })}
+            </ol>
+            <div className="originalRecipe">
+                <a href={recipe.sourceUrl} target="_blank">Veiw original recipe</a>
+            </div>
+            </>
+        )}
         </>
     );
 
