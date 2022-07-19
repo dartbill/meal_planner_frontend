@@ -12,15 +12,14 @@ const History = () => {
     const recipeId = useSelector(state => state.recipe_id)
     console.log("state recipe id history", recipeId)
 
-    const inititalUserHistoryState = useSelector(state => state.users_recipe_history)
-    console.log("state user history", inititalUserHistoryState)
+    const userHistoryState = useSelector(state => state.users_recipe_history)
+    console.log("state user history", userHistoryState)
     const [favourited, setFavourited] = useState(false)
     const [btnText, setBtnText] = useState('Show Favourites')
 
     const onBtnClick = (e) => {
         e.preventDefault()
         if (favourited) {
-
             setFavourited(false)
             setBtnText('Show Favourites')
         } else {
@@ -39,7 +38,17 @@ const History = () => {
     //     dessert: [{id:"", title: "", fave:""}], 
     //     snacks: [{id:"", title: "", fave:""}]}}
     // ]
-    const usersHistoryRecipes = useSelector(state => state.users_recipe_history)
+    const initialUsersHistoryRecipes = [
+        {
+            date: "date", recipes: {
+                breakfast: [{ id: "", title: "", fave: "" }],
+                lunch: [{ id: "", title: "", fave: "" }],
+                dinner: [{ id: "", title: "", fave: "" }],
+                dessert: [{ id: "", title: "", fave: "" }],
+                snacks: [{ id: "", title: "fgdfgfd", fave: false }]
+            }
+        }
+    ]
     //map array to return a collapsable with date as trigger and set recipes as dates recipes
     const [recipes, setRecipes] = useState([
         {
@@ -402,36 +411,40 @@ const History = () => {
         <>
             <h1>History</h1>
             {/* if the users history is same as initial state they are redirected to submit a meal plan */}
-            {usersHistoryRecipes === inititalUserHistoryState && (
+            {initialUsersHistoryRecipes === userHistoryState && (
                 <p>You have not submitted any meal plans yet, create one <span onClick={() => navigate('/mealplan')}>here</span></p>
             )}
             {/* if user has a meal plan history the code under renders, which returns a collapsible for each week, which each contain collapsibles for each meal type if they contain data */}
-            {usersHistoryRecipes === inititalUserHistoryState && (
-                usersHistoryRecipes.map((week, i) => {
-                    return (
-                        <>
-                            <button onClick={(e) => {
+            {initialUsersHistoryRecipes !== userHistoryState && (
+                <button onClick={(e) => {
                                 onBtnClick(e)
                             }}>{btnText}</button>
+            )}
+            {initialUsersHistoryRecipes !== userHistoryState && (
+                
+                userHistoryState.map((week, i) => {
+                    return (
+                        <>
+                            
                             <div className="week" key={i}>
-                                <Collapsible trigger={week.date}>
-                                    {/* {week.recipes.breakfast.length > 0 && (
-                                        <CollapsibleRecipes fave={favourited} recipes={week.recipes.breakfast} triggerName="Breakfast" />
-                                    )} */}
+                                <Collapsible trigger={week.today_date}>
+                                    {week.recipes.breakfast.length > 0 && (
+                                        <CollapsibleRecipes fave={favourited} fullRecipes={week.recipes} triggerName="Breakfast" meal="breakfast" page="history" date={week.today_date}/>
+                                    )} 
                                     {/* {week.recipes.breakfast.length > 0 && (
                         <CollapsibleRecipes recipes={recipes} triggerName="Breakfast"/>
                         )} */}
-                                    {/* {week.recipes.lunch.length > 0 && (
-                                        <CollapsibleRecipes fave={favourited} recipes={week.recipes.lunch} triggerName="Lunch" />
+                                    {week.recipes.lunch.length > 0 && (
+                                        <CollapsibleRecipes fave={favourited} fullRecipes={week.recipes} triggerName="Lunch" meal="lunch" page="history" date={week.today_date}/>
                                     )}
                                     {week.recipes.dinner.length > 0 && (
-                                        <CollapsibleRecipes fave={favourited} recipes={week.recipes.dinner} triggerName="Dinner" />
+                                        <CollapsibleRecipes fave={favourited} fullRecipes={week.recipes} triggerName="Dinner" meal="dinner" page="history" date={week.today_date}/>
                                     )}
                                     {week.recipes.dessert.length > 0 && (
-                                        <CollapsibleRecipes fave={favourited} recipes={week.recipes.dessert} triggerName="Dessert" />
-                                    )} */}
+                                        <CollapsibleRecipes fave={favourited} fullRecipes={week.recipes} triggerName="Dessert" meal="dessert" page="history" date={week.today_date}/>
+                                    )}
                                     {week.recipes.snacks.length > 0 && (
-                                        <CollapsibleRecipes favourited={favourited} fullRecipes={week.recipes} triggerName="Snacks" meal="snacks" />
+                                        <CollapsibleRecipes favourited={favourited} fullRecipes={week.recipes} triggerName="Snacks" meal="snacks" page="history" date={week.today_date}/>
                                     )}
                                 </Collapsible>
                             </div>
