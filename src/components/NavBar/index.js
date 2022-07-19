@@ -65,6 +65,11 @@ const NavBar = () => {
       // setzIndex("-1")
     }
   }
+  const closeSideNav = (e) => {
+    e.preventDefault()
+      setDisplay("none");
+      setIconImg("fa fa-bars")
+  }
 
   return (
     <>
@@ -86,26 +91,31 @@ const NavBar = () => {
         <ul className="sideNavBar">
           <li><NavLink activeClass="active" to='/' onClick={(e) => {
             e.preventDefault()
+            closeSideNav(e)
             navigate("/")
           }}>Home</NavLink></li>
 
           <li><NavLink activeClass="active" to='/mealplan' onClick={(e) => {
             e.preventDefault()
+            closeSideNav(e)
             navigate("/mealplan")
           }}>Meal plan</NavLink></li>
           
           <li><NavLink activeClass="active" to='/shoppinglist' onClick={(e) => {
             e.preventDefault()
+            closeSideNav(e)
             navigate("/shoppinglist")
           }}>Shopping list</NavLink></li>
 
           <li><NavLink activeClass="active" to='/history' onClick={(e) => {
             e.preventDefault()
+            closeSideNav(e)
             navigate("/history")
           }}>Recipe history</NavLink></li>
 
           <li><NavLink activeClass="active" to='/preferences' onClick={(e) => {
             e.preventDefault()
+            closeSideNav(e)
             navigate("/preferences")
           }}>Preferences</NavLink></li>
 
@@ -113,6 +123,7 @@ const NavBar = () => {
           <li onClick={(e) => { onBtnClick(e) }} >Logout</li>
           <li onClick={(e) => {
             e.preventDefault()
+            closeSideNav(e)
             navigate("/login")
           }}>Login</li>
           {/* end of remove block */}
