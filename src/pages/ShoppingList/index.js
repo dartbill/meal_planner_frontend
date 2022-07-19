@@ -8,7 +8,7 @@ const ShoppingList = () => {
     
     const stateShoppingList = useSelector(state => state.shopping_list)
     // console.log(stateShoppingList)
-    
+    //TODO: send shopping list to email
     return (
         <>
         <h1>ShoppingList</h1>
