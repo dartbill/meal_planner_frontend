@@ -24,8 +24,9 @@ const initialState = {
     user_calorie_limits: { breakfast: 0, lunch: 0, dinner: 0, snack: 0, dessert: 0 },
     user_budget: { breakfast: 0, lunch: 0, dinner: 0, snack: 0, dessert: 0 },
     user_meals: { breakfast: false, lunch: false, dinner: false, snack: false, dessert: false },
-    diet: "",
-    intolerances: []
+    diet: { vegan: false, vegetarian: false, glutenFree: false, ketogenic: false, pescetarian: false, paleo: false },
+    intolerances: [],
+    login_or_register: ""
 }
 
 const reducer = (state = initialState, action) => {
@@ -60,6 +61,8 @@ const reducer = (state = initialState, action) => {
             return { ...state, random_fact: action.payload }
         case "SET USER STATE":
             return { ...state, user_state: action.payload }
+        case "SET LOGIN OR REGISTER":
+            return { ...state, login_or_register: action.payload }
         default:
             return state;
     }

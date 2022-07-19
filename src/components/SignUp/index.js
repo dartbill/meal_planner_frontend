@@ -43,6 +43,7 @@ const SignUp = () => {
             headers: { "Content-Type": "application/json" },
           }
         );
+        dispatch({ type: "SET LOGIN OR REGISTER", payload: "register" });
         dispatch({ type: "SET EMAIL", payload: email });
         navigate("/MealPlan");
         setName("");
