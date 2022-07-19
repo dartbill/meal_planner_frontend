@@ -19,50 +19,51 @@ function Recipe() {
 
     let recipe
     if(stateRandomRecipe.id === parseInt(stateRecipeId)) {
-        recipe = stateRandomRecipe
+        console.log(stateRandomRecipe.summary)
+        let oldSummary = stateRandomRecipe.summary
+        let newSummary = oldSummary.replace( /(<([^>]+)>)/ig, '')
+        stateRandomRecipe.summary = newSummary
+        console.log(stateRandomRecipe.summary)
+        recipe = stateRandomRecipe   
     }
 
     for(let i = 0 ; i < Object.keys(stateMealPlanRecipes).length; i++) {
         for(let j = 0; j < Object.values(stateMealPlanRecipes)[i].length; j++) {
             if(Object.values(stateMealPlanRecipes)[i][j].id === parseInt(stateRecipeId)) {
+                console.log(Object.values(stateMealPlanRecipes)[i][j])
+                let oldSummary = Object.values(stateMealPlanRecipes)[i][j].summary
+                let newSummary = oldSummary.replace( /(<([^>]+)>)/ig, '')
+                Object.values(stateMealPlanRecipes)[i][j].summary = newSummary
+                console.log(Object.values(stateMealPlanRecipes)[i][j].summary)
                 recipe = Object.values(stateMealPlanRecipes)[i][j]
             }
         }
     }
+    const formatRecipe = (oldSummary) => {
+        console.log(oldSummary)
+        const newSummary = oldSummary.replace( /(<([^>]+)>)/ig, '')
+        console.log(newSummary)
+    }
 
-console.log(stateMealPlanRecipes)
-console.log(recipe)
+    const summary = "The recipe Basil Marinated Grilled Chicken can be made <b>in roughly roughly 45 minutes</b>. One portion of this dish contains around <b>48g of protein</b>, <b>9g of fat</b>, and a total of <b>285 calories</b>. This recipe serves 8 and costs $2.59 per serving. <b>The Fourth Of July</b> will be even more special with this recipe. Head to the store and pick up salt, lightly basil leaves, cup extra virgin olive oil, and a few other things to make it today. 10 people have made this recipe and would make it again. It is brought to you by Foodista. It is a good option if you're following a <b>gluten free, dairy free, and whole 30</b> diet. With a spoonacular <b>score of 80%</b>, this dish is solid. Similar recipes are <a href='https://spoonacular.com/recipes/all-purpose-lemon-basil-marinated-chicken-667189'>All Purpose Lemon Basil Marinated Chicken</a>, <a href='https://spoonacular.com/recipes/balsamic-garlic-and-basil-marinated-chicken-breasts-497124'>Balsamic, Garlic, and Basil Marinated Chicken Breasts</a>, and <a href='https://spoonacular.com/recipes/yogurt-marinated-grilled-chicken-kebabs-with-grilled-zucchini-salad-1017843'>Yogurt-Marinated Grilled Chicken Kebabs with Grilled Zucchini Salad</a>."
 
-  
+    formatRecipe(summary)
+// console.log(stateMealPlanRecipes)
+// console.log(recipe)
+
+
     // useEffect(() => {
-  
-    //   const fetchRecipe = async () => {
-    //     try {
-    //       const url = `https://api.spoonacular.com/recipes/random/?apiKey=4a85ed324bd749eba71cf53e82e1c84d`
-  
-    //       const { data } = await axios.get(url)
-
-    //       const retrievedRecipes = data.recipes
-    //       console.log(data.recipes)
-    //       let shortRetrievedRecipes = []
-    //       let formattedRetrievedRecipes = []
-
-    //       shortRetrievedRecipes = {cheap: retrievedRecipes[0].cheap, dairyFree: retrievedRecipes[0].dairyFree, extendedIngredients: retrievedRecipes[0].extendedIngredients, glutenFree: retrievedRecipes[0].glutenFree, id: retrievedRecipes[0].id, image: retrievedRecipes[0].image, instructions: retrievedRecipes[0].instructions, pricePerServing: retrievedRecipes[0].pricePerServing, readyInMinutes: retrievedRecipes[0].readyInMinutes, servings: retrievedRecipes[0].servings, sourceUrl: retrievedRecipes[0].sourceUrl, summary: retrievedRecipes[0].summary, title: retrievedRecipes[0].title, vegan: retrievedRecipes[0].vegan, vegetarian: retrievedRecipes[0].vegetarian}
-    //       formattedRetrievedRecipes.push({...shortRetrievedRecipes, fave: false})
-
-    //       console.log(data.recipes[0])
-    //       setRecipe(formattedRetrievedRecipes[0].title)
-    //       setRecipeInstructions(formattedRetrievedRecipes[0].instructions)
-    //       setRecipeReadyInMinutes(formattedRetrievedRecipes[0].readyInMinutes)
-    //       setRecipeImage(formattedRetrievedRecipes[0].image)
-    //     } catch (err) {
-    //       console.log(err)
-    //     }
-    //   }
-    //   fetchRecipe()
-    // }, [])
-
-
+    //     fetch(
+    //         `https://api.spoonacular.com/recipes/analyzeInstructions/${stateRecipe.id}/information?apiKey=04620651d46d430daf947c06e19ebe95`
+    //     )
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //         setRecipeInstructions(data.analyzedInstructions)
+    //     })
+    //     .catch(() => {
+    //         console.log("error");
+    //     })
+    // }, [stateRecipe.id])
   
 
     return (
@@ -72,7 +73,6 @@ console.log(recipe)
         <h1>Ingredient List</h1>
         <ul>
             {recipe.extendedIngredients.map(ingredient => {
-
                 return (
                     <li>
                         {ingredient.original}
@@ -80,14 +80,25 @@ console.log(recipe)
                 )
             })}
         </ul>
+
         <img src={recipe.image} alt="" />
-        <h1>Nutrition</h1>
-        <h1>Recipe Summary</h1>
+             <div>
+             <h1>Nutrition</h1>
+             </div>
+
+        <div className="recipe__summary">
+            <h1>Recipe Summary</h1>
+            {recipe.summary}
+        </div>
+
+
         <h1>Instructions</h1>
-        <p> {recipe.instructions} </p>
-        <h1>Take me to the Recipe Link!</h1>
+       
+        
+        {/* <button onClick={}>Take me to the Recipe Link!</button> */}
         </>
     );
+
   }
 
 
