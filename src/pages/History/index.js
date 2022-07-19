@@ -14,14 +14,19 @@ const History = () => {
 
     const inititalUserHistoryState = useSelector(state => state.users_recipe_history)
     console.log("state user history", inititalUserHistoryState)
-    let [favourited, setFavourited] = useState(false)
+    const [favourited, setFavourited] = useState(false)
+    const [btnText, setBtnText] = useState('Show Favourites')
 
     const onBtnClick = (e) => {
         e.preventDefault()
         if (favourited) {
+
             setFavourited(false)
-        } else
+            setBtnText('Show Favourites')
+        } else {
             setFavourited(true)
+            setBtnText('Show All')
+        }
     }
 
     // do useEffect to our API and return user's history
@@ -407,7 +412,7 @@ const History = () => {
                         <>
                             <button onClick={(e) => {
                                 onBtnClick(e)
-                            }}>Show me my Favourites!</button>
+                            }}>{btnText}</button>
                             <div className="week" key={i}>
                                 <Collapsible trigger={week.date}>
                                     {/* {week.recipes.breakfast.length > 0 && (
