@@ -17,6 +17,30 @@ function Recipe() {
     console.log(stateRandomRecipe)
     console.log(stateRecipeId)
 
+    let nutWidget
+
+    useEffect(() => {
+        const fetchRecipeNutrition = async () => {
+            try {
+              const url = `https://api.spoonacular.com/recipes/${stateRecipeId}/nutritionLabel/?apiKey=4a85ed324bd749eba71cf53e82e1c84d`
+              
+    
+              const { data } = await axios.get(url)
+              console.log(data)
+             nutWidget = data
+            //   dispatch({ type: "SET RANDOM RECIPE", payload: randomRecipe})
+            } catch (err) {
+              console.log(err)
+            }
+          }
+          
+        fetchRecipeNutrition()
+
+
+    }, [])
+
+
+
     let recipe
     if(stateRandomRecipe.id === parseInt(stateRecipeId)) {
         console.log(stateRandomRecipe.summary)
@@ -51,20 +75,8 @@ function Recipe() {
 // console.log(stateMealPlanRecipes)
 // console.log(recipe)
 
-
-    // useEffect(() => {
-    //     fetch(
-    //         `https://api.spoonacular.com/recipes/analyzeInstructions/${stateRecipe.id}/information?apiKey=04620651d46d430daf947c06e19ebe95`
-    //     )
-    //     .then((response) => response.json())
-    //     .then((data) => {
-    //         setRecipeInstructions(data.analyzedInstructions)
-    //     })
-    //     .catch(() => {
-    //         console.log("error");
-    //     })
-    // }, [stateRecipe.id])
-  
+console.log(recipe.analyzedInstructions[0].steps)
+    
 
     return (
         <>
@@ -80,11 +92,13 @@ function Recipe() {
                 )
             })}
         </ul>
+        <div className="nutWidget">
+            <h1>Nutrition</h1>
+            {nutWidget}
+        </div>
 
         <img src={recipe.image} alt="" />
-             <div>
-             <h1>Nutrition</h1>
-             </div>
+
 
         <div className="recipe__summary">
             <h1>Recipe Summary</h1>
@@ -92,15 +106,24 @@ function Recipe() {
         </div>
 
 
+    
         <h1>Instructions</h1>
+        <ol>
+            {recipe.analyzedInstructions[0].steps.map(instruction => {
+                return (
+                    <li>
+                        {instruction.step}
+                    </li>
+                )
+            })}
+        </ol>
+
        
-        
-        {/* <button onClick={}>Take me to the Recipe Link!</button> */}
+        <a href={recipe.sourceUrl} target="_blank">Take me to the Original Recipe </a>
         </>
     );
 
   }
-
 
 
 
