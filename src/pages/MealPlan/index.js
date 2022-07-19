@@ -22,7 +22,8 @@ const MealPlan = () => {
     // if result, render meal plan
     const stateMealRecipes = useSelector(state => state.meal_plan_recipes)
     const stateUsersRecipesHistory = useSelector(state => state.users_recipe_history)
-    
+    const stateBudgets = useSelector(state => state.user_budget)
+    console.log("state budgets", stateBudgets)
     console.log("state meal plan recipes at render", stateMealRecipes)
 
     const stateRecipes = useSelector(state => state.recipes)
@@ -60,15 +61,17 @@ const MealPlan = () => {
     let dietParams = dietParamsOld.substring(1)
 
     const getInitialMeal = async (meal) => {
-        const { data } = await axios.get(`https://api.spoonacular.com/recipes/random/?apiKey=${apiKey}&number=25&tags=${meal}&diet=${dietParams}&intolerances=${intolerancesParams}&excludeIngredients${intolerancesParams}&includeNutrition=true&instructionsRequired=true`)
+        const { data } = await axios.get(`https://api.spoonacular.com/recipes/random/?apiKey=${apiKey}&number=100&tags=${meal},${dietParams}&intolerances=${intolerancesParams}&excludeIngredients${intolerancesParams}&includeNutrition=true&instructionsRequired=true`)
         console.log("data", data.recipes)
         const retrievedRecipes = data.recipes
         let shortRetrievedRecipes = []
         let formattedRetrievedRecipes = []
         let thisMealsRecipesInMealPlan = []
         for (let i = 0; i < retrievedRecipes.length; i++) {
-            shortRetrievedRecipes = { analyzedInstructions: retrievedRecipes[i].analyzedInstructions, cheap: retrievedRecipes[i].cheap, dairyFree: retrievedRecipes[i].dairyFree, extendedIngredients: retrievedRecipes[i].extendedIngredients, glutenFree: retrievedRecipes[i].glutenFree, id: retrievedRecipes[i].id, image: retrievedRecipes[i].image, pricePerServing: retrievedRecipes[i].pricePerServing, readyInMinutes: retrievedRecipes[i].readyInMinutes, servings: retrievedRecipes[i].servings, sourceUrl: retrievedRecipes[i].sourceUrl, summary: retrievedRecipes[i].summary, title: retrievedRecipes[i].title, vegan: retrievedRecipes[i].vegan, vegetarian: retrievedRecipes[i].vegetarian }
-            formattedRetrievedRecipes.push({ ...shortRetrievedRecipes, lock: true, fave: false })
+            if(retrievedRecipes[i].pricePerServing < stateBudgets[meal]*100){
+                shortRetrievedRecipes = { analyzedInstructions: retrievedRecipes[i].analyzedInstructions, cheap: retrievedRecipes[i].cheap, dairyFree: retrievedRecipes[i].dairyFree, extendedIngredients: retrievedRecipes[i].extendedIngredients, glutenFree: retrievedRecipes[i].glutenFree, id: retrievedRecipes[i].id, image: retrievedRecipes[i].image, pricePerServing: retrievedRecipes[i].pricePerServing, readyInMinutes: retrievedRecipes[i].readyInMinutes, servings: retrievedRecipes[i].servings, sourceUrl: retrievedRecipes[i].sourceUrl, summary: retrievedRecipes[i].summary, title: retrievedRecipes[i].title, vegan: retrievedRecipes[i].vegan, vegetarian: retrievedRecipes[i].vegetarian }
+                formattedRetrievedRecipes.push({ ...shortRetrievedRecipes, lock: true, fave: false })
+            }
         }
         for (let i = 0; i < 7; i++) {
             thisMealsRecipesInMealPlan.push(formattedRetrievedRecipes[i])
@@ -98,7 +101,7 @@ const MealPlan = () => {
         console.log("meal's recipes in meal plan after call", thisMealsRecipesInMealPlan)
     }
     const getAdditionalMeal = async (meal) => {
-        const { data } = await axios.get(`https://api.spoonacular.com/recipes/random/?apiKey=${apiKey}&number=25&tags=${meal}&diet=${dietParams}&intolerances=${intolerancesParams}&excludeIngredients${intolerancesParams}&includeNutrition=true&instructionsRequired=true`)
+        const { data } = await axios.get(`https://api.spoonacular.com/recipes/random/?apiKey=${apiKey}&number=25&tags=${meal},${dietParams}&intolerances=${intolerancesParams}&excludeIngredients${intolerancesParams}&includeNutrition=true&instructionsRequired=true`)
         console.log("data", data.recipes)
         const retrievedRecipes = data.recipes
         let shortRetrievedRecipes = []
@@ -138,7 +141,6 @@ const MealPlan = () => {
                 if (Object.values(stateMealRecipes)[i][j].lock === false) {
                     unlockedMeals[i].push(Object.values(stateMealRecipes)[i][j].id)
                     numberOfUnlocked += 1
-
                 }
             }
         }
