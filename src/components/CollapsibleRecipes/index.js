@@ -75,12 +75,12 @@ const CollapsibleRecipes = ({ favourited, fullRecipes, triggerName, meal, page, 
         if (fullRecipes[meal][i].id === faveRecipeIdInt) {
           if (faveClassName === "faved") {
             fullRecipes[meal][i].fave = false
-            console.log(fullRecipes)
+            console.log(fullRecipes[meal][i].fave)
             e.target.className = "unfaved"
           }
           if (faveClassName === "unfaved") {
             fullRecipes[meal][i].fave = true
-            console.log(fullRecipes)
+            console.log(fullRecipes[meal][i].fave)
             e.target.className = "faved"
           }
         }
@@ -103,6 +103,7 @@ const CollapsibleRecipes = ({ favourited, fullRecipes, triggerName, meal, page, 
         }
       }
     }
+    dispatch({ type: "SET MEAL PLAN RECIPES", payload: fullRecipes })
   }
 
 
