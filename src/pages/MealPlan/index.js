@@ -20,6 +20,8 @@ const MealPlan = () => {
     // if no result, render message to generate plan
     // if result, render meal plan
     const stateMealRecipes = useSelector(state => state.meal_plan_recipes)
+    const stateUsersRecipesHistory = useSelector(state => state.users_recipe_history)
+    
     console.log("state meal plan recipes at render", stateMealRecipes)
 
     const stateRecipes = useSelector(state => state.recipes)
@@ -319,13 +321,6 @@ const MealPlan = () => {
     // add to array
     // send to db
 
-    const sendMealPlan = async (recipesToBeSent) => {
-        // const options = {
-        //     recipesToBeSent
-        // }
-        const { data } = await axios.post(`https://mealplannerserver.herokuapp.com/mealhistory/`, JSON.stringify(recipesToBeSent))
-        console.log(data)
-    }
     const submitMealPlan = async (e) => {
         e.preventDefault()
 
@@ -362,11 +357,11 @@ const MealPlan = () => {
         console.log(today)
         recipesToSendToDb.today_date = today
         console.log(recipesToSendToDb)
-        // await sendMealPlan(recipesToSendToDb)
         const { data } = await axios.post(`https://mealplannerserver.herokuapp.com/mealhistory/`, JSON.stringify(recipesToSendToDb))
         console.log(data)
+        stateUsersRecipesHistory.unshift(recipesToSendToDb)
         //confirmation message saying can now view shopping list
-        // do post to db meal history route
+        //add to start of state's history
         setGenerateText("Generate new meal plan")
     }
 
@@ -384,19 +379,19 @@ const MealPlan = () => {
             <div className="recipesMealPlan">
 
                 {stateMealRecipes.breakfast.length > 0 && (
-                    <CollapsibleRecipes meal={"breakfast"} fullRecipes={stateMealRecipes} triggerName="Breakfast" />
+                    <CollapsibleRecipes meal={"breakfast"} fullRecipes={stateMealRecipes} triggerName="Breakfast" page="mealplan"/>
                 )}
                 {stateMealRecipes.lunch.length > 0 && (
-                    <CollapsibleRecipes meal={"lunch"} fullRecipes={stateMealRecipes} triggerName="Lunch" />
+                    <CollapsibleRecipes meal={"lunch"} fullRecipes={stateMealRecipes} triggerName="Lunch" page="mealplan"/>
                 )}
                 {stateMealRecipes.dinner.length > 0 && (
-                    <CollapsibleRecipes meal={"dinner"} fullRecipes={stateMealRecipes} triggerName="Dinner" />
+                    <CollapsibleRecipes meal={"dinner"} fullRecipes={stateMealRecipes} triggerName="Dinner" page="mealplan"/>
                 )}
                 {stateMealRecipes.dessert.length > 0 && (
-                    <CollapsibleRecipes meal={"dessert"} fullRecipes={stateMealRecipes} triggerName="Dessert" />
+                    <CollapsibleRecipes meal={"dessert"} fullRecipes={stateMealRecipes} triggerName="Dessert" page="mealplan"/>
                 )}
                 {stateMealRecipes.snacks.length > 0 && (
-                    <CollapsibleRecipes meal={"snacks"} fullRecipes={stateMealRecipes} triggerName="Snacks" />
+                    <CollapsibleRecipes meal={"snacks"} fullRecipes={stateMealRecipes} triggerName="Snacks" page="mealplan"/>
                 )}
             </div>
             <div className="submitMealPlan" onClick={submitMealPlan}>Submit meal plan</div>

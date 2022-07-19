@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import './style.css'
 import Collapsible from 'react-collapsible';
 
-const CollapsibleRecipes = ({ favourited, fullRecipes, triggerName, meal }) => {
+const CollapsibleRecipes = ({ favourited, fullRecipes, triggerName, meal, page, date }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate();
 
@@ -63,23 +63,43 @@ const CollapsibleRecipes = ({ favourited, fullRecipes, triggerName, meal }) => {
     dispatch({ type: "SET MEAL PLAN RECIPES", payload: fullRecipes })
   }
 
-  // move to recipe page
+  // copy to recipe page
   const changefaveRecipe = (e) => {
     const parentClassName = e.target.parentElement.className
     const faveClassName = e.target.className
     const splitString = parentClassName.split(' ')
     const faveRecipeIdStr = splitString[1]
-    const faveRecipeIdInt = parseInt(faveRecipeIdStr)
-
-    for (let i = 0; i < fullRecipes[meal].length; i++) {
-      if (fullRecipes[meal][i].id === faveRecipeIdInt) {
-        if (faveClassName === "fave") {
-          fullRecipes[meal][i].fave = false
-          e.target.className = "unfaved"
+    if(page === "mealplan"){
+      const faveRecipeIdInt = parseInt(faveRecipeIdStr)
+      for (let i = 0; i < fullRecipes[meal].length; i++) {
+        if (fullRecipes[meal][i].id === faveRecipeIdInt) {
+          if (faveClassName === "faved") {
+            fullRecipes[meal][i].fave = false
+            console.log(fullRecipes)
+            e.target.className = "unfaved"
+          }
+          if (faveClassName === "unfaved") {
+            fullRecipes[meal][i].fave = true
+            console.log(fullRecipes)
+            e.target.className = "faved"
+          }
         }
-        if (faveClassName === "unfaved") {
-          fullRecipes[meal][i].fave = true
-          e.target.className = "faved"
+      }
+    }
+    if(page === "history"){
+      for (let i = 0; i < fullRecipes[meal].length; i++) {
+        if (fullRecipes[meal][i].id === faveRecipeIdStr) {
+          if (faveClassName === "faved") {
+            fullRecipes[meal][i].fave = false
+            console.log(date)
+            e.target.className = "unfaved"
+          }
+          if (faveClassName === "unfaved") {
+            fullRecipes[meal][i].fave = true
+            console.log(fullRecipes[meal][i].fave)
+            console.log(date)
+            e.target.className = "faved"
+          }
         }
       }
     }
