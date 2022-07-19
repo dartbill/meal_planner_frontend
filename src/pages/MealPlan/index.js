@@ -7,11 +7,12 @@ import './style.css'
 import { CollapsibleRecipes } from '../../components';
 import Collapsible from "react-collapsible";
 
+import apiKey from '../../'
+
 const MealPlan = () => {
-    //TODO: You need to add your API key here (you can create one here https://spoonacular.com/food-api/console#Dashboard)
+
     const state = useSelector((state) => state.user_state);
     console.log(state)
-    const apiKey = "6b1f02c091b4429baee72031207aa9a8"
     const dispatch = useDispatch()
     const navigate = useNavigate();
 
@@ -361,7 +362,7 @@ const MealPlan = () => {
         console.log(data)
         stateUsersRecipesHistory.unshift(recipesToSendToDb)
         //confirmation message saying can now view shopping list
-        //add to start of state's history
+        
         setGenerateText("Generate new meal plan")
     }
 
