@@ -9,6 +9,8 @@ import { createStore } from 'redux';
 import store from './store';
 // const store = createStore(reducer)
 
+// global.apiKey = "a321e3e0f535440fa1fa1c5d16a7b0a0"
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Provider store={store}>

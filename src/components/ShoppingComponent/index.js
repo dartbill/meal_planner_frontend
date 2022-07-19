@@ -9,28 +9,36 @@ const ShoppingComponent = ({shoppingList}) => {
 
     return (
         <>
-        <h1>Shopping list component</h1>
-        {shoppingList.aisles.map(aisle => {
+        {shoppingList.aisles.map((aisle, i) => {
             return (
-                <>
-                <h2>{aisle.aisle}</h2>
-                <div>
-                    <ul>
-                    {aisle.items.map(aisleItem => {
-                        return (
-                            <>
-                                <li>{aisleItem.name}</li>
-                                <li>{aisleItem.measures.metric.amount}</li>
-                                <li>{aisleItem.measures.metric.unit}</li>
-                                <li>{aisleItem.measures.us.amount}</li>
-                                <li>{aisleItem.measures.us.unit}</li>
-                                <li>{aisleItem.cost}</li>
-                            </>
-                            
-                        
-                        )})}</ul>
+                <div id={"aisle" + i}>
+                    <h2>{aisle.aisle}</h2>
+                    <div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Amount (metric)</th>
+                                    <th>Amount (us)</th>
+                                    <th>Cost</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {aisle.items.map((aisleItem, j) => {
+                                    return (
+                                        <tr className={"a" + i + "tableRow" + j}>
+                                            <td>{aisleItem.name}</td>
+                                            <td>{aisleItem.measures.metric.amount} {aisleItem.measures.metric.unit}</td>
+                                            <td>{aisleItem.measures.us.amount} {aisleItem.measures.us.unit}</td>
+                                            <td>{aisleItem.cost}</td>
+                                        </tr>
+                                    )})}
+
+                            </tbody>
+
+                        </table>
+                    </div>
                 </div>
-                </>
             )})}
         <p>Predicted cost: {shoppingList.cost}</p>
         </>
