@@ -287,7 +287,6 @@ const MealPlan = () => {
 
     const generateShoppingList = async (e) => {
         e.preventDefault()
-        
         let items = []
         for (let i = 0; i < Object.keys(stateMealRecipes).length; i++) {
             if (Object.values(stateMealRecipes)[i].length) {
@@ -382,7 +381,7 @@ const MealPlan = () => {
                 </div>
             )}
             </div>
-            <div className="recipesMealPlan">
+            <div className="recipesMealPlan" data-testid="mealDivs">
                 {stateMealRecipes.breakfast.length > 0 && (
                     <CollapsibleRecipes meal={"breakfast"} fullRecipes={stateMealRecipes} triggerName="Breakfast" page="mealplan"/>
                 )}
