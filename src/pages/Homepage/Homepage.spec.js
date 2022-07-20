@@ -1,4 +1,4 @@
-import { default as PageNotFound } from ".";
+import { default as Homepage } from ".";
 import { screen, render, fireEvent } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import * as router from "react-router";
@@ -14,7 +14,7 @@ describe("Category", () => {
   const page = (
     <Provider store={store}>
       <Router>
-        <PageNotFound />
+        <Homepage />
       </Router>
     </Provider>
   );
@@ -22,15 +22,6 @@ describe("Category", () => {
   test("it renders the h1 'category' ", () => {
     render(page);
     const heading = screen.getByRole("heading", { level: 1 });
-    expect(heading.textContent).toMatch(
-      /Opps! Page not found, let's return to home and try again/i
-    );
-  });
-
-  test("it navigates you one page back", () => {
-    render(page);
-    const back = screen.queryByTestId(/back/i);
-    fireEvent.click(back);
-    expect(navigate).toHaveBeenCalledWith("/");
+    expect(heading.textContent).toMatch(/Sooki/i);
   });
 });

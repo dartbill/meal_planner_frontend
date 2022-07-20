@@ -14,6 +14,7 @@ const Homepage = () => {
   console.log('state on homepage is' + state)
   return (
     <>
+    <h1>Sooki</h1>
       <div className="logoArea">
         <div className="hompageImg">
           <img src={homepageHero} alt=""/>

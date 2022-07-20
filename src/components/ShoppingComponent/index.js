@@ -54,7 +54,6 @@ const createHtmlString = () => {
     }
 
 }
-
     const emailShopping = async (e) => {
         e.preventDefault()
         try {
