@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { useSelector, useDispatch } from "react-redux";
+import './style.css'
+
+import apiKey from '../../'
 
 const Fact = () => {
   
@@ -11,13 +14,13 @@ const Fact = () => {
   
       const fetchFact = async () => {
         try {
-          const url = `https://api.spoonacular.com/food/trivia/random/?apiKey=cb59f9724b144f68be17e281e9df495a`
-  
+          const url = `https://api.spoonacular.com/food/trivia/random/?apiKey=${apiKey}`
           const { data } = await axios.get(url)
-          console.log(data.text)
-          // setFact(data.text)
           randomFact = data.text
-          dispatch({ type: "SET RANDOM FACT", payload: data.text})
+          if(randomFact.charAt(randomFact.length -1) === ".") {
+            randomFact = randomFact.substring(0, randomFact.length - 1)
+          }
+          dispatch({ type: "SET RANDOM FACT", payload: randomFact})
         } catch (err) {
           console.log(err)
         }
@@ -31,13 +34,11 @@ const Fact = () => {
   
     return (
     <>
-    {stateRandomFact !== "no fact" && (
-      <div className="fact">
-        {/* <header className="App-header"> */}
-          <p> {randomFact} </p>
-        {/* </header> */}
-      </div>
-    )}
+      {stateRandomFact !== "no fact" && (
+        <div className="fact">
+            <p>{randomFact}</p>
+        </div>
+      )}
     </>
     );
   }

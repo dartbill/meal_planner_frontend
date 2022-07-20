@@ -2,24 +2,50 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useSelector, useDispatch } from "react-redux";
+import parse from 'html-react-parser'
+import apiKey from '../../'
 
+import backArrow from '../../images/backArrow.png'
+import './style.css'
 
 
 function Recipe() {
-    // const [recipe, setRecipe] = useState([]);
-    const [recipeInstructions, setRecipeInstructions] = useState([]);
-    const [recipeReadyInMinutes, setRecipeReadyInMinutes] = useState([]);
-    const [recipeImage, setRecipeImage] = useState([]);
+    const dispatch = useDispatch()
     const navigate = useNavigate();
+    
     const stateRecipeId = useSelector(state => state.recipe_id);
     const stateMealPlanRecipes = useSelector(state => state.meal_plan_recipes);
     const stateRandomRecipe = useSelector(state => state.random_recipe);
     console.log(stateRandomRecipe)
     console.log(stateRecipeId)
+    const stateNutritionWidget = useSelector(state => state.nutrition_widget);
+    let nutritionWidget
+    let stateWidget
+        const fetchRecipeNutrition = async () => {
+            try {
+                const url = `https://api.spoonacular.com/recipes/${stateRecipeId}/nutritionLabel/?apiKey=${apiKey}&defaultCss=false`
+                const { data } = await axios.get(url)
+                nutritionWidget = data
+                console.log(nutritionWidget)
+                stateWidget = {recipeId: stateRecipeId, nutrition_widget: nutritionWidget}
+                dispatch({ type: "SET NUTRITION WIDGET", payload: stateWidget})
+            } catch (err) {
+                console.log(err)
+            }
+          }
+console.log(stateWidget)
 
+    if(stateNutritionWidget === "no widget"){
+        fetchRecipeNutrition()
+    }
+    if(stateNutritionWidget.recipeId !== stateRecipeId){
+        fetchRecipeNutrition()
+    }
+console.log(stateNutritionWidget.recipeId)
+console.log(stateRecipeId)
     let recipe
     if(stateRandomRecipe.id === parseInt(stateRecipeId)) {
-        recipe = stateRandomRecipe
+        recipe = stateRandomRecipe   
     }
 
     for(let i = 0 ; i < Object.keys(stateMealPlanRecipes).length; i++) {
@@ -30,66 +56,71 @@ function Recipe() {
         }
     }
 
-console.log(stateMealPlanRecipes)
-console.log(recipe)
-
-  
-    // useEffect(() => {
-  
-    //   const fetchRecipe = async () => {
-    //     try {
-    //       const url = `https://api.spoonacular.com/recipes/random/?apiKey=4a85ed324bd749eba71cf53e82e1c84d`
-  
-    //       const { data } = await axios.get(url)
-
-    //       const retrievedRecipes = data.recipes
-    //       console.log(data.recipes)
-    //       let shortRetrievedRecipes = []
-    //       let formattedRetrievedRecipes = []
-
-    //       shortRetrievedRecipes = {cheap: retrievedRecipes[0].cheap, dairyFree: retrievedRecipes[0].dairyFree, extendedIngredients: retrievedRecipes[0].extendedIngredients, glutenFree: retrievedRecipes[0].glutenFree, id: retrievedRecipes[0].id, image: retrievedRecipes[0].image, instructions: retrievedRecipes[0].instructions, pricePerServing: retrievedRecipes[0].pricePerServing, readyInMinutes: retrievedRecipes[0].readyInMinutes, servings: retrievedRecipes[0].servings, sourceUrl: retrievedRecipes[0].sourceUrl, summary: retrievedRecipes[0].summary, title: retrievedRecipes[0].title, vegan: retrievedRecipes[0].vegan, vegetarian: retrievedRecipes[0].vegetarian}
-    //       formattedRetrievedRecipes.push({...shortRetrievedRecipes, fave: false})
-
-    //       console.log(data.recipes[0])
-    //       setRecipe(formattedRetrievedRecipes[0].title)
-    //       setRecipeInstructions(formattedRetrievedRecipes[0].instructions)
-    //       setRecipeReadyInMinutes(formattedRetrievedRecipes[0].readyInMinutes)
-    //       setRecipeImage(formattedRetrievedRecipes[0].image)
-    //     } catch (err) {
-    //       console.log(err)
-    //     }
-    //   }
-    //   fetchRecipe()
-    // }, [])
-
-
-  
+    console.log(recipe.fave)
 
     return (
-        <>
-        <div onClick={()=> navigate(-1)}>Back</div>
-        <h1> {recipe.title} </h1>
-        <h1>Ingredient List</h1>
-        <ul>
-            {recipe.extendedIngredients.map(ingredient => {
-
-                return (
-                    <li>
-                        {ingredient.original}
-                    </li>
-                )
-            })}
-        </ul>
-        <img src={recipe.image} alt="" />
-        <h1>Nutrition</h1>
-        <h1>Recipe Summary</h1>
-        <h1>Instructions</h1>
-        <p> {recipe.instructions} </p>
-        <h1>Take me to the Recipe Link!</h1>
+        <>{recipe.title.length && (
+            <>
+            <div className="backButton" onClick={()=> navigate(-1)}><img src={backArrow} alt="back button"/><p>Back</p></div>
+            <div className="recipeTitleDiv">
+                <h1>{recipe.title}</h1>
+                {recipe.fave === true && <div className="favedRecipePage"/>}
+                {recipe.fave === false && <div className="unfavedRecipePage"/>}
+            </div>
+            <div className="servingsInfo">
+                <ul className="recipePriceTimeServ">
+                    <li>Cost per serving <br/> £{(recipe.pricePerServing/100).toFixed(2)}</li>
+                    <li>Ready in <br/> {recipe.readyInMinutes} minutes</li>
+                    <li>{recipe.servings} <br/> servings</li>
+                </ul>
+                <div className="conversion">Toggle</div>
+                <div className="servingCalc">Serving calc</div>
+            </div>
+            <div className="recipeIngredients">
+                <h2>Ingredient list</h2>
+                <div className="ingredientsAndNutrition">
+                    <ul className="ingredientsList">
+                        {recipe.extendedIngredients.map(ingredient => {
+                            return (
+                                <li>
+                                    {ingredient.original}
+                                </li>
+                            )
+                        })}
+                    </ul>
+                    <div className="nutrition">
+                        {stateNutritionWidget !== "no widget" &&(
+                            <div>{parse(stateNutritionWidget.nutrition_widget)}</div>
+                        )}
+                    </div>
+                </div>
+            </div>
+            <h2>Recipe Summary</h2>
+            <div className="recipeSummary">
+                <div>{parse(recipe.summary)}</div>
+                <div className="recipeImgDiv">
+                    <img src={recipe.image} alt="recipe image"/>
+                </div>
+            </div>
+            <h2>Instructions</h2>
+            <ol className="instructions">
+                {recipe.analyzedInstructions[0].steps.map(instruction => {
+                    return (
+                        <li>
+                            {instruction.step}
+                        </li>
+                    )
+                })}
+            </ol>
+            <div className="originalRecipe">
+                <a href={recipe.sourceUrl} target="_blank">Veiw original recipe</a>
+            </div>
+            </>
+        )}
         </>
     );
-  }
 
+  }
 
 
 

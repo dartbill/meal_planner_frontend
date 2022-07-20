@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import { NavBar } from "./components";
+import { NavBar, Footer } from "./components";
 import {
   History,
   Homepage,
@@ -31,6 +31,9 @@ function App() {
         <Route path="shoppinglist" element={<ShoppingList />} />
         <Route path="preferences" element={<UserPreferences />} />
       </Routes>
+      <footer >
+        <Footer />
+      </footer>
     </>
   );
 }

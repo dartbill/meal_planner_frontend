@@ -5,9 +5,11 @@ import { useNavigate } from "react-router-dom";
 import './style.css'
 import Collapsible from 'react-collapsible';
 
-const CollapsibleRecipes = ({ favourited, fullRecipes, triggerName, meal }) => {
+const CollapsibleRecipes = ({ favourited, fullRecipes, triggerName, meal, page, date }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate();
+
+  // console.log("this is favourited " + favourited)
 
   const viewFullRecipe = (e) => {
     const parentClassName = e.target.parentElement.className
@@ -20,16 +22,23 @@ const CollapsibleRecipes = ({ favourited, fullRecipes, triggerName, meal }) => {
   // console.log("meal recipes", mealRecipes)
   // console.log("recipes in collapsible", fullRecipes)
 
+  // console.log(fullRecipes[meal])
 
-  const faveFilter = (recipe) => {
-    let fave_recipe = document.getElementById('target')
-    if (fave_recipe) {
-      if (favourited && recipe == false) {
-        fave_recipe.firstChild.style.display = "none"
-      } else if (!favourited) {
-        fave_recipe.firstChild.style.display = "block"
+  const faveFilter = () => {
+    const faveRecipe = document.querySelectorAll('#target')
+    faveRecipe.forEach((e) => {
+      const unFaved = e.getElementsByClassName("unfaved")
+      const unFavedDiv = unFaved[0]
+      if (unFavedDiv) {
+        if (favourited && unFavedDiv.className === "unfaved") {
+          e.style.display = "none"
+        }
+        else if (!favourited) {
+          e.style.display = "block"
+        }
       }
     }
+    )
   }
 
 
@@ -63,26 +72,47 @@ const CollapsibleRecipes = ({ favourited, fullRecipes, triggerName, meal }) => {
     dispatch({ type: "SET MEAL PLAN RECIPES", payload: fullRecipes })
   }
 
-  // move to recipe page
+  // copy to recipe page
   const changefaveRecipe = (e) => {
     const parentClassName = e.target.parentElement.className
     const faveClassName = e.target.className
     const splitString = parentClassName.split(' ')
     const faveRecipeIdStr = splitString[1]
-    const faveRecipeIdInt = parseInt(faveRecipeIdStr)
-
-    for (let i = 0; i < fullRecipes[meal].length; i++) {
-      if (fullRecipes[meal][i].id === faveRecipeIdInt) {
-        if (faveClassName === "fave") {
-          fullRecipes[meal][i].fave = false
-          e.target.className = "unfaved"
-        }
-        if (faveClassName === "unfaved") {
-          fullRecipes[meal][i].fave = true
-          e.target.className = "faved"
+    if (page === "mealplan") {
+      const faveRecipeIdInt = parseInt(faveRecipeIdStr)
+      for (let i = 0; i < fullRecipes[meal].length; i++) {
+        if (fullRecipes[meal][i].id === faveRecipeIdInt) {
+          if (faveClassName === "faved") {
+            fullRecipes[meal][i].fave = false
+            console.log(fullRecipes[meal][i].fave)
+            e.target.className = "unfaved"
+          }
+          if (faveClassName === "unfaved") {
+            fullRecipes[meal][i].fave = true
+            console.log(fullRecipes[meal][i].fave)
+            e.target.className = "faved"
+          }
         }
       }
     }
+    if (page === "history") {
+      for (let i = 0; i < fullRecipes[meal].length; i++) {
+        if (fullRecipes[meal][i].id === faveRecipeIdStr) {
+          if (faveClassName === "faved") {
+            fullRecipes[meal][i].fave = false
+            console.log(date)
+            e.target.className = "unfaved"
+          }
+          if (faveClassName === "unfaved") {
+            fullRecipes[meal][i].fave = true
+            console.log(fullRecipes[meal][i].fave)
+            console.log(date)
+            e.target.className = "faved"
+          }
+        }
+      }
+    }
+    dispatch({ type: "SET MEAL PLAN RECIPES", payload: fullRecipes })
   }
 
 
@@ -92,9 +122,9 @@ const CollapsibleRecipes = ({ favourited, fullRecipes, triggerName, meal }) => {
         {fullRecipes[meal].map(recipe => {
           return (
 
-            <div key={recipe.id} className={"recipe " + recipe.id}>
-              {faveFilter(recipe.fave)}
-              <div id="target" className={"recipeInfoCard " + recipe.id} data-testid="recipe" onClick={viewFullRecipe}>
+            <div id="target" key={recipe.id} className={"recipe " + recipe.id}>
+              {faveFilter()}
+              <div className={"recipeInfoCard " + recipe.id} data-testid="recipe" onClick={viewFullRecipe}>
                 <h3 >{recipe.title}</h3>
                 {recipe.image && <img className="recipeCardImg" src={recipe.image} alt="" />}
               </div>

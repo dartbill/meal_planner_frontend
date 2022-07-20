@@ -17,30 +17,30 @@ const LoginComponent = () => {
     const { data } = await axios.get(
       `${backendUrl}mealhistory/`);
       console.log(data)
-      // dispatch({ type: "SET USER STATE", payload: true });
+      dispatch({ type: "SET USER RECIPE HISTORY", payload: data });
   }
 
   const getUserPreferences = async () => {
     const { data } = await axios.get(
       `${backendUrl}prefs/`);
       console.log(data)
-      const calorieLimits = data[0].calories_limit
+      // const calorieLimits = data[0].calories_limit
       const budgets = data[0].budget
       const intolerences = data[0].intolorences
       const userMeals = data[1]
       console.log("user meals", userMeals)
-      console.log("calories limit", calorieLimits)
+      // console.log("calories limit", calorieLimits)
       console.log("budget", budgets)
-      console.log("intolerances", intolerences[0])
-      const formattedCaloriesString = calorieLimits.replaceAll(`'`, `"`)
-      console.log("formatted calories", formattedCaloriesString)
+      console.log("intolerances", intolerences)
+      // const formattedCaloriesString = calorieLimits.replaceAll(`'`, `"`)
+      // console.log("formatted calories", formattedCaloriesString)
       const formattedbudgetsString = budgets.replaceAll(`'`, `"`)
       console.log("formatted budgets", formattedbudgetsString)
-      const caloriesObj = JSON.parse(formattedCaloriesString)
+      // const caloriesObj = JSON.parse(formattedCaloriesString)
       const budgetObj = JSON.parse(formattedbudgetsString)
-      console.log("caloriesObj", caloriesObj)
+      // console.log("caloriesObj", caloriesObj)
       console.log("budgetObj", budgetObj)
-      dispatch({ type: "SET USER CALORIES", payload: caloriesObj });
+      // dispatch({ type: "SET USER CALORIES", payload: caloriesObj });
       dispatch({ type: "SET USER BUDGETS", payload: budgetObj });
       dispatch({ type: "SET USER MEALS", payload: userMeals });
   }
@@ -81,11 +81,13 @@ const LoginComponent = () => {
         await getUserMealHistory()
         //TODO: set to history state
         //TODO: set first in array to meal plane
-          await getUserPreferences()
+        await getUserPreferences()
         //get preferences
         
-
+        dispatch({ type: "SET LOGIN OR REGISTER", payload: "login" });
         dispatch({ type: "SET USER STATE", payload: true });
+        dispatch({ type: "SET PREFERENCES SET", payload: true });
+        
         navigate("/MealPlan");
       }
     } catch (err) {

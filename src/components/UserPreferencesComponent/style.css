@@ -1,41 +1,17 @@
-.preferences-box{
-    background-color: gray;
+.preferences-box {
+  background-color: gray;
 }
 
-/* #expand-toggle{
-    display: none;
-} */
-
-/* .expandable {
-    visibility: collapse;
-    background: red;
-  }
-
-#expand-toggle:checked ~ * .expandable {
-    visibility: visible;
-    
-  }
 
 
-#expand-toggle:checked + label {
-    /* visibility: visible; */
-    /* color: red;
-    background-color: red;
-  } */ */
-
-  #p{
-    display: none;
-    color: green;
-  }
-
-  input[type=checkbox]:checked + .toggle-section {
-    /* color: #f00;
+input[type=checkbox]:checked+.toggle-section {
+  /* color: #f00;
     background-color: #f00; */
-    font-style: normal;
-    visibility: visible;
-    
-  } 
+  font-style: normal;
+  visibility: visible;
 
-  .meals-section > .toggle-section{
-    visibility: hidden;
-  }
+}
+
+.meals-section>.toggle-section {
+  visibility: hidden;
+}
