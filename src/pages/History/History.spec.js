@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import store from "../../store";
 import "@testing-library/jest-dom";
 
+
 describe("History", () => {
   const navigate = jest.fn();
   const history = (
@@ -22,9 +23,23 @@ describe("History", () => {
   });
 
   test("it renders", () => {
-    render(history);
-    const heading = screen.getByText(/History/i);
+    const heading = screen.getByTestId(/historyH1/i);
     expect(heading).toBeTruthy();
   });
-  
+  test("it filters faves", () => {
+    const faveBtn = screen.getByTestId(/faveBtn/i);
+    expect(faveBtn).toBeTruthy();
+    fireEvent.click(faveBtn)
+    expect(screen.getByText(`Show All`)).toBeInTheDocument()
+  });
+  test("it filters faves", () => {
+    const faveBtn = screen.getByTestId(/faveBtn/i);
+    expect(faveBtn).toBeTruthy();
+    expect(screen.getByText(`Show Favourites`)).toBeInTheDocument()
+  });
+  test("it navigates you to meal plan", () => {
+    const navigateBtn = screen.queryByTestId(/navigateBtn/i);
+    fireEvent.click(navigateBtn);
+    expect(navigate).toHaveBeenCalledWith("/mealplan");
+  });
 })
