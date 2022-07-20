@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import './style.css'
+import { useNavigate } from "react-router-dom";
 
 function UserPreferenceComponent() {
-
+  let navigate = useNavigate();
+  const [prefsMessageVisibility, setPrefsMessageVisibility] = useState("hidden")
   const [intoleranceList, setIntoleranceList] = useState([{ intolerance: "" }]);
   const [meals, setMeals] = useState({ breakfast: false, lunch: false, dinner: false, snack: false, dessert: false })
 
@@ -87,32 +89,37 @@ let prefsToBeSentToDb
       const { data } = await axios.post(`https://mealplannerserver.herokuapp.com/createprefs/`, JSON.stringify(prefsToBeSentToDb))
       console.log(data)
     }
-    
   }
   const onSubmit = async (e) => {
     e.preventDefault()
-    handleRadioBtns()
-    const arr = []
-    for (const e of intoleranceList) {
-      arr.push(e.service)
-      console.log(e.service)
+    try {
+      handleRadioBtns()
+      const arr = []
+      for (const e of intoleranceList) {
+        arr.push(e.service)
+        console.log(e.service)
+      }
+      setIntolerance(arr)
+      console.log(arr)
+      arr.pop()
+      console.log(arr)
+      console.log(meals)
+      console.log(calories)
+      console.log(budget)
+      console.log(newDiet)
+      dispatch({ type: "SET USER INTOLERANCES", payload: intolerance });
+      dispatch({ type: "SET USER DIET", payload: newDiet });
+      dispatch({ type: "SET USER MEALS", payload: meals });
+      dispatch({ type: "SET USER CALORIES", payload: calories });
+      dispatch({ type: "SET USER BUDGETS", payload: budget });
+      dispatch({ type: "SET PREFERENCES SET", payload: true })
+      prefsToBeSentToDb = {prefs: {calories_limit: calories, intolorences: arr, budget: budget}, diet: newDiet, meals: meals}
+      await sendPrefs()
+      setPrefsMessageVisibility("visible")
+    }catch(err){
+      console.log(err)
     }
-    setIntolerance(arr)
-    console.log(arr)
-    arr.pop()
-    console.log(arr)
-    console.log(meals)
-    console.log(calories)
-    console.log(budget)
-    console.log(newDiet)
-    dispatch({ type: "SET USER INTOLERANCES", payload: intolerance });
-    dispatch({ type: "SET USER DIET", payload: newDiet });
-    dispatch({ type: "SET USER MEALS", payload: meals });
-    dispatch({ type: "SET USER CALORIES", payload: calories });
-    dispatch({ type: "SET USER BUDGETS", payload: budget });
-    dispatch({ type: "SET PREFERNCES SET", payload: true })
-    prefsToBeSentToDb = {prefs: {calories_limit: calories, intolorences: arr, budget: budget}, diet: newDiet, meals: meals}
-    await sendPrefs()
+
   }
 
 
@@ -235,7 +242,9 @@ let prefsToBeSentToDb
             <button type="submit">submit prefs</button>
           </div>
         </form>
-
+      </div>
+      <div className="preferencesConfirmed" style={{visibility: prefsMessageVisibility}}>
+        <p>You're preferences have been updated! Create a new meal plan <span onClick={(()=> navigate('/mealplan'))}>here</span></p>
       </div>
     </>
   );
