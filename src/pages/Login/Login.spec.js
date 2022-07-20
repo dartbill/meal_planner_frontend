@@ -23,7 +23,7 @@ describe("Category", () => {
   test("it renders", () => {
     render(login);
     const heading = screen.getByRole("heading", { level: 2 });
-    expect(heading.textContent).toMatch(/login/i);
+    expect(heading.textContent).toMatch(/Login/i);
   });
 
   test("it navigates you one page back", () => {

@@ -84,6 +84,7 @@ const NavBar = () => {
           <i className={iconImg}></i>
         </button>
       </div>
+
       <div
         data-testid="modal"
         className="sideModal"
@@ -159,6 +160,7 @@ const NavBar = () => {
               Preferences
             </NavLink>
           </li>
+
 
           {/* to remove when we can set user */}
           <li
