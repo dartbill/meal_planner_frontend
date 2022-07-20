@@ -18,7 +18,12 @@ const ShoppingList = () => {
             <p>You have not got a shopping list, generate a meal plan <span onClick={() => navigate('/mealplan')}>here</span> first</p>
         )}
         {stateShoppingList.length !== 0 && (
+            <>
             <ShoppingComponent shoppingList={stateShoppingList}/>
+            <div className="shoppingListButton">
+                <button className="emailShoppingList">Email me my shopping list</button>
+            </div>
+            </>
         )}
         </>
     )
