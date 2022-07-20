@@ -1,15 +1,21 @@
 import { default as LoginComponent } from ".";
-import { screen, render, fireEvent } from "@testing-library/react";
+import { screen, render, fireEvent, waitFor } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import * as router from "react-router";
 import { Provider } from "react-redux";
 import store from "../../store";
+import axios from 'axios'
+
+
 import "@testing-library/jest-dom";
 
 describe("LoginComponent", () => {
   const navigate = jest.fn();
+
+
   beforeEach(() => {
     jest.spyOn(router, "useNavigate").mockImplementation(() => navigate);
+    jest.mock('axios')
   });
   const correct = (
     <Provider store={store}>
@@ -85,12 +91,17 @@ describe("LoginComponent", () => {
     });
     expect(errorM).toHaveStyle("visibility: hidden;");
   });
-  test("navigate", () => {
+  test("navigate", async () => {
     render(correct);
+
+
     const form = screen.getByTestId("form");
     const email = screen.getByTestId("emailInput");
+    const password = screen.getByTestId("passwordInput");
+    password.value = ''
     email.value = ''
     fireEvent.submit(form)
-    expect(navigate).toHaveBeenCalledWith("/MealPlan");
+    await waitFor(() => expect(navigate).toHaveBeenCalledWith("/MealPlan"));
+    // expect(form).toBe("/MealPlan");
   });
 });
