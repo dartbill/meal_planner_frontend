@@ -1,6 +1,7 @@
 import { default as Register } from ".";
-import { screen, render } from "@testing-library/react";
+import { screen, render, fireEvent } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
+import * as router from "react-router";
 import { Provider } from "react-redux";
 import store from "../../store";
 import "@testing-library/jest-dom";
