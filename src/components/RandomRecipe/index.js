@@ -96,7 +96,6 @@ console.log(randomRecipe)
             </div>
         </div>)}
       </>
-      
     );
   }
   

@@ -9,7 +9,8 @@ import {
   Recipe,
   Register,
   ShoppingList,
-  UserPreferences
+  UserPreferences,
+  PageNotFound
 } from "./pages";
 
 import "./App.css";
@@ -30,6 +31,7 @@ function App() {
         <Route path="register" element={<Register />} />
         <Route path="shoppinglist" element={<ShoppingList />} />
         <Route path="preferences" element={<UserPreferences />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
       <footer >
         <Footer />

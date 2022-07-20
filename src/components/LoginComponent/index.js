@@ -86,6 +86,8 @@ const LoginComponent = () => {
         
         dispatch({ type: "SET LOGIN OR REGISTER", payload: "login" });
         dispatch({ type: "SET USER STATE", payload: true });
+        dispatch({ type: "SET PREFERENCES SET", payload: true });
+        
         navigate("/MealPlan");
       }
     } catch (err) {

@@ -27,7 +27,8 @@ const initialState = {
     diet: { vegan: false, vegetarian: false, glutenFree: false, ketogenic: false, pescetarian: false, paleo: false },
     intolerances: [],
     login_or_register: "",
-    nutrition_widget: "no widget"
+    nutrition_widget: "no widget",
+    preferences_set: false
 }
 
 const reducer = (state = initialState, action) => {
@@ -64,6 +65,8 @@ const reducer = (state = initialState, action) => {
             return { ...state, nutrition_widget: action.payload }
         case "SET USER STATE":
             return { ...state, user_state: action.payload }
+        case "SET PREFERENCES SET":
+            return { ...state, preferences_set: action.payload }
         case "SET LOGIN OR REGISTER":
             return { ...state, login_or_register: action.payload }
         default:

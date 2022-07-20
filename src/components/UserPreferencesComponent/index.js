@@ -46,10 +46,10 @@ function UserPreferenceComponent() {
     }
   }
 
-  const handleCalorieChange = (e) => {
-    const mealType = e.target.name
-    setCalories({ ...calories, [mealType]: parseInt(e.target.value) });
-  }
+  // const handleCalorieChange = (e) => {
+  //   const mealType = e.target.name
+  //   setCalories({ ...calories, [mealType]: parseInt(e.target.value) });
+  // }
   const handleBudgetChange = (e) => {
     const mealType = e.target.name
     setBudget({ ...budget, [mealType]: parseInt(e.target.value) });
@@ -60,7 +60,7 @@ function UserPreferenceComponent() {
     
     radioBtns.forEach((e) => {
       if(e.checked && e.value === "all"){
-        newDiet = { vegan: true, vegetarian: true, glutenfree: true, ketogenic: true, pescetarian: true, paleo: true }
+        newDiet = { vegan: false, vegetarian: false, glutenfree: false, ketogenic: false, pescetarian: false, paleo: false }
         setDiet(newDiet)
       } else {
         if (e.checked) {
@@ -110,6 +110,7 @@ let prefsToBeSentToDb
     dispatch({ type: "SET USER MEALS", payload: meals });
     dispatch({ type: "SET USER CALORIES", payload: calories });
     dispatch({ type: "SET USER BUDGETS", payload: budget });
+    dispatch({ type: "SET PREFERNCES SET", payload: true })
     prefsToBeSentToDb = {prefs: {calories_limit: calories, intolorences: arr, budget: budget}, diet: newDiet, meals: meals}
     await sendPrefs()
   }
@@ -123,7 +124,6 @@ let prefsToBeSentToDb
       <div className="preferences-box">
         <form onSubmit={(e) => { onSubmit(e) }}>
           <div className="diets-section">
-
             <h3>Diets</h3>
             <p>I only want to recieve recipes that are:</p>
             <input type="radio" value="glutenfree" name="Diet" /> Gluten-free
@@ -154,8 +154,7 @@ let prefsToBeSentToDb
                       <button
                         type="button"
                         onClick={handleServiceAdd}
-                        className="add-btn"
-                      >
+                        className="add-btn">
                         <span>Add</span>
                       </button>
                     )}
@@ -165,8 +164,7 @@ let prefsToBeSentToDb
                       <button
                         type="button"
                         onClick={() => handleServiceRemove(index)}
-                        className="remove-btn"
-                      >
+                        className="remove-btn">
                         <span>Remove</span>
                       </button>
                     )}
@@ -178,7 +176,6 @@ let prefsToBeSentToDb
 
           <div className="meals-section">
             <h3>Meals</h3>
-
             <input type="checkbox" onChange={(e) => { handleCheckboxChange(e) }} value="Breakfast" name="breakfast" id="expand-toggle" /> Breakfast
             {/* <p className="expandable" id="p">Hi</p> */}
             <div className="toggle-section">
@@ -186,10 +183,10 @@ let prefsToBeSentToDb
                 Budget:
                 <input onChange={(e) => { handleBudgetChange(e) }} type="number" id="breakfast-budget" name="breakfast" />
               </label>
-              <label>
+              {/* <label>
                 Calories:
                 <input onChange={(e) => { handleCalorieChange(e) }} type="number" id="breakfast-calories" name="breakfast" />
-              </label>
+              </label> */}
             </div>
             <input type="checkbox" onChange={(e) => { handleCheckboxChange(e) }} value="Lunch" name="lunch" /> Lunch
             <div className="toggle-section">
@@ -197,10 +194,10 @@ let prefsToBeSentToDb
                 Budget:
                 <input onChange={(e) => { handleBudgetChange(e) }} type="number" id="lunch-budget" name="lunch" />
               </label>
-              <label>
+              {/* <label>
                 Calories:
                 <input onChange={(e) => { handleCalorieChange(e) }} type="number" id="lunch-calories" name="lunch" />
-              </label>
+              </label> */}
             </div>
             <input type="checkbox" onChange={(e) => { handleCheckboxChange(e) }} value="Dinner" name="dinner" /> Dinner
             <div className="toggle-section">
@@ -208,10 +205,10 @@ let prefsToBeSentToDb
                 Budget:
                 <input onChange={(e) => { handleBudgetChange(e) }} type="number" id="dinner-budget" name="dinner" />
               </label>
-              <label>
+              {/* <label>
                 Calories:
                 <input onChange={(e) => { handleCalorieChange(e) }} type="number" id="dinner-calories" name="dinner" />
-              </label>
+              </label> */}
             </div>
             <input type="checkbox" onChange={(e) => { handleCheckboxChange(e) }} value="Snacks" name="snacks" /> Snacks
             <div className="toggle-section">
@@ -219,10 +216,10 @@ let prefsToBeSentToDb
                 Budget:
                 <input onChange={(e) => { handleBudgetChange(e) }} type="number" id="snacks-budget" name="snacks" />
               </label>
-              <label>
+              {/* <label>
                 Calories:
                 <input onChange={(e) => { handleCalorieChange(e) }} type="number" id="snacks-calories" name="snacks" />
-              </label>
+              </label> */}
             </div>
             <input type="checkbox" onChange={(e) => { handleCheckboxChange(e) }} value="Dessert" name="dessert" /> Dessert
             <div className="toggle-section">
@@ -230,10 +227,10 @@ let prefsToBeSentToDb
                 Budget:
                 <input onChange={(e) => { handleBudgetChange(e) }} type="number" id="dessert-budget" name="dessert" />
               </label>
-              <label>
+              {/* <label>
                 Calories:
                 <input onChange={(e) => { handleCalorieChange(e) }} type="number" id="dessert-calories" name="dessert" />
-              </label>
+              </label> */}
             </div>
             <button type="submit">submit prefs</button>
           </div>
