@@ -15,7 +15,7 @@ const ShoppingList = () => {
         <div className="backButton" onClick={()=> navigate(-1)}><img src={backArrow} alt="back button"/><p>Back</p></div>
         <h1>ShoppingList</h1>
         {stateShoppingList.length === 0 && (
-            <p>You have not got a shopping list, generate a meal plan <span onClick={() => navigate('/mealplan')}>here</span> first</p>
+            <p data-testid="custom-element">You have not got a shopping list, generate a meal plan <span onClick={() => navigate('/mealplan')}>here</span> first</p>
         )}
         {stateShoppingList.length !== 0 && (
             <>

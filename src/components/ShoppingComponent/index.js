@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const ShoppingComponent = ({shoppingList}) => {
 
-
+    console.log(shoppingList)
     return (
         <>
         {shoppingList.aisles.map((aisle, i) => {

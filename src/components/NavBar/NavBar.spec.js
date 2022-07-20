@@ -89,26 +89,23 @@ describe("NavBar", () => {
   test("it takes you to recipe page and sets recipe state id ", () => {
     const side = screen.getByTestId("side");
     const side2 = screen.getByTestId("modal");
-    // fireEvent.click(side);
-    expect(side.classList).toContain("navIcon", "navIconBorder");
+    fireEvent.click(side);
 
     expect(side2).toHaveStyle("display: none");
   });
 
-  test("it takes you to recipe page and sets recipe state id ", () => {
-    const side = screen.getByTestId("side");
-    const side2 = screen.getByTestId("modal");
-    // fireEvent.click(side);
-    expect(side.classList).toContain("navIcon", "navIconBorder");
+  // test("it takes you to recipe page and sets recipe state id ", () => {
+  //   const side = screen.getByTestId("side");
+  //   const side2 = screen.getByTestId("modal");
+  //   // fireEvent.click(side);
 
-    expect(side2).toHaveStyle("display: none");
-  });
+  //   expect(side2).toHaveStyle("display: none");
+  // });
 
   test("it takes you to recipe page and sets recipe state id ", () => {
     const side = screen.getByTestId("side");
     const side2 = screen.getByTestId("modal");
     fireEvent.click(side);
-    expect(side.classList).toContain("navIcon", "navIconBorder");
 
     expect(side2).toHaveStyle("display: block");
   });
