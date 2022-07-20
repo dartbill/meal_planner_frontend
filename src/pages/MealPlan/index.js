@@ -14,6 +14,8 @@ const MealPlan = () => {
     console.log(state)
     const dispatch = useDispatch()
     const navigate = useNavigate();
+    const stateSetPreferences = useSelector((state) => state.preferences_set);
+    console.log(stateSetPreferences)
 
     const [generateText, setGenerateText] = useState("Generate meal plan")
 
@@ -51,7 +53,7 @@ const MealPlan = () => {
     //TODO:get from state
     // let diet = { vegan: false, vegetarian: false, glutenFree: false, ketogenic: false, pescetarian: false, paleo: false }
     let diet = useSelector(state => state.diet)
-
+    console.log(diet)
     let dietParamsOld = ""
     for (let i = 0; i < Object.keys(diet).length; i++) {
         if (Object.values(diet)[i] === true) {
@@ -62,7 +64,10 @@ const MealPlan = () => {
     let dietParams = dietParamsOld.substring(1)
 
     const getInitialMeal = async (meal) => {
-        console.log("hi")
+        // console.log("hi")
+        try {
+
+        
         const { data } = await axios.get(`https://api.spoonacular.com/recipes/random/?apiKey=${apiKey}&number=100&tags=${meal},${dietParams}&intolerances=${intolerancesParams}&excludeIngredients${intolerancesParams}&includeNutrition=true&instructionsRequired=true`)
         console.log("data", data.recipes)
         const retrievedRecipes = data.recipes
@@ -70,9 +75,14 @@ const MealPlan = () => {
         let formattedRetrievedRecipes = []
         let thisMealsRecipesInMealPlan = []
         for (let i = 0; i < retrievedRecipes.length; i++) {
-            if(retrievedRecipes[i].pricePerServing < stateBudgets[meal]*100){
+            if(stateBudgets[meal] !== 0){
+                if(retrievedRecipes[i].pricePerServing < stateBudgets[meal]*100){
+                    shortRetrievedRecipes = { analyzedInstructions: retrievedRecipes[i].analyzedInstructions, cheap: retrievedRecipes[i].cheap, dairyFree: retrievedRecipes[i].dairyFree, extendedIngredients: retrievedRecipes[i].extendedIngredients, glutenFree: retrievedRecipes[i].glutenFree, id: retrievedRecipes[i].id, image: retrievedRecipes[i].image, pricePerServing: retrievedRecipes[i].pricePerServing, readyInMinutes: retrievedRecipes[i].readyInMinutes, servings: retrievedRecipes[i].servings, sourceUrl: retrievedRecipes[i].sourceUrl, summary: retrievedRecipes[i].summary, title: retrievedRecipes[i].title, vegan: retrievedRecipes[i].vegan, vegetarian: retrievedRecipes[i].vegetarian }
+                    formattedRetrievedRecipes.push({ ...shortRetrievedRecipes, lock: true, fave: false })
+                }
+            } else {
                 shortRetrievedRecipes = { analyzedInstructions: retrievedRecipes[i].analyzedInstructions, cheap: retrievedRecipes[i].cheap, dairyFree: retrievedRecipes[i].dairyFree, extendedIngredients: retrievedRecipes[i].extendedIngredients, glutenFree: retrievedRecipes[i].glutenFree, id: retrievedRecipes[i].id, image: retrievedRecipes[i].image, pricePerServing: retrievedRecipes[i].pricePerServing, readyInMinutes: retrievedRecipes[i].readyInMinutes, servings: retrievedRecipes[i].servings, sourceUrl: retrievedRecipes[i].sourceUrl, summary: retrievedRecipes[i].summary, title: retrievedRecipes[i].title, vegan: retrievedRecipes[i].vegan, vegetarian: retrievedRecipes[i].vegetarian }
-                formattedRetrievedRecipes.push({ ...shortRetrievedRecipes, lock: true, fave: false })
+                    formattedRetrievedRecipes.push({ ...shortRetrievedRecipes, lock: true, fave: false })
             }
         }
         for (let i = 0; i < 7; i++) {
@@ -101,6 +111,9 @@ const MealPlan = () => {
             newMealPlan = { ...newMealPlan, snacks: thisMealsRecipesInMealPlan }
         }
         console.log("meal's recipes in meal plan after call", thisMealsRecipesInMealPlan)
+        } catch(err) {
+            console.log(err)
+        }
     }
     const getAdditionalMeal = async (meal) => {
         console.log("hi")
@@ -110,8 +123,15 @@ const MealPlan = () => {
         let shortRetrievedRecipes = []
         let formattedRetrievedRecipes = []
         for (let i = 0; i < retrievedRecipes.length; i++) {
-            shortRetrievedRecipes = { analyzedInstructions: retrievedRecipes[i].analyzedInstructions, cheap: retrievedRecipes[i].cheap, dairyFree: retrievedRecipes[i].dairyFree, extendedIngredients: retrievedRecipes[i].extendedIngredients, glutenFree: retrievedRecipes[i].glutenFree, id: retrievedRecipes[i].id, image: retrievedRecipes[i].image, pricePerServing: retrievedRecipes[i].pricePerServing, readyInMinutes: retrievedRecipes[i].readyInMinutes, servings: retrievedRecipes[i].servings, sourceUrl: retrievedRecipes[i].sourceUrl, summary: retrievedRecipes[i].summary, title: retrievedRecipes[i].title, vegan: retrievedRecipes[i].vegan, vegetarian: retrievedRecipes[i].vegetarian }
-            formattedRetrievedRecipes.push({ ...shortRetrievedRecipes, lock: true, fave: false })
+            if(stateBudgets[meal] !== 0){
+                if(retrievedRecipes[i].pricePerServing < stateBudgets[meal]*100){
+                    shortRetrievedRecipes = { analyzedInstructions: retrievedRecipes[i].analyzedInstructions, cheap: retrievedRecipes[i].cheap, dairyFree: retrievedRecipes[i].dairyFree, extendedIngredients: retrievedRecipes[i].extendedIngredients, glutenFree: retrievedRecipes[i].glutenFree, id: retrievedRecipes[i].id, image: retrievedRecipes[i].image, pricePerServing: retrievedRecipes[i].pricePerServing, readyInMinutes: retrievedRecipes[i].readyInMinutes, servings: retrievedRecipes[i].servings, sourceUrl: retrievedRecipes[i].sourceUrl, summary: retrievedRecipes[i].summary, title: retrievedRecipes[i].title, vegan: retrievedRecipes[i].vegan, vegetarian: retrievedRecipes[i].vegetarian }
+                    formattedRetrievedRecipes.push({ ...shortRetrievedRecipes, lock: true, fave: false })
+                }
+            } else {
+                shortRetrievedRecipes = { analyzedInstructions: retrievedRecipes[i].analyzedInstructions, cheap: retrievedRecipes[i].cheap, dairyFree: retrievedRecipes[i].dairyFree, extendedIngredients: retrievedRecipes[i].extendedIngredients, glutenFree: retrievedRecipes[i].glutenFree, id: retrievedRecipes[i].id, image: retrievedRecipes[i].image, pricePerServing: retrievedRecipes[i].pricePerServing, readyInMinutes: retrievedRecipes[i].readyInMinutes, servings: retrievedRecipes[i].servings, sourceUrl: retrievedRecipes[i].sourceUrl, summary: retrievedRecipes[i].summary, title: retrievedRecipes[i].title, vegan: retrievedRecipes[i].vegan, vegetarian: retrievedRecipes[i].vegetarian }
+                    formattedRetrievedRecipes.push({ ...shortRetrievedRecipes, lock: true, fave: false })
+            }
         }
         if (meal === "breakfast") {
             newRecipes = { ...newRecipes, breakfast: formattedRetrievedRecipes }
@@ -372,18 +392,33 @@ const MealPlan = () => {
     }
 
 
-
+//TODO: add last meal in meal history to meal plan on sign in
     return (
         <>
             <h1>Meal Plan</h1>
-            <div className="generateMeal">
-                <button onClick={getMeals}>{generateText}</button>
-            </div>
-            <div className="shoppingListBtn">
-                <button onClick={generateShoppingList}>Shopping list</button>
+            {stateSetPreferences === true && (
+                <div className="mealPlanButtons">
+                    <div className="generateMeal">
+                        <button onClick={getMeals}>{generateText}</button>
+                    </div>
+                    <div className="shoppingListBtn">
+                        <button onClick={generateShoppingList}>Shopping list</button>
+                    </div>
+                </div>
+            )}
+            <div className="ConditionlMealMessages">
+            {(stateSetPreferences === false ) && (
+                    <div className="noPreferences">
+                        <p>You haven't set your preferences yet, set them <a href="/preferences">here</a></p>
+                    </div>
+                )}
+                {(stateSetPreferences === true && stateMealRecipes.breakfast.length === 0 && stateMealRecipes.lunch.length === 0 && stateMealRecipes.dinner.length === 0 && stateMealRecipes.dessert.length === 0 && stateMealRecipes.snacks.length === 0 ) && (
+                    <div className="noMealPlan">
+                        <p>You don't have a meal plan yet, create one first!</p>
+                    </div>
+                )}
             </div>
             <div className="recipesMealPlan">
-
                 {stateMealRecipes.breakfast.length > 0 && (
                     <CollapsibleRecipes meal={"breakfast"} fullRecipes={stateMealRecipes} triggerName="Breakfast" page="mealplan"/>
                 )}
