@@ -31,7 +31,7 @@ const LoginComponent = () => {
       console.log("user meals", userMeals)
       // console.log("calories limit", calorieLimits)
       console.log("budget", budgets)
-      console.log("intolerances", intolerences[0])
+      console.log("intolerances", intolerences)
       // const formattedCaloriesString = calorieLimits.replaceAll(`'`, `"`)
       // console.log("formatted calories", formattedCaloriesString)
       const formattedbudgetsString = budgets.replaceAll(`'`, `"`)
