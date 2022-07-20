@@ -36,7 +36,7 @@ const Fact = () => {
     <>
       {stateRandomFact !== "no fact" && (
         <div className="fact">
-            <p>{randomFact}</p>
+            <p data-testid="randomFact">{randomFact}</p>
         </div>
       )}
     </>
