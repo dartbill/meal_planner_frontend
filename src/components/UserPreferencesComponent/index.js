@@ -4,8 +4,8 @@ import axios from "axios";
 import './style.css'
 import { useNavigate } from "react-router-dom";
 
-function UserPreferenceComponent() {
-  let navigate = useNavigate();
+const UserPreferenceComponent = () => {
+  const navigate = useNavigate();
   const [prefsMessageVisibility, setPrefsMessageVisibility] = useState("hidden")
   const [intoleranceList, setIntoleranceList] = useState([{ intolerance: "" }]);
   const [meals, setMeals] = useState({ breakfast: false, lunch: false, dinner: false, snack: false, dessert: false })
@@ -35,7 +35,7 @@ function UserPreferenceComponent() {
     setIntoleranceList([...intoleranceList, { intolerance: "" }]);
   };
 
-  
+
 
 
   const handleCheckboxChange = (checkbox) => {
@@ -59,9 +59,9 @@ function UserPreferenceComponent() {
   let newDiet = { vegan: false, vegetarian: false, glutenfree: false, ketogenic: false, pescetarian: false, paleo: false }
   const handleRadioBtns = () => {
     const radioBtns = document.querySelectorAll('input[type = "radio"]')
-    
+
     radioBtns.forEach((e) => {
-      if(e.checked && e.value === "all"){
+      if (e.checked && e.value === "all") {
         newDiet = { vegan: false, vegetarian: false, glutenfree: false, ketogenic: false, pescetarian: false, paleo: false }
         setDiet(newDiet)
       } else {
@@ -74,17 +74,17 @@ function UserPreferenceComponent() {
     }
     )
   }
-let intolerances
-  
-let prefsToBeSentToDb 
+  let intolerances
+
+  let prefsToBeSentToDb
 
   const sendPrefs = async () => {
-    if(stateLoginOrRegister === "login"){
+    if (stateLoginOrRegister === "login") {
       console.log("send patch", prefsToBeSentToDb)
       const { data } = await axios.patch(`https://mealplannerserver.herokuapp.com/prefs/`, JSON.stringify(prefsToBeSentToDb))
       console.log(data)
     }
-    if(stateLoginOrRegister === "register"){
+    if (stateLoginOrRegister === "register") {
       console.log("send post", prefsToBeSentToDb)
       const { data } = await axios.post(`https://mealplannerserver.herokuapp.com/createprefs/`, JSON.stringify(prefsToBeSentToDb))
       console.log(data)
@@ -113,10 +113,10 @@ let prefsToBeSentToDb
       dispatch({ type: "SET USER CALORIES", payload: calories });
       dispatch({ type: "SET USER BUDGETS", payload: budget });
       dispatch({ type: "SET PREFERENCES SET", payload: true })
-      prefsToBeSentToDb = {prefs: {calories_limit: calories, intolorences: arr, budget: budget}, diet: newDiet, meals: meals}
+      prefsToBeSentToDb = { prefs: { calories_limit: calories, intolorences: arr, budget: budget }, diet: newDiet, meals: meals }
       await sendPrefs()
       setPrefsMessageVisibility("visible")
-    }catch(err){
+    } catch (err) {
       console.log(err)
     }
 
@@ -243,8 +243,8 @@ let prefsToBeSentToDb
           </div>
         </form>
       </div>
-      <div className="preferencesConfirmed" style={{visibility: prefsMessageVisibility}}>
-        <p>You're preferences have been updated! Create a new meal plan <span onClick={(()=> navigate('/mealplan'))}>here</span></p>
+      <div className="preferencesConfirmed" style={{ visibility: prefsMessageVisibility }}>
+        <p>You're preferences have been updated! Create a new meal plan <span onClick={(() => navigate('/mealplan'))}>here</span></p>
       </div>
     </>
   );
