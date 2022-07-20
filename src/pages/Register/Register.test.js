@@ -18,11 +18,19 @@ describe("Register", () => {
     const heading = screen.getByRole("heading", { level: 2 });
     expect(heading.textContent).toMatch(/Create Account/i);
   });
+
   test("it renders", () => {
     render(register);
     const heading = screen.getByRole("button", {
       name: /sign up/i,
     });
     expect(heading).toBeInTheDocument();
+  });
+
+  test("it navigates you one page back", () => {
+    render(register);
+    const back = screen.queryByTestId(/back/i);
+    fireEvent.click(back);
+    expect(navigate).toHaveBeenCalledWith("/");
   });
 });
