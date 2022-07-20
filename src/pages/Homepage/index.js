@@ -3,6 +3,7 @@ import React from "react";
 import { Joke } from '../../components';
 import { Fact } from '../../components';
 import { RandomRecipe } from '../../components';
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import homepageHero from '../../images/homepageHero.jpg'
 import homepageMeal from '../../images/homepageMeal.jpg'
@@ -11,6 +12,7 @@ import './style.css'
 
 const Homepage = () => {
   const state = useSelector((state) => state.user_state);
+  const navigate = useNavigate();
   console.log('state on homepage is' + state)
   return (
     <>
@@ -30,9 +32,9 @@ const Homepage = () => {
           <li>Generate shopping list</li>
         </ul>
         </div>
-        <div className="loginSignup">
-          <p><a href="Register">Sign up or</a></p>
-          <p><a href="Register">log in</a></p>
+        <div className="loginSignup" onClick={() => navigate('/login')}>
+          <p>Sign up or</p>
+          <p>log in</p>
         </div>
       </div>
       <div className="recipeOfDay">

@@ -24,12 +24,12 @@ const MealPlan = () => {
     const stateMealRecipes = useSelector(state => state.meal_plan_recipes)
     const stateUsersRecipesHistory = useSelector(state => state.users_recipe_history)
     const stateBudgets = useSelector(state => state.user_budget)
-    const stateCalories = useSelector(state => state.user_calorie_limits)
-    console.log("state budgets", stateBudgets)
-    console.log("state meal plan recipes at render", stateMealRecipes)
+    // const stateCalories = useSelector(state => state.user_calorie_limits)
+    // console.log("state budgets", stateBudgets)
+    // console.log("state meal plan recipes at render", stateMealRecipes)
 
     const stateRecipes = useSelector(state => state.recipes)
-    console.log("state recipes at render", stateRecipes)
+    // console.log("state recipes at render", stateRecipes)
 
     let viewedRecipes = []
 
@@ -37,12 +37,12 @@ const MealPlan = () => {
 
     let newMealPlan = { breakfast: [], lunch: [], dinner: [], dessert: [], snacks: [] }
 
-    //TODO:get from state
+    
     let meals = useSelector(state => state.user_meals)
     console.log(meals)
 
 
-    //TODO:get from state
+    
     let intoleranes = useSelector(state => state.intolerances)
     let intolerancesParamsOld = ""
     for (let i = 0; i < intoleranes.length; i++) {
@@ -50,24 +50,18 @@ const MealPlan = () => {
     }
     let intolerancesParams = intolerancesParamsOld.substring(1)
 
-    //TODO:get from state
-    // let diet = { vegan: false, vegetarian: false, glutenFree: false, ketogenic: false, pescetarian: false, paleo: false }
     let diet = useSelector(state => state.diet)
-    console.log(diet)
+    
     let dietParamsOld = ""
     for (let i = 0; i < Object.keys(diet).length; i++) {
         if (Object.values(diet)[i] === true) {
             dietParamsOld += `,${Object.keys(diet)[i]}`
-            console.log(dietParamsOld)
         }
     }
     let dietParams = dietParamsOld.substring(1)
 
     const getInitialMeal = async (meal) => {
-        // console.log("hi")
         try {
-
-        
         const { data } = await axios.get(`https://api.spoonacular.com/recipes/random/?apiKey=${apiKey}&number=100&tags=${meal},${dietParams}&intolerances=${intolerancesParams}&excludeIngredients${intolerancesParams}&includeNutrition=true&instructionsRequired=true`)
         console.log("data", data.recipes)
         const retrievedRecipes = data.recipes
@@ -156,8 +150,6 @@ const MealPlan = () => {
 
     const getMeals = async (e) => {
         e.preventDefault()
-
-        // checks to see if a recipe is locked, if not it is added to unlocked array
         let numberOfUnlocked = 0
         for (let i = 0; i < Object.keys(meals).length; i++) {
             for (let j = 0; j < Object.values(stateMealRecipes)[i].length; j++) {
@@ -167,9 +159,6 @@ const MealPlan = () => {
                 }
             }
         }
-        console.log(numberOfUnlocked)
-        console.log("unlocked meals", unlockedMeals)
-
         for (let i = 0; i < Object.keys(meals).length; i++) {
             if (numberOfUnlocked === 0 && Object.values(meals)[i] === true) {
                 if (Object.keys(meals)[i] === "breakfast") {
@@ -213,7 +202,6 @@ const MealPlan = () => {
                     if (Object.values(stateMealRecipes)[i][j].lock === false) {
                         Object.values(stateMealRecipes)[i][j] = Object.values(stateRecipes)[i][0]
                         Object.values(stateRecipes)[i].splice(0, 1)
-                        console.log("state recipes after unlocked replaced", stateRecipes)
                         if (Object.keys(meals)[i] === "breakfast") {
                             newMealPlan = { ...newMealPlan, breakfast: Object.values(stateMealRecipes)[i] }
                             newRecipes = { ...newRecipes, breakfast: Object.values(stateRecipes)[i] }
@@ -281,20 +269,12 @@ const MealPlan = () => {
 
         }
 
-        console.log("new recipes after getMeals", newRecipes)
-        console.log("new meal plan after getMeals", newMealPlan)
-
         dispatch({ type: "SET RECIPES", payload: newRecipes })
         dispatch({ type: "SET VIEWED RECIPES", payload: viewedRecipes })
         dispatch({ type: "SET MEAL PLAN RECIPES", payload: newMealPlan })
     }
 
 
-
-
-
-
-    //TODO:generate shopping list
     let shoppingList
     const sendShoppingItems = async (shoppingItems) => {
         const options = {
@@ -306,18 +286,7 @@ const MealPlan = () => {
     }
     const generateShoppingList = async (e) => {
         e.preventDefault()
-        // take in all items from recipes
-        // send to api with structure of 
-        // {
-        //     "items": [
-        //         "4 lbs tomatoes",
-        //         "10 tomatoes",
-        //         "20 Tablespoons Olive Oil",
-        //         "6 tbsp Olive Oil"
-        //     ]
-        // }
         let items = []
-        //extracts all ingredients from all the recipes in the meal plan
         for (let i = 0; i < Object.keys(stateMealRecipes).length; i++) {
             if (Object.values(stateMealRecipes)[i].length) {
                 for (let j = 0; j < Object.values(stateMealRecipes)[i].length; j++) {
@@ -327,8 +296,6 @@ const MealPlan = () => {
                         let ingredientMeasureUnit = Object.values(stateMealRecipes)[i][j].extendedIngredients[k].measures.us.unitShort
                         let itemString = `${ingredientMeasureAmount} ${ingredientMeasureUnit} ${ingredientName}`
                         items.push(itemString)
-                        console.log(itemString)
-                        console.log(items)
                     }
                 }
             }
@@ -341,15 +308,8 @@ const MealPlan = () => {
     }
 
 
-
-    //TODO:submit meal plan
-    // take in all id's, titles, and faves
-    // add to array
-    // send to db
-
     const submitMealPlan = async (e) => {
         e.preventDefault()
-
         let recipesToSendToDb = { today_date: "", recipes: { breakfast: [], lunch: [], dinner: [], dessert: [], snacks: []}}
         for (let i = 0; i < Object.keys(stateMealRecipes).length; i++) {
             for (let j = 0; j < Object.values(stateMealRecipes)[i].length; j++) {
@@ -372,7 +332,6 @@ const MealPlan = () => {
                     recipesToSendToDb.recipes.snacks.push(mealEntry)
                 }
             }
-            console.log(recipesToSendToDb)
         }
         dispatch({ type: "SET MEAL PLAN RECIPES", payload: stateMealRecipes })
         let today = new Date();
@@ -380,11 +339,8 @@ const MealPlan = () => {
         const mm = String(today.getMonth() + 1).padStart(2, '0');
         const yyyy = today.getFullYear();
         today = dd + '/' + mm + '/' +  yyyy;
-        console.log(today)
         recipesToSendToDb.today_date = today
-        console.log(recipesToSendToDb)
         const { data } = await axios.post(`https://mealplannerserver.herokuapp.com/mealhistory/`, JSON.stringify(recipesToSendToDb))
-        console.log(data)
         stateUsersRecipesHistory.unshift(recipesToSendToDb)
         //confirmation message saying can now view shopping list
         
@@ -399,7 +355,7 @@ const MealPlan = () => {
             {stateSetPreferences === true && (
                 <div className="mealPlanButtons">
                     <div className="generateMeal">
-                        <button onClick={getMeals}>{generateText}</button>
+                        <button data-testId="getMealsBtn" onClick={getMeals}>{generateText}</button>
                     </div>
                     {(stateMealRecipes.breakfast.length !== 0 || stateMealRecipes.lunch.length !== 0 || stateMealRecipes.dinner.length !== 0 || stateMealRecipes.dessert.length !== 0 || stateMealRecipes.snacks.length !== 0 ) && (
                     <div className="shoppingListBtn">

@@ -1,4 +1,4 @@
-const initialState = {
+export const initialState = {
     recipes: { breakfast: [], lunch: [], dinner: [], dessert: [], snacks: [] },
     recipe_id: "12",
     users_recipe_history: [
