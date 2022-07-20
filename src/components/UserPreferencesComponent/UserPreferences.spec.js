@@ -1,17 +1,4 @@
-import { render, waitFor } from "@testing-library/react";
-import Fact from ".";
-
-
-// describe('Fact Component', () => { 
-//     it('should render Facts when api responds', async () => {
-//         render(<Fact />);
-//         await waitFor(() => {
-//             screen.getByRole("paragraph".toBeInTheDocument())
-//         })
-//     })
-// })
-
-import { default as Fact } from ".";
+import { default as UserPreferences } from ".";
 import { screen, render, fireEvent } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import * as router from "react-router";
@@ -23,25 +10,32 @@ import "@testing-library/jest-dom";
 import axios from 'axios';
 
 
-describe("Fact", () => {
+describe("UserPreferences", () => {
   const navigate = jest.fn();
-  const Fact = (
+  const UserPreferences = (
     <Provider store={store}>
       <Router>
-        <Fact />
+        <UserPreferences />
       </Router>
     </Provider>
   );
 
   beforeEach(() => {
     jest.spyOn(router, "useNavigate").mockImplementation(() => navigate);
-    render(Fact);
+    render(UserPreferences);
   });
 
   test("it renders the button 'Logout' ", () => {
-    const link = screen.getByRole("paragraph").toBeInTheDocument();
+    const link = screen.getByText(/Remove/i);
     expect(link).toBeTruthy();
+    // fireEvent.click(button);
+    // expect(navigate).toHaveBeenCalledWith("/");
+  });
 
-    })
+  test("it renders the button 'Logout' ", () => {
+    const link = screen.getByRole("button");
+    expect(link).toBeTruthy();
+ 
+  });
 
-});
+})
