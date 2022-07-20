@@ -34,11 +34,11 @@ const Fact = () => {
   
     return (
     <>
-    {stateRandomFact !== "no fact" && (
-      <div className="fact">
-          <p>{randomFact}</p>
-      </div>
-    )}
+      {stateRandomFact !== "no fact" && (
+        <div className="fact">
+            <p>{randomFact}</p>
+        </div>
+      )}
     </>
     );
   }
