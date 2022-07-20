@@ -9,7 +9,7 @@ import "./style.css";
 const NavBar = () => {
   const dispatch = useDispatch();
 
-  const activeClass = ({ isActive }) => (isActive ? "active" : undefined);
+  const activeclass = ({ isActive }) => (isActive ? "active" : undefined);
   const backendUrl = "https://mealplannerserver.herokuapp.com/";
   const route = "logout/";
 
@@ -84,6 +84,7 @@ const NavBar = () => {
           <i className={iconImg}></i>
         </button>
       </div>
+
       <div
         data-testid="modal"
         className="sideModal"
@@ -92,7 +93,7 @@ const NavBar = () => {
         <ul className="sideNavBar">
           <li>
             <NavLink
-              activeClass="active"
+              activeclass="active"
               to="/"
               onClick={(e) => {
                 e.preventDefault();
@@ -106,7 +107,7 @@ const NavBar = () => {
 
           <li>
             <NavLink
-              activeClass="active"
+              activeclass="active"
               to="/mealplan"
               onClick={(e) => {
                 e.preventDefault();
@@ -120,7 +121,7 @@ const NavBar = () => {
 
           <li>
             <NavLink
-              activeClass="active"
+              activeclass="active"
               to="/shoppinglist"
               onClick={(e) => {
                 e.preventDefault();
@@ -134,7 +135,7 @@ const NavBar = () => {
 
           <li>
             <NavLink
-              activeClass="active"
+              activeclass="active"
               to="/history"
               onClick={(e) => {
                 e.preventDefault();
@@ -148,7 +149,7 @@ const NavBar = () => {
 
           <li>
             <NavLink
-              activeClass="active"
+              activeclass="active"
               to="/preferences"
               onClick={(e) => {
                 e.preventDefault();
@@ -159,6 +160,7 @@ const NavBar = () => {
               Preferences
             </NavLink>
           </li>
+
 
           {/* to remove when we can set user */}
           <li

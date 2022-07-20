@@ -42,14 +42,14 @@ const History = () => {
 
     return (
         <>
-            <h1>History</h1>
+            <h1 data-testid="historyH1">History</h1>
             {/* if the users history is same as initial state they are redirected to submit a meal plan */}
             {initialUsersHistoryRecipes === userHistoryState && (
-                <p>You have not submitted any meal plans yet, create one <span onClick={() => navigate('/mealplan')}>here</span></p>
+                <p >You have not submitted any meal plans yet, create one <span data-testId="navigateBtn" onClick={() => navigate('/mealplan')}>here</span></p>
             )}
             {/* if user has a meal plan history the code under renders, which returns a collapsible for each week, which each contain collapsibles for each meal type if they contain data */}
             {initialUsersHistoryRecipes !== userHistoryState && (
-                <button onClick={(e) => {
+                <button data-testid="faveBtn" onClick={(e) => {
                     onBtnClick(e)
                     console.log("this is from history " + favourited)
                 }}>{btnText}</button>
