@@ -1,9 +1,11 @@
 import axios from "axios";
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+
 import './style.css'
+
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -14,17 +16,14 @@ const NavBar = () => {
 
   let navigate = useNavigate();
   const onBtnClick = (e) => {
-    e.preventDefault()
-    axios.get(
-      `${backendUrl}${route}`,
-      {
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    e.preventDefault();
+    axios.get(`${backendUrl}${route}`, {
+      headers: { "Content-Type": "application/json" },
+    });
 
     dispatch({ type: "SET USER STATE", payload: false });
     navigate("/");
-  }
+  };
   ////////////////////////////////////////// un comment when we can check user state
   // const [user, setUser] = useState(false)
 
@@ -48,11 +47,13 @@ const NavBar = () => {
   // }
   ////////////////////////////////////////
 
+
   const [display, setDisplay] = useState("none")
   const [iconImg, setIconImg] = useState("fa fa-bars")
 
+
   const openSideNav = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (display === "block") {
       setDisplay("none");
       setIconImg("fa fa-bars")
@@ -129,11 +130,10 @@ const NavBar = () => {
 
           {/* add back in when we can check user state */}
           {/* {renderLinks()} */}
-
         </ul>
       </div>
     </>
-  )
-}
+  );
+};
 
 export default NavBar;
