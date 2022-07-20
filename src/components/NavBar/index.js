@@ -80,7 +80,6 @@ const NavBar = () => {
           <li><Link activeClass="active" onClick={navigate('/login')} offset={-180}><span className="number">02.</span> login</Link></li>
           <li><Link activeClass="active" smooth spy to="projects" offset={-180}><span className="number">03.</span> Projects</Link></li>
           <li><Link activeClass="active" smooth spy to="contact" offset={-180}><span className="number">04.</span> Contact Me</Link></li>
-
         </ul> */}
       </div>
       <div className="sidenav">
