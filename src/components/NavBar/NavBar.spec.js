@@ -4,7 +4,11 @@ import { BrowserRouter as Router } from "react-router-dom";
 import * as router from "react-router";
 import { Provider } from "react-redux";
 import store from "../../store";
+import reducer from '../../reducers'
+import onBtnClick from './index'
 import "@testing-library/jest-dom";
+import axios from 'axios';
+
 
 describe("NavBar", () => {
   const navigate = jest.fn();
@@ -105,4 +109,16 @@ describe("NavBar", () => {
 
     expect(side2).toHaveStyle("display: block");
   });
+
+  test("test api ", async () => {
+    const side = screen.getByTestId("side");
+    const side2 = screen.getByTestId("modal");
+    fireEvent.click(side);
+    const averagePrice = await onBtnClick(fireEvent.click(side));
+    // expect(side.classList).toContain("navIcon", "navIconBorder");
+    expect(averagePrice).toEqual({ 'message': 'User logged out' });
+    // expect(side2).toHaveStyle("display: block");
+  });
+
+
 });
