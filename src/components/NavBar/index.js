@@ -68,8 +68,8 @@ const NavBar = () => {
   }
   const closeSideNav = (e) => {
     e.preventDefault()
-      setDisplay("none");
-      setIconImg("fa fa-bars")
+    setDisplay("none");
+    setIconImg("fa fa-bars")
   }
 
   return (
@@ -83,11 +83,11 @@ const NavBar = () => {
         </ul> */}
       </div>
       <div className="sidenav">
-        <button className="navIcon" onClick={openSideNav}>
+        <button data-testid="side" className="navIcon" onClick={openSideNav}>
           <i className={iconImg}></i>
         </button>
       </div>
-      <div className="sideModal" style={{ display: display }}>
+      <div data-testid="modal" className="sideModal" style={{ display: display }}>
         <ul className="sideNavBar">
           <li><NavLink activeClass="active" to='/' onClick={(e) => {
             e.preventDefault()
@@ -100,7 +100,7 @@ const NavBar = () => {
             closeSideNav(e)
             navigate("/mealplan")
           }}>Meal plan</NavLink></li>
-          
+
           <li><NavLink activeClass="active" to='/shoppinglist' onClick={(e) => {
             e.preventDefault()
             closeSideNav(e)
