@@ -401,22 +401,25 @@ const MealPlan = () => {
                     <div className="generateMeal">
                         <button onClick={getMeals}>{generateText}</button>
                     </div>
+                    {(stateMealRecipes.breakfast.length !== 0 || stateMealRecipes.lunch.length !== 0 || stateMealRecipes.dinner.length !== 0 || stateMealRecipes.dessert.length !== 0 || stateMealRecipes.snacks.length !== 0 ) && (
                     <div className="shoppingListBtn">
                         <button onClick={generateShoppingList}>Shopping list</button>
                     </div>
+            )}
                 </div>
             )}
+            
             <div className="ConditionlMealMessages">
             {(stateSetPreferences === false ) && (
                     <div className="noPreferences">
-                        <p>You haven't set your preferences yet, set them <a href="/preferences">here</a></p>
+                        <p>You haven't set your preferences yet, set them <span onClick={() => navigate('/preferences')}>here</span></p>
                     </div>
                 )}
-                {(stateSetPreferences === true && stateMealRecipes.breakfast.length === 0 && stateMealRecipes.lunch.length === 0 && stateMealRecipes.dinner.length === 0 && stateMealRecipes.dessert.length === 0 && stateMealRecipes.snacks.length === 0 ) && (
-                    <div className="noMealPlan">
-                        <p>You don't have a meal plan yet, create one first!</p>
-                    </div>
-                )}
+            {(stateSetPreferences === true && stateMealRecipes.breakfast.length === 0 && stateMealRecipes.lunch.length === 0 && stateMealRecipes.dinner.length === 0 && stateMealRecipes.dessert.length === 0 && stateMealRecipes.snacks.length === 0 ) && (
+                <div className="noMealPlan">
+                    <p>You don't have a meal plan yet, create one first!</p>
+                </div>
+            )}
             </div>
             <div className="recipesMealPlan">
                 {stateMealRecipes.breakfast.length > 0 && (
@@ -435,7 +438,9 @@ const MealPlan = () => {
                     <CollapsibleRecipes meal={"snacks"} fullRecipes={stateMealRecipes} triggerName="Snacks" page="mealplan"/>
                 )}
             </div>
-            <div className="submitMealPlan" onClick={submitMealPlan}>Submit meal plan</div>
+            {(stateMealRecipes.breakfast.length !== 0 || stateMealRecipes.lunch.length !== 0 || stateMealRecipes.dinner.length !== 0 || stateMealRecipes.dessert.length !== 0 || stateMealRecipes.snacks.length !== 0 ) && (
+                <div className="submitMealPlan" onClick={submitMealPlan}>Submit meal plan</div>
+            )}
         </>
     )
 };
