@@ -76,6 +76,7 @@ describe("meals-section checkbox tests", () => {
 
     test("checks visibility of checkbox", () => {
         const checkbox = screen.getByTestId("handleServiceChange5");
+
         expect(checkbox.checked).toEqual(false)
         const label = screen.getByTestId("label5");
         expect(label).toBeInTheDocument()

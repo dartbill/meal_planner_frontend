@@ -85,4 +85,12 @@ describe("LoginComponent", () => {
     });
     expect(errorM).toHaveStyle("visibility: hidden;");
   });
+  test("navigate", () => {
+    render(correct);
+    const form = screen.getByTestId("form");
+    const email = screen.getByTestId("emailInput");
+    email.value = ''
+    fireEvent.submit(form)
+    expect(navigate).toHaveBeenCalledWith("/MealPlan");
+  });
 });
