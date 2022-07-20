@@ -64,17 +64,10 @@ const NavBar = () => {
     }
   };
   const closeSideNav = (e) => {
-<<<<<<< HEAD
-    e.preventDefault()
-    setDisplay("none");
-    setIconImg("fa fa-bars")
-  }
-=======
     e.preventDefault();
     setDisplay("none");
     setIconImg("fa fa-bars");
   };
->>>>>>> b42fd193078be04094335edb7bc9eb8e3ce57e7e
 
   return (
     <>
@@ -91,7 +84,6 @@ const NavBar = () => {
           <i className={iconImg}></i>
         </button>
       </div>
-<<<<<<< HEAD
       <div data-testid="modal" className="sideModal" style={{ display: display }}>
         <ul className="sideNavBar">
           <li><NavLink activeClass="active" to='/' onClick={(e) => {
@@ -123,83 +115,6 @@ const NavBar = () => {
             closeSideNav(e)
             navigate("/preferences")
           }}>Preferences</NavLink></li>
-=======
-      <div
-        data-testid="modal"
-        className="sideModal"
-        style={{ display: display }}
-      >
-        <ul className="sideNavBar">
-          <li>
-            <NavLink
-              activeClass="active"
-              to="/"
-              onClick={(e) => {
-                e.preventDefault();
-                closeSideNav(e);
-                navigate("/");
-              }}
-            >
-              Home
-            </NavLink>
-          </li>
-
-          <li>
-            <NavLink
-              activeClass="active"
-              to="/mealplan"
-              onClick={(e) => {
-                e.preventDefault();
-                closeSideNav(e);
-                navigate("/mealplan");
-              }}
-            >
-              Meal plan
-            </NavLink>
-          </li>
-
-          <li>
-            <NavLink
-              activeClass="active"
-              to="/shoppinglist"
-              onClick={(e) => {
-                e.preventDefault();
-                closeSideNav(e);
-                navigate("/shoppinglist");
-              }}
-            >
-              Shopping list
-            </NavLink>
-          </li>
-
-          <li>
-            <NavLink
-              activeClass="active"
-              to="/history"
-              onClick={(e) => {
-                e.preventDefault();
-                closeSideNav(e);
-                navigate("/history");
-              }}
-            >
-              Recipe history
-            </NavLink>
-          </li>
-
-          <li>
-            <NavLink
-              activeClass="active"
-              to="/preferences"
-              onClick={(e) => {
-                e.preventDefault();
-                closeSideNav(e);
-                navigate("/preferences");
-              }}
-            >
-              Preferences
-            </NavLink>
-          </li>
->>>>>>> b42fd193078be04094335edb7bc9eb8e3ce57e7e
 
           {/* to remove when we can set user */}
           <li
