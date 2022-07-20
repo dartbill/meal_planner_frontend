@@ -13,7 +13,7 @@ const apiKey = "a59cc791056a438ab4b73975ca70e20f"
 
 export default apiKey
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root') || document.createElement('div'));
 root.render(
     <Provider store={store}>
       <Router>
