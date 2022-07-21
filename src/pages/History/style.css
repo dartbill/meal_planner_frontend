@@ -33,3 +33,12 @@
     margin: 0 auto;
     border-radius: 15px;
 }
+.Collapsible__contentInner > .Collapsible {
+    background-color: rgb(182, 219, 215);
+    margin-left: 25px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.Collapsible__contentInner > .Collapsible > .Collapsible__contentOuter {
+    background-color: rgb(243, 253, 252);
+}

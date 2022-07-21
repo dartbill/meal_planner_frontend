@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import sookiNavLog from '../../images/sookiText.png'
@@ -9,7 +9,8 @@ import "./style.css";
 
 const NavBar = () => {
   const dispatch = useDispatch();
-
+  const userState = useSelector((state) => state.user_state);
+  console.log(userState)
   const activeclass = ({ isActive }) => (isActive ? "active" : undefined);
   const backendUrl = "https://mealplannerserver.herokuapp.com/";
   const route = "logout/";
@@ -166,7 +167,7 @@ const NavBar = () => {
           </li>
 
 
-          {/* to remove when we can set user */}
+          {userState === true && (
           <li
             onClick={(e) => {
               closeSideNav(e)
@@ -175,6 +176,8 @@ const NavBar = () => {
           >
             Logout
           </li>
+          )}
+          {userState === false && (
           <li
             onClick={(e) => {
               e.preventDefault();
@@ -184,10 +187,8 @@ const NavBar = () => {
           >
             Login
           </li>
-          {/* end of remove block */}
+          )}
 
-          {/* add back in when we can check user state */}
-          {/* {renderLinks()} */}
         </ul>
       </div>
     </>
