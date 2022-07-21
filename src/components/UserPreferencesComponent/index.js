@@ -127,12 +127,13 @@ const UserPreferenceComponent = () => {
 
   return (
     <>
-      <h1>Set Preferences</h1>
+      <h1 className="userprefhead_3">Set Preferences</h1>
       <div className="preferences-box">
         <form data-testid="onsubmit" onSubmit={(e) => { onSubmit(e) }}>
           <div className="diets-section">
-            <h3>Diets</h3>
-            <p>I only want to recieve recipes that are:</p>
+            <h3 className="h3_3">Diets</h3>
+            <p className="para_3">I only want to recieve recipes that are:</p>
+            <div className="experience__content">
             <input type="radio" value="glutenfree" name="Diet" /> Gluten-free
             <input type="radio" value="vegetarian" name="Diet" /> Vegetarian
             <input type="radio" value="pescatarian" name="Diet" /> Pescatarian
@@ -140,12 +141,13 @@ const UserPreferenceComponent = () => {
             <input type="radio" value="paleo" name="Diet" /> Paleo
             <input type="radio" value="ketogenic" name="Diet" /> Keto
             <input type="radio" value="all" name="Diet" /> Send All
+            </div>
           </div>
 
           <div className="intolorences-section">
-            <h3>Intolerances</h3>
-            <div>
-              <label htmlFor="service">Intolerances</label>
+            <h3 className="h3_3">Intolerances</h3>
+            <div className="intol_3">
+              <label htmlFor="service"></label>
               {intoleranceList.map((singleService, index) => (
                 <div key={index} className="services">
                   <div className="first-division">
@@ -163,7 +165,7 @@ const UserPreferenceComponent = () => {
                         type="button"
                         onClick={handleServiceAdd}
                         className="add-btn">
-                        <span>Add</span>
+                        <span>&nbsp;&nbsp;+&nbsp;&nbsp;</span>
                       </button>
                     )}
                   </div>
@@ -173,7 +175,7 @@ const UserPreferenceComponent = () => {
                         type="button"
                         onClick={() => handleServiceRemove(index)}
                         className="remove-btn">
-                        <span>Remove</span>
+                        <span>&nbsp;&nbsp;-&nbsp;&nbsp;</span>
                       </button>
                     )}
                   </div>
@@ -183,7 +185,7 @@ const UserPreferenceComponent = () => {
           </div>
 
           <div className="meals-section">
-            <h3>Meals</h3>
+            <h3 className="h3_3">Meals</h3>
             <input data-testid="handleServiceChange2" type="checkbox" onChange={(e) => { handleCheckboxChange(e) }} value="Breakfast" name="breakfast" id="expand-toggle" /> Breakfast
             {/* <p className="expandable" id="p">Hi</p> */}
             <div data-testid="label2" className="toggle-section">
@@ -240,7 +242,7 @@ const UserPreferenceComponent = () => {
                 <input onChange={(e) => { handleCalorieChange(e) }} type="number" id="dessert-calories" name="dessert" />
               </label> */}
             </div>
-            <button type="submit">submit prefs</button>
+            <button type="submit" className="submitbtn_3">Submit</button>
           </div>
         </form>
       </div>
