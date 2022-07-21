@@ -10,7 +10,6 @@ const ShoppingComponent = ({shoppingList}) => {
 const [emailMessageVisibility, setEmailMessageVisibility] = useState("hidden")
 let newHtmlArray = []
 let newHtmlString 
-
 const createHtmlString = () => {
     for(let i = 0; i < shoppingList.aisles.length; i++){
         let aisleHtmlArray = []
@@ -40,9 +39,7 @@ const createHtmlString = () => {
                                         ${aisleItem.measures.us.amount} 
                                         ${aisleItem.measures.us.unit}</td>
                                         <td>£${(aisleItem.cost/100).toFixed(2)}</td>
-                                        <td>£${(aisleItem.cost/100).toFixed(2)}</td>
                                     </tr>`)}
-                                    
         }
         let endingHtml = "</tbody></table></div>"
         itemHtmlArray.push(endingHtml)

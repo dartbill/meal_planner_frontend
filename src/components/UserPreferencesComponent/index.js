@@ -221,6 +221,9 @@ const UserPreferenceComponent = () => {
                 <input onChange={(e) => { handleCalorieChange(e) }} type="number" id="dinner-calories" name="dinner" />
               </label> */}
             </div>
+            <div>
+              
+            </div>
             <input data-testid="handleServiceChange4" type="checkbox" onChange={(e) => { handleCheckboxChange(e) }} value="Snacks" name="snacks" /> Snacks
             <div data-testid="label4" className="toggle-section">
               <label>
@@ -245,6 +248,7 @@ const UserPreferenceComponent = () => {
             </div>
             <button type="submit" className="submitbtn_3">Submit</button>
           </div>
+          
         </form>
       </div>
       <div className="preferencesConfirmed" style={{ visibility: prefsMessageVisibility }}>

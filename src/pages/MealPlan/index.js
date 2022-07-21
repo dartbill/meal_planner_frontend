@@ -24,7 +24,7 @@ const MealPlan = () => {
     const stateMealRecipes = useSelector(state => state.meal_plan_recipes)
     const stateUsersRecipesHistory = useSelector(state => state.users_recipe_history)
     const stateBudgets = useSelector(state => state.user_budget)
-    const stateCalories = useSelector(state => state.user_calorie_limits)
+    // const stateCalories = useSelector(state => state.user_calorie_limits)
     console.log("state budgets", stateBudgets)
     console.log("state meal plan recipes at render", stateMealRecipes)
 
@@ -147,7 +147,6 @@ const MealPlan = () => {
 
     let unlockedMeals = [[], [], [], [], []]
 
-
     const getMeals = async (e) => {
         e.preventDefault()
         let numberOfUnlocked = 0
@@ -266,7 +265,6 @@ const MealPlan = () => {
                     }
                 }
             }
-
         }
 
         dispatch({ type: "SET RECIPES", payload: newRecipes })
