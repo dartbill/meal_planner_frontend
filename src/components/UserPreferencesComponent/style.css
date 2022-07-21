@@ -1,5 +1,33 @@
 .preferences-box {
-  background-color: gray;
+  background-color: #B0C8BC;
+  border-radius: 1rem;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.h3_3 {
+  position: relative;
+  left: 25px;
+}
+
+.para_3 {
+  position: relative;
+  left: 25px;
+}
+
+.userprefhead_3 {
+  display: flex;
+  justify-content: center;
+  color: #EA5E5E;
+  
+}
+.userprefhead_3 h1 {
+  justify-content: center;
+}
+
+.diets-section {
+  display: grid;
+  grid-template-columns: 1fr;
 }
 
 
@@ -12,6 +40,61 @@ input[type=checkbox]:checked+.toggle-section {
 
 }
 
+.experience__content {
+  display: grid;
+  grid-template-columns:1fr 1fr 1fr 1fr;
+  /* gap: 0.1rem; */
+  justify-content: center;
+}
+
 .meals-section>.toggle-section {
   visibility: hidden;
+
+
 }
+
+.add-btn, .remove-btn {
+background: #FFC6C6;
+text-align: center;
+
+}
+
+.submitbtn_3 {
+  background-color: #F97F7F;
+  color: #000000;
+  border-radius: 0.3rem;
+  position: absolute;
+  height: 25px;
+  width: 80px;
+  bottom: 225px;
+  right: 160px;
+}
+
+.intol_3 {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.services {
+  display: flex;
+}
+
+.first-division > input {
+  width: 150px;
+  border: #000000;
+}
+
+.first-division > input:last-child {
+  width: 150px;
+  background-color: #F97F7F;
+  color: black;
+  text-align: center;
+}
+
+
+/* .hhh_3 {
+  display: grid;
+  grid-template-columns:1fr 1fr 1fr 1fr;
+  row-gap: 0.1rem;
+  justify-content: center;
+} */
