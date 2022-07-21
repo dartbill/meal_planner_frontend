@@ -8,6 +8,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #f9fffd;
+  /* height: 100vh; */
+  /* display:flex; 
+  flex-direction:column;  */
 }
 
 code {
@@ -21,3 +24,6 @@ code {
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
+/* html {
+  height: 100vh;
+} */
