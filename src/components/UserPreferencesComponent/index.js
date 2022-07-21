@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const UserPreferenceComponent = () => {
   const navigate = useNavigate();
+
   const [prefsMessageVisibility, setPrefsMessageVisibility] = useState("hidden")
   const [intoleranceList, setIntoleranceList] = useState([{ intolerance: "" }]);
   const [meals, setMeals] = useState({ breakfast: false, lunch: false, dinner: false, snack: false, dessert: false })

@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+
 const SignUp = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -10,10 +11,12 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
 
+
   const [errorVisibility, setErrorVisibility] = useState("hidden");
 
   const backendUrl = "https://mealplannerserver.herokuapp.com/";
   const route = "createuser/";
+
 
   let navigate = useNavigate();
   const dispatch = useDispatch();
@@ -36,6 +39,7 @@ const SignUp = () => {
         setError("Make sure password and confirm password match!");
       } else {
         // console.log({ name, email, password });
+
         await axios.post(
           `${backendUrl}${route}`,
           JSON.stringify({ name, email, password }),
@@ -43,6 +47,7 @@ const SignUp = () => {
             headers: { "Content-Type": "application/json" },
           }
         );
+
         dispatch({ type: "SET LOGIN OR REGISTER", payload: "register" });
         dispatch({ type: "SET EMAIL", payload: email });
         navigate("/MealPlan");
