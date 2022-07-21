@@ -14,32 +14,38 @@ const LoginComponent = () => {
   const backendUrl = "https://mealplannerserver.herokuapp.com/";
 
   const getUserMealHistory = async () => {
-    const { data } = await axios.get(
-      `${backendUrl}mealhistory/`);
-    console.log(data[0].recipes)
-    dispatch({ type: "SET USER RECIPE HISTORY", payload: data });
-    // dispatch({ type: "SET MEAL PLAN RECIPES", payload: data[0].recipes });
+      const { data } = await axios.get(
+        `${backendUrl}mealhistory/`);
+        console.log(data)
+      // if("recipes" in data){
+        console.log(data[0].recipes)
+        dispatch({ type: "SET USER RECIPE HISTORY", payload: data });
+      // }
+      
+    dispatch({ type: "SET MEAL PLAN RECIPES", payload: data[0].recipes });
   }
 
   const getUserPreferences = async () => {
     const { data } = await axios.get(
       `${backendUrl}prefs/`);
     console.log(data)
-    const budgets = data[0].budget
-    const intolerences = data[0].intolorences
-    const userMeals = data[1]
-    // const formattedCaloriesString = calorieLimits.replaceAll(`'`, `"`)
-    // console.log("formatted calories", formattedCaloriesString)
-    const formattedbudgetsString = budgets.replaceAll(`'`, `"`)
-    console.log("formatted budgets", formattedbudgetsString)
-    // const caloriesObj = JSON.parse(formattedCaloriesString)
-    const budgetObj = JSON.parse(formattedbudgetsString)
-    // console.log("caloriesObj", caloriesObj)
-    console.log("budgetObj", budgetObj)
-    // dispatch({ type: "SET USER CALORIES", payload: caloriesObj });
-    dispatch({ type: "SET USER BUDGETS", payload: budgetObj });
-    dispatch({ type: "SET USER MEALS", payload: userMeals });
-    dispatch({ type: "SET USER INTOLERANCES", payload: intolerences });
+    if(!"error" in data){
+      const budgets = data[0].budget
+      const intolerences = data[0].intolorences
+      const userMeals = data[1]
+      // const formattedCaloriesString = calorieLimits.replaceAll(`'`, `"`)
+      // console.log("formatted calories", formattedCaloriesString)
+      const formattedbudgetsString = budgets.replaceAll(`'`, `"`)
+      console.log("formatted budgets", formattedbudgetsString)
+      // const caloriesObj = JSON.parse(formattedCaloriesString)
+      const budgetObj = JSON.parse(formattedbudgetsString)
+      // console.log("caloriesObj", caloriesObj)
+      console.log("budgetObj", budgetObj)
+      // dispatch({ type: "SET USER CALORIES", payload: caloriesObj });
+      dispatch({ type: "SET USER BUDGETS", payload: budgetObj });
+      dispatch({ type: "SET USER MEALS", payload: userMeals });
+      dispatch({ type: "SET USER INTOLERANCES", payload: intolerences });
+    }
   }
 
   const handleSignIn = async (e) => {
@@ -66,6 +72,7 @@ const LoginComponent = () => {
         navigate("/MealPlan");
       }
     } catch (err) {
+      console.log(err)
       if (!err?.response) {
         setError("No server response!");
       } else if (err.response?.status === 401) {
