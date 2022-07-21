@@ -1,0 +1,67 @@
+#aisle0,
+#aisle2,
+#aisle4,
+#aisle6,
+#aisle8,
+#aisle10,
+#aisle12,
+#aisle14 {
+    background-color: #EAEEEC;
+
+}
+
+#h25 {
+    margin-left: 30px;
+    padding-bottom: 10px;
+    padding-top: 5px;
+}
+
+#tbody5 {
+    margin-left: 30px;
+}
+
+#aItem5 {
+    width: 100px;
+}
+
+#aItemMetric5 {
+    width: 100px;
+}
+
+#aItemUS5 {
+    width: 80px;
+}
+
+#aItemCost5 {
+    width: 10px;
+}
+
+#cost5 {
+    padding-top: 20px;
+    text-align: center;
+    font-size: 30px;
+}
+
+#shoppingBtnDiv5 {
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#shoppingBtn5 {
+    text-align: center;
+    font-size: 25px;
+    border-radius: 10px;
+    border-color: #F97F7F;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #F97F7F;
+}
+
+
+#emailP5 {
+    font-size: 20px;
+    text-align: center;
+}
