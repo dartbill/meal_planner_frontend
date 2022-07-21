@@ -96,6 +96,7 @@ const SignUp = () => {
   };
   return (
     <>
+      <h1 className="registerHeader">Create Account</h1>
       <div className="signUp2">
         <form
           aria-label="login"
@@ -103,7 +104,6 @@ const SignUp = () => {
           className="loginForm"
           onSubmit={handleSignUp}
         >
-          <h1 className="registerHeader">Create Account</h1>
           <div
             className="loginError"
             data-testid="error"

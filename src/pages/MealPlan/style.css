@@ -3,11 +3,12 @@
     /* flex-grow: 1; */
 }
 .submitMealPlan{
-    background-color: yellow;
+    background-color: #EA5E5E;
     width: 50%;
-    margin: 20px auto;
+    margin: 180px auto 40px auto;
     text-align: center;
     padding: 10px;
+    border-radius: 10px;
 }
 .noPreferences{
     background-color:#EAFBEA;
@@ -45,6 +46,8 @@
     border: none;
     color: #19323B;
     font-weight: bold;
+    width: 175px;
+    margin-top: 20px;
 }
 .shoppingListBtn > button {
     background-color: #F97F7F;
@@ -53,4 +56,6 @@
     border: none;
     color: #19323B;
     font-weight: bold;
+    width: 175px;
+    margin-top: 20px;
 }

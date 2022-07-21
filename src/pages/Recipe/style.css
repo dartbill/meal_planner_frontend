@@ -68,7 +68,7 @@
     background-color: #f9fffd;
     padding: 8px;
     border-radius: 10px;
-    border: 3px solid #EA5E5E;
+    border: 3px solid #F97F7F;
 }
 
 .recipeIngredients {
@@ -107,8 +107,8 @@
     border-radius: 10px;
     margin-right: 30px;
     /* margin-left: 50px; */
-    border: 3px solid #EA5E5E;
-    background-color: #EA5E5E;
+    border: 3px solid #F97F7F;
+    background-color: #F97F7F;
 }
 
 .ingredientsAndNutrition {
@@ -123,7 +123,7 @@
 }
 
 #recipelink5 {
-    color: #EA5E5E;
+    color: #F97F7F;
 }
 
 .originalRecipe {
@@ -141,6 +141,8 @@
 
 #recipeImg5 {
     width: 300px;
+    border-radius: 15px;
+    border: 3px solid #F97F7F;
 }
 
 #spoonacular-nutrition-label {

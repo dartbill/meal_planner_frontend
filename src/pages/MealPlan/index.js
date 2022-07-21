@@ -334,6 +334,7 @@ const MealPlan = () => {
                     }
                 }
             }
+            console.log(stateMealRecipes)
             dispatch({ type: "SET MEAL PLAN RECIPES", payload: stateMealRecipes })
             let today = new Date();
             
@@ -401,6 +402,9 @@ const MealPlan = () => {
             {(stateMealRecipes.breakfast.length !== 0 || stateMealRecipes.lunch.length !== 0 || stateMealRecipes.dinner.length !== 0 || stateMealRecipes.dessert.length !== 0 || stateMealRecipes.snacks.length !== 0 ) && (
                 <div className="submitMealPlan" data-testid="submitMeal" onClick={submitMealPlan}>Submit meal plan</div>
             )}
+            <div className="succesfulMealSub">
+
+            </div>
         </>
     )
 };
