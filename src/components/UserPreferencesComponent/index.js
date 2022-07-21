@@ -267,7 +267,7 @@ const UserPreferenceComponent = () => {
         </form>
       </div>
       <div className="preferencesConfirmed" style={{ visibility: prefsMessageVisibility }}>
-        <p data-testid="p">You're preferences have been updated! Create a new meal plan <span data-testid="span" onClick={(() => navigate('/mealplan'))}>here</span></p>
+        <p id="prefP5" data-testid="p">Your preferences have been updated! Create a new meal plan <span id="spanLink5" data-testid="span" onClick={(() => navigate('/mealplan'))}>here</span></p>
       </div>
     </>
   );
