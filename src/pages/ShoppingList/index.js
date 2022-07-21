@@ -10,16 +10,6 @@ const ShoppingList = () => {
     const navigate = useNavigate();
     
     const stateShoppingList = useSelector(state => state.shopping_list)
-    // console.log()
-    //TODO: send shopping list to email
-
-    // const emailShopping = async (e) => {
-    //     e.preventDefault()
-    //     const message = {message: "hi there Bille!", html: `<style>h1 {color:pink}</style><h1>Test from FE</h1>`}
-    //     const { data } = await axios.post(`https://mealplannerserver.herokuapp.com/email/`, JSON.stringify(message))
-    //     console.log(data)
-    // }
-
 
     return (
         <>
@@ -33,9 +23,6 @@ const ShoppingList = () => {
                 <ShoppingComponent shoppingList={stateShoppingList}/>
             </>
         )}
-            {/* <div className="shoppingListButton">
-                <button className="emailShoppingList" onClick={emailShopping}>Email me my shopping list</button>
-            </div> */}
         </>
     )
 

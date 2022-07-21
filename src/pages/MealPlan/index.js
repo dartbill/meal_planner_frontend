@@ -280,14 +280,13 @@ const MealPlan = () => {
         const options = {
             "items": shoppingItems
         }
-        const { data } = await axios.post(`https://api.spoonacular.com/mealplanner/shopping-list/compute?apiKey=${apiKey}`, JSON.stringify(options), { headers: { 'Content-Type': 'application/json' } })
+        const {data} = await axios.post(`https://api.spoonacular.com/mealplanner/shopping-list/compute?apiKey=${apiKey}`, JSON.stringify(options), { headers: { 'Content-Type': 'application/json' } })
         console.log(data)
         shoppingList = data
     }
 
     const generateShoppingList = async (e) => {
         e.preventDefault()
-        
         let items = []
         for (let i = 0; i < Object.keys(stateMealRecipes).length; i++) {
             if (Object.values(stateMealRecipes)[i].length) {
@@ -339,11 +338,13 @@ const MealPlan = () => {
             }
             dispatch({ type: "SET MEAL PLAN RECIPES", payload: stateMealRecipes })
             let today = new Date();
+            
             const dd = String(today.getDate()).padStart(2, '0');
             const mm = String(today.getMonth() + 1).padStart(2, '0');
             const yyyy = today.getFullYear();
             today = dd + '/' + mm + '/' +  yyyy;
             recipesToSendToDb.today_date = today
+            console.log(recipesToSendToDb)
             const { data } = await axios.post(`https://mealplannerserver.herokuapp.com/mealhistory/`, JSON.stringify(recipesToSendToDb))
             stateUsersRecipesHistory.unshift(recipesToSendToDb)
             setGenerateText("Generate new meal plan")
@@ -382,7 +383,7 @@ const MealPlan = () => {
                 </div>
             )}
             </div>
-            <div className="recipesMealPlan">
+            <div className="recipesMealPlan" data-testid="mealDivs">
                 {stateMealRecipes.breakfast.length > 0 && (
                     <CollapsibleRecipes meal={"breakfast"} fullRecipes={stateMealRecipes} triggerName="Breakfast" page="mealplan"/>
                 )}
