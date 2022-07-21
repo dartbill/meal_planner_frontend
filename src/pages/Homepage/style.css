@@ -1,3 +1,18 @@
+.sookiLogo{
+    width: 240px;
+    position: absolute;
+    top: 150px;
+    z-index: 4;
+    left: 0;
+    right: 0;
+    margin-right:auto;
+    margin-left: auto;
+    
+}
+.sookiLogo > img {
+    width: 100%;
+}
+
 .hompageImg{
     width: 100%;
     position: relative;
@@ -9,9 +24,9 @@
     background-color: black;
     opacity: 0.6;
     width: 100%;
-    height: 100%;
+    height: 97%;
     position: absolute;
-    bottom: 0;
+    top: 0;
 }
 .featuresSection{
     display: flex;

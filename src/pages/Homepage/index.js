@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import homepageHero from '../../images/homepageHero.jpg'
 import homepageMeal from '../../images/homepageMeal.jpg'
-
+import homepageLogo from '../../images/sookiText.png'
 import './style.css'
 
 const Homepage = () => {
@@ -16,7 +16,9 @@ const Homepage = () => {
   console.log('state on homepage is' + state)
   return (
     <>
-    <h1>Sooki</h1>
+    <div className="sookiLogo">
+      <img src={homepageLogo} alt="" />
+    </div>
       <div className="logoArea">
         <div className="hompageImg">
           <img src={homepageHero} alt=""/>
