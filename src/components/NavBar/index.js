@@ -148,7 +148,7 @@ const NavBar = () => {
                 navigate("/history");
               }}
             >
-              Recipe history
+              History
             </NavLink>
           </li>
 
