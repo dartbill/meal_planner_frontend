@@ -9,7 +9,14 @@ header {
     justify-content: right;
 }
 
-.active {
+.sookiNavLog{
+    width: 150px;
+}
+.sookiNavLog > img {
+    width: 100%;
+    margin-top: 20px;
+}
+.active{
     font-weight: bold;
     border-bottom: 5px solid #EA5E5E !important;
 }
@@ -70,11 +77,13 @@ a:link {
 
 .navIcon {
     z-index: 9999;
-    margin: 15px;
+    margin: 12.5px;
+    margin-right: 20px;
     padding: 10px 15px;
     background-color: #F97F7F;
     border: none;
     outline: none;
+    border-radius: 5px;
 }
 
 

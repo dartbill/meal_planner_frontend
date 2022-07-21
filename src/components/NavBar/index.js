@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import sookiNavLog from '../../images/sookiText.png'
 
 import "./style.css";
 
@@ -71,6 +72,9 @@ const NavBar = () => {
 
   return (
     <>
+    <div className="sookiNavLog">
+      <img src={sookiNavLog} alt="" />
+    </div>
       <div className="topnav">
         {/* <ul className="navBar" id="myLinks" >
           <li><Link activeClass="active" onClick={(e) => { onBtnClick(e) }} offset={-180}><span className="number">01.</span> logout</Link></li>
