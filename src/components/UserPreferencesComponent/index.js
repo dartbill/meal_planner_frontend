@@ -186,7 +186,7 @@ const UserPreferenceComponent = () => {
 
           <div className="meals-section">
             <h3 className="h3_3">Meals</h3>
-            <input data-testid="handleServiceChange2" type="checkbox" onChange={(e) => { handleCheckboxChange(e) }} value="Breakfast" name="breakfast" id="expand-toggle" /> Breakfast
+            <input data-testid="handleServiceChange2" type="checkbox" onChange={(e) => { handleCheckboxChange(e) }} value="Breakfast" name="breakfast" id="expand-toggle" className="hhh_3"/> Breakfast
             {/* <p className="expandable" id="p">Hi</p> */}
             <div data-testid="label2" className="toggle-section">
               <label>
@@ -198,7 +198,7 @@ const UserPreferenceComponent = () => {
                 <input onChange={(e) => { handleCalorieChange(e) }} type="number" id="breakfast-calories" name="breakfast" />
               </label> */}
             </div>
-            <input data-testid="handleServiceChange1" type="checkbox" onChange={(e) => { handleCheckboxChange(e) }} value="Lunch" name="lunch" /> Lunch
+            <input data-testid="handleServiceChange1" type="checkbox" onChange={(e) => { handleCheckboxChange(e) }} value="Lunch" name="lunch" className="hhh_3"/> Lunch
             <div data-testid="label1" className="toggle-section">
               <label >
                 Budget:
