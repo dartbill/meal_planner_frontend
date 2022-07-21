@@ -79,10 +79,10 @@ const ShoppingComponent = ({ shoppingList }) => {
                             <table id="tbody5">
                                 <thead>
                                     <tr>
-                                        <th></th>
-                                        <th>Amnt (metric)</th>
-                                        <th>Amnt (us)</th>
-                                        <th>Cost</th>
+                                        <th id="aTitle5"></th>
+                                        <th id="aTitleMetric5">Quantity (metric)</th>
+                                        <th id="aTitleUS5">Quantity (us)</th>
+                                        <th id="aTitleCost5">Cost</th>
                                     </tr>
                                 </thead>
                                 <tbody >
