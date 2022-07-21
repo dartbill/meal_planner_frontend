@@ -9,11 +9,11 @@
   padding-left: 5px;
 }
 
-h1 {
+.notFound > h1 {
   font-size: 250px;
 }
 
-h2 {
+.notFound > h2 {
   display: flex;
   justify-content: center;
 }
