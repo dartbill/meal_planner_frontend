@@ -356,7 +356,7 @@ const MealPlan = () => {
 //TODO: add last meal in meal history to meal plan on sign in
     return (
         <>
-            <h1 className="mealPlanH1">Meal Plan</h1>
+            <h1 className="mealPlanH1">Meal plan</h1>
             {stateSetPreferences === true && (
                 <div className="mealPlanButtons">
                     <div className="generateMeal">

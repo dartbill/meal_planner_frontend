@@ -15,9 +15,11 @@ const ShoppingList = () => {
     return (
         <>
             <div className="backButton" data-testid="back" onClick={() => navigate(-1)}><img src={backArrow} alt="back button" /><p>Back</p></div>
-            <h1 id="shoppingListTitle5" data-testid="ShoppingList">Shopping List</h1>
+            <h1 id="shoppingListTitle5" data-testid="ShoppingList">Shopping list</h1>
             {stateShoppingList.length === 0 && (
-                <p className="shoppingP5" data-testid="custom-element">You have not got a shopping list, generate a meal plan <span data-testid="mealnav" onClick={() => navigate('/mealplan')}>here</span> first</p>
+                <div className="noPreferences">
+                    <p className="shoppingP5 " data-testid="custom-element">You have not got a shopping list, generate a meal plan <span data-testid="mealnav" onClick={() => navigate('/mealplan')}>here</span> first</p>
+                </div> 
             )}
             {stateShoppingList.length !== 0 && (
                 <>
