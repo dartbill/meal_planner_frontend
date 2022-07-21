@@ -1,7 +1,8 @@
 .preferences-box {
   background-color: #B0C8BC;
   border-radius: 1rem;
-  
+  width: 80%;
+  margin: 0 auto;
 }
 
 .h3_3 {
@@ -29,6 +30,8 @@
   grid-template-columns: 1fr;
 }
 
+
+
 input[type=checkbox]:checked+.toggle-section {
   /* color: #f00;
     background-color: #f00; */
@@ -40,7 +43,7 @@ input[type=checkbox]:checked+.toggle-section {
 .experience__content {
   display: grid;
   grid-template-columns:1fr 1fr 1fr 1fr;
-  row-gap: 0.1rem;
+  /* gap: 0.1rem; */
   justify-content: center;
 }
 
@@ -68,6 +71,30 @@ text-align: center;
 }
 
 .intol_3 {
-  display: flex;
-  justify-content: center;
+  width: 70%;
+  margin: 0 auto;
 }
+
+.services {
+  display: flex;
+}
+
+.first-division > input {
+  width: 150px;
+  border: #000000;
+}
+
+.first-division > input:last-child {
+  width: 150px;
+  background-color: #F97F7F;
+  color: black;
+  text-align: center;
+}
+
+
+/* .hhh_3 {
+  display: grid;
+  grid-template-columns:1fr 1fr 1fr 1fr;
+  row-gap: 0.1rem;
+  justify-content: center;
+} */
