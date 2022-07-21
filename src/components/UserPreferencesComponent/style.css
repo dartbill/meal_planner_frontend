@@ -43,7 +43,7 @@
   display: flex;
   justify-content: center;
   color: #EA5E5E;
-
+  margin-bottom: 10px;
 }
 
 .userprefhead_3 h1 {
@@ -76,6 +76,10 @@
 
 }
 
+input[value=targetText] {
+  margin-left: 10px;
+}
+
 .toggle-section {
   /* margin-left: 30px; */
   /* justify-self: end; */
@@ -83,6 +87,7 @@
   /* width: auto; */
   margin-right: 60px;
   /* flex-grow: 1; */
+
   margin-left: auto;
 }
 
@@ -95,7 +100,21 @@
   border-radius: 10px;
 }
 
+#spanLink5 {
+  color: #EA5E5E;
+}
 
+#service {
+  padding-left: 5px;
+}
+
+#prefP5 {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
 
 .submitbtn_3 {
   background-color: #F97F7F;
@@ -119,11 +138,13 @@
   /* width: 50px; */
 }
 
+
 .mealsection5>#togglesection5 {
   display: flex;
   margin-left: 35px;
   width: 100%;
   /* justify-content: space-evenly; */
+  margin-bottom: 5px;
   flex-wrap: wrap;
   flex-direction: row;
   grid-template-columns: 1fr, 1fr, 1fr;
@@ -136,6 +157,8 @@
 #dessert-budget {
   width: 40px;
   margin-left: 10px;
+  /* padding-left: 10px; */
+  text-align: center;
   border-radius: 5px;
   border: 0;
   margin-right: auto;
